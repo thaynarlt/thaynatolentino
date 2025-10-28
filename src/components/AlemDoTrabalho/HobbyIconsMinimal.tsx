@@ -1,3 +1,5 @@
+import React from 'react';
+
 interface IconProps {
     className?: string;
 }
@@ -60,8 +62,8 @@ export const FaithIcon = ({ className }: IconProps) => (
     </svg>
 );
 
-export const getHobbyIconMinimal = (titulo: string, className?: string) => {
-    const iconMap: Record<string, JSX.Element> = {
+export const getHobbyIconMinimal = (titulo: string, className?: string): React.ReactElement => {
+    const iconMap: Record<string, React.ReactElement> = {
         'Esporte': <SportIcon className={className} />,
         'Leitura': <BookIcon className={className} />,
         'Família': <FamilyIcon className={className} />,

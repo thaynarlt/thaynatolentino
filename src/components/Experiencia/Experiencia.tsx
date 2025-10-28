@@ -38,7 +38,7 @@ const Experiencia = () => {
                     {experiencias.map((exp, index) => (
                         <div
                             key={exp.id}
-                            ref={(el) => (itemRefs.current[index] = el)}
+                            ref={(el) => { itemRefs.current[index] = el; }}
                             data-index={index}
                             className={`timeline-item ${visibleItems.includes(index) ? 'visible' : ''}`}
                         >
