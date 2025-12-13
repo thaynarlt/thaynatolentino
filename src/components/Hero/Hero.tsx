@@ -13,7 +13,7 @@ const Hero = () => {
                     direction="forward"
                     scale={1.1}
                     opacity={0.8}
-                    mouseInteractive={true}
+                    mouseInteractive={typeof window !== 'undefined' && window.innerWidth > 768}
                 />
             </div>
             <div className="hero-content">

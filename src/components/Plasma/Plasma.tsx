@@ -89,6 +89,28 @@ interface PlasmaProps {
   mouseInteractive?: boolean;
 }
 
+// Função para detectar dispositivos móveis e limitados
+const isMobileOrLimited = (): boolean => {
+  // Detecta mobile por user agent
+  const isMobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent
+  );
+  
+  // Detecta mobile por tamanho de tela
+  const isMobileScreen = window.innerWidth <= 768;
+  
+  // Detecta dispositivos com configuração limitada (poucos cores de CPU)
+  const isLimitedHardware = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 2;
+  
+  // Detecta conexão lenta (se disponível)
+  const isSlowConnection = 
+    (navigator as any).connection && 
+    ((navigator as any).connection.effectiveType === 'slow-2g' || 
+     (navigator as any).connection.effectiveType === '2g');
+  
+  return isMobileUA || isMobileScreen || isLimitedHardware || isSlowConnection || false;
+};
+
 export const Plasma = ({
   color = '#8b5cf6',
   speed = 0.6,
@@ -99,6 +121,7 @@ export const Plasma = ({
 }: PlasmaProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const mousePos = useRef({ x: 0, y: 0 });
+  const isPaused = useRef(isMobileOrLimited());
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -143,8 +166,14 @@ export const Plasma = ({
 
     const mesh = new Mesh(gl, { geometry, program });
 
+    // Desabilita interatividade do mouse em dispositivos móveis/limitados
+    const shouldBeInteractive = mouseInteractive && !isPaused.current;
+    
+    // Atualiza o uniform de interatividade do mouse
+    program.uniforms.uMouseInteractive.value = shouldBeInteractive ? 1.0 : 0.0;
+
     const handleMouseMove = (e: MouseEvent) => {
-      if (!mouseInteractive) return;
+      if (!shouldBeInteractive) return;
       const rect = containerRef.current?.getBoundingClientRect();
       if (!rect) return;
       mousePos.current.x = e.clientX - rect.left;
@@ -154,7 +183,7 @@ export const Plasma = ({
       mouseUniform[1] = mousePos.current.y;
     };
 
-    if (mouseInteractive) {
+    if (shouldBeInteractive) {
       containerEl.addEventListener('mousemove', handleMouseMove);
     }
 
@@ -175,7 +204,17 @@ export const Plasma = ({
 
     let raf = 0;
     const t0 = performance.now();
+    let pausedTime = 0;
+    
     const loop = (t: number) => {
+      // Se estiver pausado (mobile/limitado), mantém o tempo fixo e renderiza apenas uma vez
+      if (isPaused.current) {
+        program.uniforms.iTime.value = pausedTime;
+        renderer.render({ scene: mesh });
+        // Não continua o loop quando pausado
+        return;
+      }
+      
       let timeValue = (t - t0) * 0.001;
       if (direction === 'pingpong') {
         const pingpongDuration = 10;
@@ -192,12 +231,20 @@ export const Plasma = ({
       renderer.render({ scene: mesh });
       raf = requestAnimationFrame(loop);
     };
-    raf = requestAnimationFrame(loop);
+    
+    // Renderiza uma vez para mostrar o plasma estático em dispositivos limitados
+    if (isPaused.current) {
+      program.uniforms.iTime.value = pausedTime;
+      renderer.render({ scene: mesh });
+    } else {
+      // Inicia o loop de animação apenas se não estiver pausado
+      raf = requestAnimationFrame(loop);
+    }
 
     return () => {
-      cancelAnimationFrame(raf);
+      if (raf) cancelAnimationFrame(raf);
       ro.disconnect();
-      if (mouseInteractive && containerEl) {
+      if (mouseInteractive && !isPaused.current && containerEl) {
         containerEl.removeEventListener('mousemove', handleMouseMove);
       }
       try {
