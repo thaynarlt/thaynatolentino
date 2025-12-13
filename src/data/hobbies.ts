@@ -6,7 +6,7 @@ export const hobbies: Hobby[] = [
         titulo: "Esporte",
         descricao: "Atividades físicas que me mantêm ativa e saudável.",
         icone: "⚽",
-        imagem: "hobbies/corre.jpg"
+        imagem: "hobbies/corre2.jpg"
     },
     {
         id: 2,

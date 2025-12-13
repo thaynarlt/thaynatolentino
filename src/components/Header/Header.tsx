@@ -27,7 +27,7 @@ const Header = () => {
         <header className={`header ${scrolled ? 'scrolled' : ''}`}>
             <div className="container">
                 <div className="logo" onClick={() => scrollToSection('hero')}>
-                    Thayna Tolentino
+                    Thayná Tolentino
                 </div>
                 {/* Botão mobile (hambúrguer) */}
                 <button
@@ -78,7 +78,7 @@ const Header = () => {
             >
                 <div className="sidebar-header">
                     <div className="logo" onClick={() => scrollToSection('hero')}>
-                        Thayna Tolentino
+                        Thayná Tolentino
                     </div>
                     <button
                         className="close-button"

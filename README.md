@@ -1,4 +1,4 @@
-# 🚀 Landing Page - Thayna Tolentino
+# 🚀 Landing Page - Thayná Tolentino
 
 Landing page interativa e moderna criada para apresentar projetos, habilidades e informações profissionais.
 

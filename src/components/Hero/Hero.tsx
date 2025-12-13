@@ -1,4 +1,6 @@
 import './Hero.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBehance } from '@fortawesome/free-brands-svg-icons';
 
 const Hero = () => {
     return (
@@ -6,7 +8,7 @@ const Hero = () => {
             <div className="hero-content">
                 <div className="hero-image">
                     <div className="hero-photo">
-                        <img src="/perfil.jpg" alt="Thayna Tolentino" />
+                        <img src="/perfil.jpg" alt="Thayná Tolentino" />
                     </div>
                     <div className="floating-card card-1"></div>
                     <div className="floating-card card-2"></div>
@@ -16,7 +18,7 @@ const Hero = () => {
                     <h1 className="hero-title">
                         <span className="gradient-text">Olá, eu sou</span>
                         <br />
-                        <span className="hero-name">Thayna Tolentino</span>
+                        <span className="hero-name">Thayná Tolentino</span>
                     </h1>
                     <p className="hero-subtitle">UX/UI Designer | Designer/Editor de vídeos | Junior Front-End Developer</p>
                     <div className="hero-buttons">
@@ -34,14 +36,7 @@ const Hero = () => {
                             </svg>
                         </a>
                         <a href="https://www.behance.net/thaynatolentino" target="_blank" rel="noopener noreferrer" aria-label="Behance">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <path d="M3 8h8v2H3z"></path>
-                                <path d="M15 7h6"></path>
-                                <path d="M15 12h6"></path>
-                                <circle cx="8" cy="14" r="3"></circle>
-                                <path d="M14 11a3 3 0 1 1 6 0 3 3 0 0 1-6 0z"></path>
-                                <path d="M14 16a3 3 0 1 0 6 0"></path>
-                            </svg>
+                            <FontAwesomeIcon icon={faBehance} style={{ width: '24px', height: '24px' }} />
                         </a>
                         <a href="https://www.linkedin.com/in/thaynarlt/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -51,11 +46,6 @@ const Hero = () => {
                             </svg>
                         </a>
                     </div>
-                </div>
-            </div>
-            <div className="scroll-indicator">
-                <div className="mouse">
-                    <div className="wheel"></div>
                 </div>
             </div>
         </section>

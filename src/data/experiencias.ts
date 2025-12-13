@@ -3,6 +3,24 @@ import type { Experiencia } from '../types';
 export const experiencias: Experiencia[] = [
     {
         id: 1,
+        cargo: "UI/UX Design Intern",
+        empresa: "Grupo MedWay",
+        periodo: "Dezembro 2025 - Atualmente",
+        descricao: "Auxiliar na criação e manutenção de componentes, ajustar visuais de páginas e participar da prototipagem de interfaces. Trabalho remoto focado em design de interfaces e experiência do usuário.",
+        tecnologias: ["Figma", "UI Design", "UX Design", "Prototipagem", "Design de Componentes"],
+        atual: true
+    },
+    {
+        id: 2,
+        cargo: "Estagiária de TI | Tech Intern",
+        empresa: "INORPEL CYBERSECURITY | Inorpel Academy",
+        periodo: "Novembro 2025 - Atualmente",
+        descricao: "Estágio em tecnologia da informação com foco em desenvolvimento e segurança cibernética. Participação em projetos práticos e aprendizado em ambiente corporativo.",
+        tecnologias: ["TI", "Cybersecurity", "Desenvolvimento", "Tecnologia"],
+        atual: true
+    },
+    {
+        id: 3,
         cargo: "Estagiário Projeto Gráfico",
         empresa: "LAVID, UFPB",
         periodo: "Agosto 2024 - Julho 2025",
@@ -11,7 +29,7 @@ export const experiencias: Experiencia[] = [
         atual: true
     },
     {
-        id: 2,
+        id: 4,
         cargo: "UX/UI Designer & Desenvolvedor Front-End",
         empresa: "Freelancer",
         periodo: "Junho 2024 - Atualmente",
@@ -20,7 +38,7 @@ export const experiencias: Experiencia[] = [
         atual: true
     },
     {
-        id: 3,
+        id: 5,
         cargo: "Editora de Vídeos e Designer Gráfico",
         empresa: "Al Company, João Pessoa",
         periodo: "Agosto 2023 - Atualmente",
