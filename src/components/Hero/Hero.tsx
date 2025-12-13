@@ -1,18 +1,26 @@
 import './Hero.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBehance } from '@fortawesome/free-brands-svg-icons';
+import Plasma from '../Plasma/Plasma';
 
 const Hero = () => {
     return (
         <section id="hero" className="hero">
+            <div className="plasma-wrapper">
+                <Plasma 
+                    color="#8b5cf6"
+                    speed={0.6}
+                    direction="forward"
+                    scale={1.1}
+                    opacity={0.8}
+                    mouseInteractive={true}
+                />
+            </div>
             <div className="hero-content">
                 <div className="hero-image">
                     <div className="hero-photo">
                         <img src="/perfil.jpg" alt="Thayná Tolentino" />
                     </div>
-                    <div className="floating-card card-1"></div>
-                    <div className="floating-card card-2"></div>
-                    <div className="floating-card card-3"></div>
                 </div>
                 <div className="hero-text">
                     <h1 className="hero-title">
