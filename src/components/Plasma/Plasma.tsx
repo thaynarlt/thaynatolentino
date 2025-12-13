@@ -204,7 +204,9 @@ export const Plasma = ({
 
     let raf = 0;
     const t0 = performance.now();
-    let pausedTime = 0;
+    // Frame pausado em um momento com menos intensidade/fluxo da cor roxa
+    // Valor escolhido para resultar em uma visualização mais calma e sutil
+    let pausedTime = 2.5;
     
     const loop = (t: number) => {
       // Se estiver pausado (mobile/limitado), mantém o tempo fixo e renderiza apenas uma vez
@@ -234,6 +236,8 @@ export const Plasma = ({
     
     // Renderiza uma vez para mostrar o plasma estático em dispositivos limitados
     if (isPaused.current) {
+      // Reduz opacidade quando pausado para visualização mais sutil
+      program.uniforms.uOpacity.value = opacity * 0.5;
       program.uniforms.iTime.value = pausedTime;
       renderer.render({ scene: mesh });
     } else {
