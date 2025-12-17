@@ -13,7 +13,7 @@ const Hero = () => {
                     direction="forward"
                     scale={1.1}
                     opacity={0.8}
-                    mouseInteractive={typeof window !== 'undefined' && window.innerWidth > 768}
+                    mouseInteractive={false}
                 />
             </div>
             <div className="hero-content">
@@ -28,7 +28,7 @@ const Hero = () => {
                         <br />
                         <span className="hero-name">Thayná Tolentino</span>
                     </h1>
-                    <p className="hero-subtitle">UX/UI Designer | Designer/Editor de vídeos | Junior Front-End Developer</p>
+                    <p className="hero-subtitle">UX/UI Designer | Video Designer/Editor | Junior Front-End Developer | Cybersecurity</p>
                     <div className="hero-buttons">
                         <button className="btn-primary" onClick={() => document.getElementById('projetos')?.scrollIntoView({ behavior: 'smooth' })}>
                             Ver Projetos

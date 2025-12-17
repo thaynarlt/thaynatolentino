@@ -1,22 +1,43 @@
 .experiencia {
-    padding: 6rem 2rem;
-    background: linear-gradient(to bottom, var(--bg-primary), var(--bg-secondary));
+    padding: 4rem 2rem;
+    background: var(--bg-primary);
+}
+
+.experiencia .section-title {
+    font-size: 2.5rem;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.experiencia .section-subtitle {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    margin-bottom: 2.5rem;
 }
 
 .timeline {
-    max-width: 900px;
+    max-width: 1000px;
     margin: 0 auto;
     position: relative;
 }
 
 .timeline-item {
-    display: grid;
-    grid-template-columns: 60px 1fr;
-    gap: 2rem;
-    margin-bottom: 3rem;
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
     opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateY(20px);
+    transition: all 0.4s ease;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.timeline-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
 }
 
 .timeline-item.visible {
@@ -28,227 +49,147 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    position: relative;
+    min-width: 20px;
 }
 
 .timeline-dot {
-    width: 24px;
-    height: 24px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
-    background: var(--gradient-primary);
-    border: 4px solid var(--bg-primary);
-    box-shadow: 0 0 0 4px var(--primary-light);
-    z-index: 2;
-    position: relative;
+    background: var(--primary);
+    border: 2px solid var(--bg-primary);
+    flex-shrink: 0;
     transition: all var(--transition-base);
 }
 
 .timeline-dot.current {
-    width: 32px;
-    height: 32px;
-    animation: scalePulse 2s ease infinite;
-}
-
-.pulse {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
+    width: 14px;
+    height: 14px;
     background: var(--primary);
-    animation: pulse 2s ease infinite;
-}
-
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-        opacity: 1;
-    }
-
-    100% {
-        transform: scale(2.5);
-        opacity: 0;
-    }
-}
-
-@keyframes scalePulse {
-
-    0%,
-    100% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.1);
-    }
-}
-
-.timeline-line {
-    width: 3px;
-    flex: 1;
-    background: linear-gradient(to bottom, var(--primary), transparent);
-    margin-top: 0.5rem;
-    opacity: 0.5;
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
 }
 
 .timeline-content {
-    background: var(--bg-primary);
-    padding: 2rem;
-    border-radius: 16px;
-    border: 2px solid var(--border);
-    transition: all var(--transition-base);
-    position: relative;
-    overflow: hidden;
-}
-
-.timeline-content::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 4px;
-    height: 100%;
-    background: var(--gradient-primary);
-    transform: scaleY(0);
-    transition: transform var(--transition-base);
-}
-
-.timeline-item.visible .timeline-content::before {
-    transform: scaleY(1);
-}
-
-.timeline-content:hover {
-    border-color: var(--primary);
-    box-shadow: var(--shadow-lg);
-    transform: translateX(8px);
+    flex: 1;
+    padding: 0;
 }
 
 .timeline-header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: baseline;
     gap: 1rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
 }
 
 .timeline-cargo {
-    font-size: 1.5rem;
-    font-weight: 700;
+    font-size: 1.1rem;
+    font-weight: 600;
     color: var(--text-primary);
-    margin-bottom: 0.5rem;
+    margin: 0;
 }
 
 .timeline-empresa {
-    font-size: 1.1rem;
-    font-weight: 600;
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--primary);
+    margin: 0;
 }
 
 .timeline-periodo {
-    font-size: 0.95rem;
-    font-weight: 600;
+    font-size: 0.85rem;
+    font-weight: 500;
     color: var(--text-tertiary);
-    padding: 0.5rem 1rem;
-    background: var(--bg-tertiary);
-    border-radius: 20px;
     white-space: nowrap;
 }
 
 .timeline-periodo.atual {
-    background: var(--gradient-primary);
-    color: var(--text-inverse);
+    color: var(--primary);
 }
 
 .timeline-descricao {
     color: var(--text-secondary);
-    line-height: 1.7;
-    margin-bottom: 1.5rem;
+    line-height: 1.6;
+    margin-bottom: 0.75rem;
+    font-size: 0.9rem;
 }
 
 .timeline-tecnologias {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: 0.4rem;
 }
 
 .tech-tag {
-    padding: 0.4rem 1rem;
-    background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
-    color: var(--primary);
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    border: 1px solid var(--border);
+    padding: 0.25rem 0.75rem;
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
     transition: all var(--transition-base);
 }
 
 .tech-tag:hover {
-    background: var(--gradient-primary);
-    color: var(--text-inverse);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-sm);
+    background: var(--bg-tertiary);
+    color: var(--primary);
 }
 
 /* Delay nas animações para efeito cascata */
 .timeline-item:nth-child(1) {
-    transition-delay: 0.1s;
+    transition-delay: 0.05s;
 }
 
 .timeline-item:nth-child(2) {
-    transition-delay: 0.2s;
+    transition-delay: 0.1s;
 }
 
 .timeline-item:nth-child(3) {
-    transition-delay: 0.3s;
+    transition-delay: 0.15s;
 }
 
 .timeline-item:nth-child(4) {
-    transition-delay: 0.4s;
+    transition-delay: 0.2s;
 }
 
 .timeline-item:nth-child(5) {
-    transition-delay: 0.5s;
+    transition-delay: 0.25s;
 }
 
 @media (max-width: 768px) {
+    .experiencia {
+        padding: 3rem 1.5rem;
+    }
+
     .timeline-item {
-        grid-template-columns: 40px 1fr;
         gap: 1rem;
+        margin-bottom: 1.25rem;
     }
 
     .timeline-dot {
-        width: 20px;
-        height: 20px;
+        width: 10px;
+        height: 10px;
     }
 
     .timeline-dot.current {
-        width: 24px;
-        height: 24px;
-    }
-
-    .timeline-content {
-        padding: 1.5rem;
-    }
-
-    .timeline-header {
-        flex-direction: column;
+        width: 12px;
+        height: 12px;
     }
 
     .timeline-cargo {
-        font-size: 1.2rem;
-    }
-
-    .timeline-empresa {
         font-size: 1rem;
     }
 
-    .timeline-periodo {
-        align-self: flex-start;
+    .timeline-empresa {
+        font-size: 0.9rem;
     }
 
-    .timeline-content:hover {
-        transform: translateX(4px);
+    .timeline-periodo {
+        font-size: 0.8rem;
+    }
+
+    .timeline-descricao {
+        font-size: 0.85rem;
     }
 }

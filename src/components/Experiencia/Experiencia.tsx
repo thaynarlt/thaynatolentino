@@ -43,12 +43,7 @@ const Experiencia = () => {
                             className={`timeline-item ${visibleItems.includes(index) ? 'visible' : ''}`}
                         >
                             <div className="timeline-marker">
-                                <div className={`timeline-dot ${exp.atual ? 'current' : ''}`}>
-                                    {exp.atual && <div className="pulse"></div>}
-                                </div>
-                                {index < experiencias.length - 1 && (
-                                    <div className="timeline-line"></div>
-                                )}
+                                <div className={`timeline-dot ${exp.atual ? 'current' : ''}`}></div>
                             </div>
 
                             <div className="timeline-content">

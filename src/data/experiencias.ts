@@ -29,15 +29,6 @@ export const experiencias: Experiencia[] = [
         atual: true
     },
     {
-        id: 4,
-        cargo: "UX/UI Designer & Desenvolvedor Front-End",
-        empresa: "Freelancer",
-        periodo: "Junho 2024 - Atualmente",
-        descricao: "Desenvolvimento de interfaces web e designs de experiência do usuário para diversos clientes. Criação de protótipos interativos, implementação de layouts responsivos e desenvolvimento de soluções front-end personalizadas.",
-        tecnologias: ["React", "Figma", "TypeScript", "HTML/CSS", "UI/UX Design"],
-        atual: true
-    },
-    {
         id: 5,
         cargo: "Editora de Vídeos e Designer Gráfico",
         empresa: "Al Company, João Pessoa",

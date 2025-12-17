@@ -1,4 +1,26 @@
 import './Sobre.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { 
+    faCode, 
+    faPalette, 
+    faPencilAlt, 
+    faVideo, 
+    faFilm,
+    faImage
+} from '@fortawesome/free-solid-svg-icons';
+import { faReact, faJs } from '@fortawesome/free-brands-svg-icons';
+
+// Mapeamento de habilidades para ícones do Font Awesome
+const skillIcons: Record<string, any> = {
+    'TypeScript': faCode,
+    'React': faReact,
+    'JavaScript': faJs,
+    'UX/UI Design': faPalette,
+    'Design Gráfico': faPencilAlt,
+    'Edição de Vídeo': faVideo,
+    'Motion Graphics': faFilm,
+    'Adobe': faImage
+};
 
 const Sobre = () => {
     const habilidades = [
@@ -35,7 +57,10 @@ const Sobre = () => {
                                     className="skill-card"
                                     style={{ animationDelay: `${index * 0.1}s` }}
                                 >
-                                    {skill}
+                                    <span className="skill-icon">
+                                        <FontAwesomeIcon icon={skillIcons[skill] || faCode} />
+                                    </span>
+                                    <span className="skill-name">{skill}</span>
                                 </div>
                             ))}
                         </div>

@@ -1,6 +1,6 @@
 .projetos {
-    padding: 6rem 2rem;
-    background: linear-gradient(to bottom, var(--bg-secondary), var(--bg-primary));
+    padding: 4rem 2rem;
+    background: var(--bg-primary);
 }
 
 .section-subtitle {

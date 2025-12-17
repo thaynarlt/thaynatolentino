@@ -3,7 +3,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 8rem 2rem 4rem;
+    padding: 6rem 2rem 4rem;
     background: transparent;
     position: relative;
     overflow: hidden;
@@ -189,17 +189,35 @@
     z-index: 10;
     width: 420px;
     height: 560px;
-    border-radius: 20px;
+    border-radius: 24px;
     overflow: hidden;
-    border: 5px solid var(--primary);
-    box-shadow: var(--shadow-xl);
     animation: fadeInUp 1s ease 0.3s both;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        0 0 0 1px rgba(139, 92, 246, 0.1);
+}
+
+[data-theme="dark"] .hero-photo {
+    background: rgba(10, 10, 15, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        0 0 0 1px rgba(139, 92, 246, 0.2);
 }
 
 .hero-photo img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block;
+    opacity: 0.95;
+    mix-blend-mode: normal;
 }
 
 
