@@ -1,0 +1,238 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Button from "../components/ui/Button.astro";
+---
+
+<Layout title="Design System — Thayná Tolentino">
+  <main class="mx-auto max-w-5xl px-6 py-16 space-y-16">
+    <!-- Cabeçalho do playground -->
+    <header class="space-y-4">
+      <p class="text-sm uppercase tracking-widest text-text-muted">
+        Design System · Passo 1
+      </p>
+      <h1
+        class="font-display text-6xl md:text-7xl leading-none text-text-strong"
+      >
+        Base pronta. Bora construir.
+      </h1>
+      <p class="text-lg text-text-muted max-w-2xl">
+        Esta página existe só pra validar tokens, tipografia e utilitárias. Você
+        vai apagar ela no Passo seguinte e começar o Hero real aqui.
+      </p>
+    </header>
+
+    <!-- Paleta -->
+    <section class="space-y-6">
+      <h2 class="font-display text-3xl text-text-strong">Paleta</h2>
+
+      <div>
+        <p class="text-sm font-medium text-text-muted mb-3">
+          Ciano (signature)
+        </p>
+        <div class="grid grid-cols-5 md:grid-cols-10 gap-2">
+          <div
+            class="aspect-square rounded-md"
+            style="background: var(--cyan-50)"
+          >
+          </div>
+          <div
+            class="aspect-square rounded-md"
+            style="background: var(--cyan-100)"
+          >
+          </div>
+          <div
+            class="aspect-square rounded-md"
+            style="background: var(--cyan-200)"
+          >
+          </div>
+          <div
+            class="aspect-square rounded-md"
+            style="background: var(--cyan-300)"
+          >
+          </div>
+          <div
+            class="aspect-square rounded-md"
+            style="background: var(--cyan-400)"
+          >
+          </div>
+          <div
+            class="aspect-square rounded-md ring-2 ring-text"
+            style="background: var(--cyan-500)"
+          >
+          </div>
+          <div
+            class="aspect-square rounded-md"
+            style="background: var(--cyan-600)"
+          >
+          </div>
+          <div
+            class="aspect-square rounded-md"
+            style="background: var(--cyan-700)"
+          >
+          </div>
+          <div
+            class="aspect-square rounded-md"
+            style="background: var(--cyan-800)"
+          >
+          </div>
+          <div
+            class="aspect-square rounded-md"
+            style="background: var(--cyan-900)"
+          >
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <p class="text-sm font-medium text-text-muted mb-3">
+          Magenta (support)
+        </p>
+        <div class="grid grid-cols-3 gap-2 max-w-md">
+          <div
+            class="aspect-square rounded-md"
+            style="background: var(--magenta-500)"
+          >
+          </div>
+          <div
+            class="aspect-square rounded-md"
+            style="background: var(--magenta-600)"
+          >
+          </div>
+          <div
+            class="aspect-square rounded-md"
+            style="background: var(--magenta-700)"
+          >
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <p class="text-sm font-medium text-text-muted mb-3">Ink (neutros)</p>
+        <div class="grid grid-cols-5 md:grid-cols-10 gap-2">
+          <div
+            class="aspect-square rounded-md border border-border"
+            style="background: var(--ink-50)"
+          >
+          </div>
+          <div
+            class="aspect-square rounded-md"
+            style="background: var(--ink-100)"
+          >
+          </div>
+          <div
+            class="aspect-square rounded-md"
+            style="background: var(--ink-200)"
+          >
+          </div>
+          <div
+            class="aspect-square rounded-md"
+            style="background: var(--ink-300)"
+          >
+          </div>
+          <div
+            class="aspect-square rounded-md"
+            style="background: var(--ink-400)"
+          >
+          </div>
+          <div
+            class="aspect-square rounded-md"
+            style="background: var(--ink-500)"
+          >
+          </div>
+          <div
+            class="aspect-square rounded-md"
+            style="background: var(--ink-600)"
+          >
+          </div>
+          <div
+            class="aspect-square rounded-md"
+            style="background: var(--ink-700)"
+          >
+          </div>
+          <div
+            class="aspect-square rounded-md"
+            style="background: var(--ink-800)"
+          >
+          </div>
+          <div
+            class="aspect-square rounded-md"
+            style="background: var(--ink-900)"
+          >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tipografia -->
+    <section class="space-y-4">
+      <h2 class="font-display text-3xl text-text-strong">Tipografia</h2>
+      <div class="space-y-2">
+        <p class="font-display text-5xl text-text-strong">
+          Instrument Serif — títulos editoriais
+        </p>
+        <p class="font-sans text-2xl font-semibold">Inter 600 — subtítulos</p>
+        <p class="font-sans text-base">
+          Inter 400 — corpo de texto. É com esta fonte que você vai ler 95% do
+          site.
+        </p>
+        <p class="font-sans text-sm text-text-muted">
+          Inter 400 muted — legendas, metadados, labels de UI.
+        </p>
+      </div>
+    </section>
+
+    <!-- Botões e tags -->
+    <section class="space-y-4">
+      <h2 class="font-display text-3xl text-text-strong">
+        Elementos semânticos
+      </h2>
+
+      <div class="flex flex-wrap gap-3 items-center">
+        <Button variant="primary">CTA primário</Button>
+        <Button variant="secondary" href="https://github.com/thaynarlt"
+          >CTA secundário</Button
+        >
+        <Button variant="ghost">CTA ghost</Button>
+      </div>
+
+      <div class="flex flex-wrap gap-2">
+        <span
+          class="bg-accent-soft text-accent px-3 py-1 rounded-full text-sm font-medium"
+          >UX/UI Design</span
+        >
+        <span
+          class="bg-surface-alt text-text px-3 py-1 rounded-full text-sm font-medium"
+          >Front-End</span
+        >
+        <span
+          class="bg-surface-alt text-text-muted px-3 py-1 rounded-full text-sm font-medium"
+          >Design Gráfico</span
+        >
+      </div>
+    </section>
+
+    <!-- Card de teste -->
+    <section class="space-y-4">
+      <h2 class="font-display text-3xl text-text-strong">Card de teste</h2>
+      <article
+        class="bg-surface border border-border rounded-xl p-6 shadow-sm max-w-md"
+      >
+        <p class="text-xs uppercase tracking-wider text-accent font-semibold">
+          UX/UI Design
+        </p>
+        <h3 class="font-display text-2xl mt-2 text-text-strong">
+          Nome do projeto
+        </h3>
+        <p class="text-text-muted mt-2">
+          Uma descrição curta do projeto que explica o contexto e o desafio
+          resolvido.
+        </p>
+        <button
+          class="mt-4 text-accent font-medium hover:text-accent-hover transition-colors"
+        >
+          Ver projeto →
+        </button>
+      </article>
+    </section>
+  </main>
+</Layout>
