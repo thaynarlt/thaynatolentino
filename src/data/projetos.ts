@@ -11,7 +11,8 @@ export const projetos: Projeto[] = [
     tecnologias: ['Adobe Illustrator', 'Photoshop', 'Branding', 'Design de Logo'],
     imagem: '/projetos/maria-teresa-babygirl.png',
     link: 'https://www.behance.net/gallery/234302855/Identidade-Visual-Maria-Teresa-BabyGirl',
-    destaque: false
+    destaque: false,
+    tamanho: 'sm',
   },
   {
     id: 2,
@@ -22,7 +23,8 @@ export const projetos: Projeto[] = [
     tecnologias: ['Adobe Illustrator', 'Photoshop', 'Design de Estampas'],
     imagem: '/projetos/design-camisas-catolicas.png',
     link: 'https://www.behance.net/gallery/199622209/Design-Camisas-Catolicas',
-    destaque: true
+    destaque: true,
+    tamanho: 'sm'
   },
   {
     id: 3,
@@ -33,7 +35,8 @@ export const projetos: Projeto[] = [
     tecnologias: ['Adobe Illustrator', 'Photoshop', 'Design de Produto'],
     imagem: '/projetos/portfolio-camisas-diversas.png',
     link: 'https://www.behance.net/gallery/210116431/Portfolio-Camisas-Diversas',
-    destaque: false
+    destaque: false,
+    tamanho: 'md'
   },
   {
     id: 4,
@@ -44,7 +47,8 @@ export const projetos: Projeto[] = [
     tecnologias: ['Adobe Illustrator', 'Branding', 'Design de Logo'],
     imagem: '/projetos/logo-medicos-catolicos.png',
     link: 'https://www.behance.net/gallery/222339391/LOGO-Mdicos-Catolicos',
-    destaque: false
+    destaque: false,
+    tamanho: 'sm'
   },
   {
     id: 5,
@@ -55,7 +59,8 @@ export const projetos: Projeto[] = [
     tecnologias: ['Adobe Illustrator', 'Photoshop', 'Design Editorial', 'Branding'],
     imagem: '/projetos/casamento-anna-luiza-igor.png',
     link: 'https://www.behance.net/gallery/219489285/Identidade-Visual-Casamento-Anna-Luiza-e-Igor',
-    destaque: false
+    destaque: true,
+    tamanho: 'sm'
   },
   {
     id: 6,
@@ -66,7 +71,9 @@ export const projetos: Projeto[] = [
     tecnologias: ['Adobe Illustrator', 'Photoshop', 'Branding', 'Design de Logo'],
     imagem: '/projetos/identidade-visual-psicologo.png',
     link: 'https://www.behance.net/gallery/218025707/Identidade-Visual-Psicologo',
-    destaque: false
+    destaque: false,
+    tamanho: 'md'
+
   },
   {
     id: 7,
@@ -77,7 +84,9 @@ export const projetos: Projeto[] = [
     tecnologias: ['Adobe Illustrator', 'Photoshop', 'Branding'],
     imagem: '/projetos/mantus-christi.png',
     link: 'https://www.behance.net/gallery/200720111/Mantus-Christi-Identidade-visual',
-    destaque: false
+    destaque: false,
+    tamanho: 'md'
+
   },
   {
     id: 8,
@@ -88,7 +97,8 @@ export const projetos: Projeto[] = [
     tecnologias: ['Adobe Illustrator', 'Design de Produto', 'Branding'],
     imagem: '/projetos/cracha-al-company.png',
     link: 'https://www.behance.net/gallery/200318579/Cracha-Al-Company',
-    destaque: false
+    destaque: false,
+    tamanho: 'sm'
   },
 
   // UX/UI Design
@@ -101,7 +111,9 @@ export const projetos: Projeto[] = [
     tecnologias: ['Figma', 'UI Design', 'Prototyping', 'Responsive Design'],
     imagem: '/projetos/al-company-landing-page.png',
     link: 'https://www.behance.net/gallery/191525527/Al-Company-Landing-Page',
-    destaque: false
+    destaque: true,
+    tamanho: 'md'
+
   },
   {
     id: 10,
@@ -112,7 +124,9 @@ export const projetos: Projeto[] = [
     tecnologias: ['Figma', 'UI Design', 'UX Research', 'Prototyping'],
     imagem: '/projetos/eras-tour-brasil-design.png',
     link: 'https://www.behance.net/gallery/192611425/Website-The-Eras-Tour-Brasil',
-    destaque: false
+    destaque: false,
+    tamanho: 'sm'
+
   },
   {
     id: 11,
@@ -123,7 +137,9 @@ export const projetos: Projeto[] = [
     tecnologias: ['Figma', 'UI Design', 'Design System', 'Acessibilidade'],
     imagem: '/projetos/projeto-ced.png',
     link: 'https://www.figma.com/pt-br/comunidade/file/1514280813377321596/projeto-ced',
-    destaque: false
+    destaque: true,
+    tamanho: 'md'
+
   },
   {
     id: 12,
@@ -134,7 +150,9 @@ export const projetos: Projeto[] = [
     tecnologias: ['Figma', 'UI Design', 'Landing Page', 'Prototyping'],
     imagem: '/projetos/oxxy-landing-page.png',
     link: 'https://www.figma.com/community/file/1458511832397859570/oxxy-landing-page',
-    destaque: false
+    destaque: false,
+    tamanho: 'sm'
+
   },
 
   // Front-End
@@ -147,7 +165,9 @@ export const projetos: Projeto[] = [
     tecnologias: ['HTML', 'CSS', 'JavaScript', 'Responsive Design'],
     imagem: '/projetos/landing-page-educacao-ambiental.png',
     link: 'https://www.behance.net/gallery/192609595/Landing-Page-Educacao-Ambiental-IFPB',
-    destaque: false
+    destaque: false,
+    tamanho: 'md'
+
   },
 
   // Outros
@@ -160,7 +180,9 @@ export const projetos: Projeto[] = [
     tecnologias: ['Java', 'MySQL', 'JDBC', 'Swing'],
     imagem: '/projetos/folha.png',
     github: 'https://github.com/thaynarlt/folha-de-pagamento',
-    destaque: false
+    destaque: false,
+    tamanho: 'sm'
+
   },
   {
     id: 15,
@@ -171,7 +193,9 @@ export const projetos: Projeto[] = [
     tecnologias: ['PostgreSQL', 'SQL', 'Database Design', 'Java'],
     imagem: '/projetos/bd.png',
     github: 'https://github.com/thaynarlt/Biblioteca-Interdimensional-BDII',
-    destaque: false
+    destaque: true,
+    tamanho: 'sm'
+
   },
   {
     id: 16,
@@ -182,7 +206,8 @@ export const projetos: Projeto[] = [
     tecnologias: ['Java', 'Swing', 'POO', 'Game Logic'],
     imagem: '/projetos/forca.png',
     github: 'https://github.com/thaynarlt/jogo-da-forca-java',
-    destaque: false
+    destaque: false,
+    tamanho: 'sm'
   },
   {
     id: 17,
@@ -193,7 +218,9 @@ export const projetos: Projeto[] = [
     tecnologias: ['Java', 'Threads', 'Sistemas Operacionais', 'Concorrência'],
     imagem: '/projetos/hotelpirc.png',
     github: 'https://github.com/thaynarlt/Hotel-PIRC-SO',
-    destaque: false
+    destaque: false,
+    tamanho: 'sm'
+
   },
   {
     id: 18,
@@ -204,7 +231,9 @@ export const projetos: Projeto[] = [
     tecnologias: ['React', 'JavaScript', 'CSS', 'Local Storage'],
     imagem: '/projetos/tarefa.png',
     github: 'https://github.com/thaynarlt/ListaDeTarefas-React',
-    destaque: false
+    destaque: false,
+    tamanho: 'sm'
+
   },
 
   // Edição de Vídeo
@@ -217,7 +246,9 @@ export const projetos: Projeto[] = [
     tecnologias: ['Premiere Pro', 'After Effects', 'CapCut'],
     imagem: 'https://img.youtube.com/vi/rZaWu5mbipo/maxresdefault.jpg',
     link: 'https://youtube.com/shorts/rZaWu5mbipo',
-    destaque: false
+    destaque: true,
+    tamanho: 'sm'
+
   },
   {
     id: 20,
@@ -228,7 +259,8 @@ export const projetos: Projeto[] = [
     tecnologias: ['Premiere Pro', 'After Effects', 'Color Grading'],
     imagem: 'https://img.youtube.com/vi/A6W85zRP6ic/maxresdefault.jpg',
     link: 'https://youtube.com/shorts/A6W85zRP6ic',
-    destaque: false
+    destaque: false,
+    tamanho: 'sm'
   },
   {
     id: 21,
@@ -239,7 +271,8 @@ export const projetos: Projeto[] = [
     tecnologias: ['Premiere Pro', 'After Effects', 'Sound Design'],
     imagem: 'https://img.youtube.com/vi/I5tTDAmIxIM/maxresdefault.jpg',
     link: 'https://youtube.com/shorts/I5tTDAmIxIM',
-    destaque: false
+    destaque: false,
+    tamanho: 'sm'
   },
   {
     id: 22,
@@ -250,7 +283,8 @@ export const projetos: Projeto[] = [
     tecnologias: ['Premiere Pro', 'DaVinci Resolve', 'Motion Design'],
     imagem: 'https://img.youtube.com/vi/NISoHClezoE/maxresdefault.jpg',
     link: 'https://youtube.com/shorts/NISoHClezoE',
-    destaque: false
+    destaque: false,
+    tamanho: 'md'
   },
   {
     id: 23,
@@ -261,7 +295,8 @@ export const projetos: Projeto[] = [
     tecnologias: ['Premiere Pro', 'After Effects', 'Typography'],
     imagem: 'https://img.youtube.com/vi/zUIcg_t1UWY/maxresdefault.jpg',
     link: 'https://youtube.com/shorts/zUIcg_t1UWY',
-    destaque: false
+    destaque: false,
+    tamanho: 'md'
   },
   {
     id: 24,
@@ -272,7 +307,8 @@ export const projetos: Projeto[] = [
     tecnologias: ['Premiere Pro', 'After Effects', 'VFX'],
     imagem: 'https://img.youtube.com/vi/8_IyObaCZ9E/maxresdefault.jpg',
     link: 'https://youtube.com/shorts/8_IyObaCZ9E',
-    destaque: false
+    destaque: false,
+    tamanho: 'sm'
   },
   {
     id: 25,
@@ -283,7 +319,8 @@ export const projetos: Projeto[] = [
     tecnologias: ['Premiere Pro', 'Color Grading', 'Motion Graphics'],
     imagem: 'https://img.youtube.com/vi/dc0Dw4AS3Ao/maxresdefault.jpg',
     link: 'https://youtube.com/shorts/dc0Dw4AS3Ao',
-    destaque: false
+    destaque: false,
+    tamanho: 'sm'
   }
 ];
 

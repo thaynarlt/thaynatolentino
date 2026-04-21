@@ -5,6 +5,8 @@ export type Nicho =
   | 'Edição de Vídeo'
   | 'Outros';
 
+export type Tamanho = 'sm' | 'md' | 'lg';
+
 export interface Projeto {
   id: number;
   slug: string;
@@ -16,6 +18,7 @@ export interface Projeto {
   link?: string;
   github?: string;
   destaque?: boolean;
+  tamanho?: Tamanho;
 }
 
 export interface Experiencia {
