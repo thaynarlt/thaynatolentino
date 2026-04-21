@@ -1,0 +1,28 @@
+import type { Skill } from '../types';
+
+export const skills: Skill[] = [
+  { nome: 'Figma', peso: 3 },
+  { nome: 'React', peso: 3 },
+  { nome: 'Tailwind CSS', peso: 2 },
+  { nome: 'Illustrator', peso: 2 },
+  { nome: 'TypeScript', peso: 3 },
+  { nome: 'Branding', peso: 1 },
+  { nome: 'Photoshop', peso: 2 },
+  { nome: 'UI/UX Design', peso: 2 },
+  { nome: 'Premiere Pro', peso: 1 },
+  { nome: 'Motion Design', peso: 1 },
+  { nome: 'Design System', peso: 2 },
+  { nome: 'After Effects', peso: 3 },
+  { nome: 'HTML', peso: 3 },
+  { nome: 'JavaScript', peso: 2 },
+  { nome: 'Prototipagem', peso: 2 },
+  { nome: 'CSS', peso: 2 },
+  { nome: 'CapCut', peso: 3 },
+  { nome: 'Acessibilidade', peso: 1 },
+  { nome: 'Canva', peso: 3 },
+  { nome: 'Color Grading', peso: 1 },
+  { nome: 'Cybersecurity', peso: 1 },
+  { nome: 'Java', peso: 1 },
+  { nome: 'PostgreSQL', peso: 1 },
+  { nome: 'Design de Estampas', peso: 3 },
+];

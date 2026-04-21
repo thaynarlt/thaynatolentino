@@ -29,6 +29,10 @@ export interface Experiencia {
   link?: string;
 }
 
+export interface Skill {
+  nome: string;
+  peso: 1 | 2 | 3;
+}
 
 export const NICHOS: readonly Nicho[] = [
   'UX/UI Design',

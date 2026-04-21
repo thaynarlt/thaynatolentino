@@ -1,0 +1,78 @@
+---
+import { skills } from "../../data/skills";
+
+const stats = [
+  { valor: "3+", label: "Anos de experiência" },
+  { valor: "25+", label: "Projetos entregues" },
+  { valor: "10+", label: "Clientes atendidos" },
+];
+
+const sizeByWeight: Record<1 | 2 | 3, string> = {
+  3: "text-2xl md:text-3xl font-semibold text-text-strong",
+  2: "text-lg md:text-xl font-medium text-text",
+  1: "text-sm md:text-base text-text-muted",
+};
+---
+
+<section id="sobre" class="py-20 md:py-28 border-t border-border">
+  <div class="mx-auto max-w-5xl px-6 space-y-16">
+    <header class="space-y-4">
+      <p class="text-sm uppercase tracking-widest text-accent font-semibold">
+        Sobre
+      </p>
+      <h2
+        class="font-display text-5xl md:text-6xl text-text-strong leading-tight"
+      >
+        Um ecossistema criativo.
+      </h2>
+    </header>
+
+    <!-- Parágrafo grande + stats -->
+    <div class="grid md:grid-cols-12 gap-10 items-start">
+      <div class="md:col-span-8 space-y-6">
+        <p class="font-display text-3xl md:text-4xl text-text leading-snug">
+          Eu <span class="text-accent italic">desenho</span>,
+          <span class="text-accent italic">desenvolvo</span> e
+          <span class="text-accent italic">edito</span> pra que cada peça conte uma
+          história visual coerente.
+        </p>
+        <p class="text-text-muted leading-relaxed max-w-xl">
+          Sou estudante de Sistemas para Internet e atuo unindo UX/UI Design e
+          Front-End. Utilizo minha base em design gráfico e edição para criar
+          interfaces intuitivas, visualmente atraentes e centradas na melhor
+          experiência do usuário, sempre aliando criatividade, técnica e
+          organização nas entregas.
+        </p>
+      </div>
+
+      <div class="md:col-span-4 grid grid-cols-3 md:grid-cols-1 gap-6">
+        {
+          stats.map((s) => (
+            <div class="space-y-1">
+              <p class="font-display text-4xl md:text-5xl text-accent leading-none">
+                {s.valor}
+              </p>
+              <p class="text-sm text-text-muted">{s.label}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <!-- Skills cloud -->
+    <div class="space-y-6">
+      <p
+        class="text-sm uppercase tracking-widest text-text-muted font-semibold"
+      >
+        Ferramentas & práticas
+      </p>
+      <div class="flex flex-wrap gap-x-6 gap-y-3 items-baseline">
+        {
+          skills.map((skill) => (
+            <span class={sizeByWeight[skill.peso]}>{skill.nome}</span>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
