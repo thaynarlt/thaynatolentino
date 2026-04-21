@@ -1,0 +1,112 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   CAMADA 1 — Primitivos (valores crus, não usados diretamente em componentes)
+   ========================================================================== */
+:root {
+  /* Ciano — signature */
+  --cyan-50:  #E6FAFB;
+  --cyan-100: #C2F1F4;
+  --cyan-200: #8AE4E9;
+  --cyan-300: #4CD3DB;
+  --cyan-400: #1AC3CD;
+  --cyan-500: #00B8C4;
+  --cyan-600: #009BA6;
+  --cyan-700: #007A83;
+  --cyan-800: #005A61;
+  --cyan-900: #003E43;
+
+  /* Magenta — support (uso pontual) */
+  --magenta-500: #E8336F;
+  --magenta-600: #C42559;
+  --magenta-700: #9A1C45;
+
+  /* Ink — neutros */
+  --ink-50:  #FAFAF7;
+  --ink-100: #F2F2ED;
+  --ink-200: #E4E4DD;
+  --ink-300: #C9C9C0;
+  --ink-400: #9BA0AC;
+  --ink-500: #7A8090;
+  --ink-600: #4A5260;
+  --ink-700: #2B3138;
+  --ink-800: #1A1E23;
+  --ink-900: #0F1419;
+}
+
+/* ==========================================================================
+   CAMADA 2 — Semânticos (consumidos via utilities do Tailwind)
+   Tailwind v4 lê @theme → gera bg-bg, text-accent, font-display, etc.
+   ========================================================================== */
+@theme {
+  /* Cores semânticas */
+  --color-bg:             var(--ink-50);
+  --color-surface:        #FFFFFF;
+  --color-surface-alt:    var(--ink-100);
+  --color-border:         var(--ink-200);
+  --color-border-strong:  var(--ink-300);
+
+  --color-text:           var(--ink-900);
+  --color-text-muted:     var(--ink-500);
+  --color-text-strong:    var(--ink-900);
+  --color-text-inverse:   var(--ink-50);
+
+  --color-accent:         var(--cyan-500);
+  --color-accent-hover:   var(--cyan-600);
+  --color-accent-soft:    var(--cyan-100);
+  --color-accent-fg:      #FFFFFF;
+
+  --color-support:        var(--magenta-500);
+  --color-support-hover:  var(--magenta-600);
+
+  /* Tipografia */
+  --font-sans:    'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Instrument Serif', 'Times New Roman', serif;
+  --font-mono:    ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Radius extra (complementa os do Tailwind) */
+  --radius-pill: 9999px;
+
+  /* Sombra com acento */
+  --shadow-accent: 0 10px 30px -10px color-mix(in srgb, var(--cyan-500) 40%, transparent);
+
+  /* Easings customizados */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring:   cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ==========================================================================
+   Globals — comportamento de página
+   ========================================================================== */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: var(--color-accent);
+  color: var(--color-accent-fg);
+}
+
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
