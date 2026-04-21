@@ -1,0 +1,140 @@
+---
+const email = "thayvfx@gmail.com"; // troca pelo seu
+const socials = [
+  {
+    label: "GitHub",
+    href: "https://github.com/thaynarlt",
+    icon: "github",
+  },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/thaynarlt/",
+    icon: "linkedin",
+  },
+  {
+    label: "Behance",
+    href: "https://www.behance.net/thaynatolentino",
+    icon: "behance",
+  },
+];
+---
+
+<section
+  id="contato"
+  class="py-24 md:py-32 border-t border-border relative overflow-hidden"
+>
+  <!-- Glow sutil no fundo -->
+  <div
+    class="absolute -top-20 -right-20 w-[500px] h-[500px] rounded-full blur-[120px] opacity-20 bg-accent pointer-events-none"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div class="mx-auto max-w-4xl px-6 space-y-12 relative">
+    <div class="space-y-6">
+      <p
+        data-reveal
+        class="text-sm uppercase tracking-widest text-accent font-semibold"
+      >
+        Contato
+      </p>
+
+      <h2
+        data-reveal
+        style="--reveal-delay: 80ms"
+        class="font-display text-6xl md:text-8xl text-text-strong leading-[0.95]"
+      >
+        Vamos <span class="text-accent italic">conversar</span>.
+      </h2>
+
+      <p
+        data-reveal
+        style="--reveal-delay: 160ms"
+        class="text-lg md:text-xl text-text-muted max-w-xl leading-relaxed"
+      >
+        Tem um projeto em mente, uma colaboração, ou só quer trocar ideia sobre
+        design e código? Me chama.
+      </p>
+    </div>
+
+    <!-- Email -->
+    <div
+      data-reveal
+      style="--reveal-delay: 240ms"
+      class="flex flex-col sm:flex-row sm:items-center gap-4"
+    >
+      <a
+        href={`mailto:${email}`}
+        class="font-display text-3xl md:text-5xl text-text-strong hover:text-accent transition-colors break-all"
+      >
+        {email}
+      </a>
+      <button
+        type="button"
+        data-copy-email
+        data-email={email}
+        class="self-start sm:self-auto inline-flex items-center gap-2 px-4 py-2 rounded-md border border-border-strong text-sm font-medium text-text-muted hover:border-accent hover:text-accent transition-colors"
+      >
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+          ></path>
+        </svg>
+        <span data-copy-label>Copiar email</span>
+      </button>
+      <a
+        href="https://drive.google.com/uc?export=download&id=1tp0NpsGxWiTyVui9DB63Uuu7okMrdXJf"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="self-start sm:self-auto inline-flex items-center gap-2 px-4 py-2 rounded-md border border-border-strong text-sm font-medium text-text-muted hover:border-accent hover:text-accent transition-colors"
+      >
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Baixar CV
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+  const btn = document.querySelector<HTMLButtonElement>("[data-copy-email]");
+  const label = btn?.querySelector<HTMLElement>("[data-copy-label]");
+
+  btn?.addEventListener("click", async () => {
+    const email = btn.dataset.email;
+    if (!email || !label) return;
+
+    try {
+      await navigator.clipboard.writeText(email);
+      const original = label.textContent;
+      label.textContent = "Copiado!";
+      setTimeout(() => {
+        if (label) label.textContent = original;
+      }, 2000);
+    } catch {
+      // Fallback silencioso: abre mailto
+      window.location.href = `mailto:${email}`;
+    }
+  });
+</script>

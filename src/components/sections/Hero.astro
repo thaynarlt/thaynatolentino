@@ -1,0 +1,143 @@
+---
+import Button from "../ui/Button.astro";
+
+const availableForWork = true;
+---
+
+<section id="hero" class="relative">
+  <div
+    class="mx-auto max-w-6xl px-6 py-20 md:py-28 grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16 items-center"
+  >
+    <!-- Coluna da foto -->
+    <div
+      data-reveal
+      style="--reveal-delay: 40ms"
+      class="md:col-span-5 order-last md:order-first"
+    >
+      <div
+        class="relative aspect-[4/5] rounded-2xl overflow-hidden bg-surface-alt"
+      >
+        <img
+          src="/perfil.png"
+          alt="Thayná Tolentino"
+          class="w-full h-full object-cover"
+          loading="eager"
+        />
+        <div
+          class="absolute inset-0 ring-1 ring-border rounded-2xl pointer-events-none"
+        >
+        </div>
+      </div>
+    </div>
+
+    <!-- Coluna do texto -->
+    <div class="md:col-span-7 space-y-6">
+      {
+        availableForWork && (
+          <div
+            data-reveal
+            class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border bg-surface text-sm"
+          >
+            <span class="relative flex w-2 h-2">
+              <span class="absolute inset-0 rounded-full bg-green-500 animate-ping opacity-75" />
+              <span class="relative inline-flex w-2 h-2 rounded-full bg-green-500" />
+            </span>
+            <span class="text-text-muted">Disponível pra novos projetos</span>
+          </div>
+        )
+      }
+      <h1
+        data-reveal
+        style="--reveal-delay: 80ms"
+        class="font-display text-6xl md:text-8xl leading-[0.95] text-text-strong"
+      >
+        Thayná <span class="text-accent italic">Tolentino</span>
+      </h1>
+
+      <p
+        data-reveal
+        style="--reveal-delay: 160ms"
+        class="text-lg md:text-xl text-text-muted max-w-xl leading-relaxed"
+      >
+        Designer de interfaces e desenvolvedora front-end. Também possuo
+        experiência em edição de vídeo, estampa para camisetas e identidade
+        visual em algo que conta uma boa história.
+      </p>
+
+      <div
+        data-reveal
+        style="--reveal-delay: 240ms"
+        class="flex flex-wrap gap-3 pt-2"
+      >
+        <Button variant="primary" href="#projetos">Ver projetos</Button>
+        <Button variant="secondary" href="#contato">Falar comigo</Button>
+      </div>
+
+      <div
+        data-reveal
+        style="--reveal-delay: 320ms"
+        class="flex items-center gap-5 pt-4 text-text-muted"
+      >
+        <a
+          href="https://github.com/thaynarlt"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="GitHub"
+          class="hover:text-accent transition-colors"
+        >
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
+            ></path>
+          </svg>
+        </a>
+        <a
+          href="https://www.linkedin.com/in/thaynarlt/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="LinkedIn"
+          class="hover:text-accent transition-colors"
+        >
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"
+            ></path>
+            <rect x="2" y="9" width="4" height="12"></rect>
+            <circle cx="4" cy="4" r="2"></circle>
+          </svg>
+        </a>
+        <a
+          href="https://www.behance.net/thaynatolentino"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Behance"
+          class="hover:text-accent transition-colors"
+        >
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M22 7h-7V5h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.564-1.729-5.564-5.675 0-3.91 2.325-5.92 5.466-5.92 3.082 0 4.964 1.782 5.375 4.426.078.506.109 1.188.095 2.14H15.97c.13 3.211 3.483 3.312 4.588 2.029h3.168zm-7.686-4h4.965c-.105-1.547-1.136-2.219-2.477-2.219-1.466 0-2.277.768-2.488 2.219zm-9.574 6.988H0V5.021h6.953c5.476.081 5.58 5.444 2.72 6.906 3.461 1.26 3.577 8.061-3.207 8.061zM3 11h3.584c2.508 0 2.906-3-.312-3H3v3zm3.391 3H3v3.016h3.341c3.055 0 2.868-3.016.05-3.016z"
+            ></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

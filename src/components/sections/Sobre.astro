@@ -1,0 +1,139 @@
+---
+import { skills } from "../../data/skills";
+
+const stats = [
+  { valor: 3, sufixo: "+", label: "Anos de experiência" },
+  { valor: 25, sufixo: "+", label: "Projetos entregues" },
+  { valor: 10, sufixo: "+", label: "Clientes atendidos" },
+];
+
+const sizeByWeight: Record<1 | 2 | 3, string> = {
+  3: "text-2xl md:text-3xl font-semibold text-text-strong",
+  2: "text-lg md:text-xl font-medium text-text",
+  1: "text-sm md:text-base text-text-muted",
+};
+---
+
+<section id="sobre" class="py-20 md:py-28 border-t border-border">
+  <div class="mx-auto max-w-5xl px-6 space-y-16">
+    <header class="space-y-4">
+      <p
+        data-reveal
+        class="text-sm uppercase tracking-widest text-accent font-semibold"
+      >
+        Sobre
+      </p>
+      <h2
+        data-reveal
+        style="--reveal-delay: 80ms"
+        class="font-display text-5xl md:text-6xl text-text-strong leading-tight"
+      >
+        Um ecossistema criativo.
+      </h2>
+    </header>
+
+    <!-- Parágrafo grande + stats -->
+    <div class="grid md:grid-cols-12 gap-10 items-start">
+      <div class="md:col-span-8 space-y-6">
+        <p
+          data-reveal
+          class="font-display text-3xl md:text-4xl text-text leading-snug"
+        >
+          Eu <span class="text-accent italic">desenho</span>,
+          <span class="text-accent italic">desenvolvo</span> e
+          <span class="text-accent italic">edito</span> pra que cada peça conte uma
+          história visual coerente.
+        </p>
+        <p
+          data-reveal
+          style="--reveal-delay: 120ms"
+          class="text-text-muted leading-relaxed max-w-xl"
+        >
+          Sou estudante do último período de Sistemas para Internet e atuo
+          unindo UX/UI Design e Front-End. Utilizo minha base em design gráfico
+          e edição para criar interfaces intuitivas, visualmente atraentes e
+          centradas na melhor experiência do usuário, sempre aliando
+          criatividade, técnica e organização nas entregas. Além disso, estou
+          cursando pós graduação em Ethical Hacking e Cybersecurity a fim de se
+          aprofundar no campo de desenvolvimento seguro.
+        </p>
+      </div>
+
+      <div
+        data-reveal
+        style="--reveal-delay: 200ms"
+        class="md:col-span-4 grid grid-cols-3 md:grid-cols-1 gap-6"
+      >
+        {
+          stats.map((s) => (
+            <div class="space-y-1">
+              <p class="font-display text-4xl md:text-5xl text-accent leading-none">
+                {s.sufixo}
+                <span data-counter={s.valor}>0</span>
+              </p>
+              <p class="text-sm text-text-muted">{s.label}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <!-- Skills cloud -->
+    <div data-reveal class="space-y-6">
+      <p
+        class="text-sm uppercase tracking-widest text-text-muted font-semibold"
+      >
+        Ferramentas & práticas
+      </p>
+      <div class="flex flex-wrap gap-x-6 gap-y-3 items-baseline">
+        {
+          skills.map((skill) => (
+            <span class={sizeByWeight[skill.peso]}>{skill.nome}</span>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const counters = document.querySelectorAll<HTMLElement>("[data-counter]");
+
+  const easeOutExpo = (t: number) => 1 - Math.pow(1 - t, 4);
+
+  const animate = (el: HTMLElement) => {
+    const target = Number(el.dataset.counter);
+    if (!Number.isFinite(target)) return;
+
+    // Respeita prefers-reduced-motion: pula animação
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      el.textContent = String(target);
+      return;
+    }
+
+    const duration = 1400; // ms — ajusta se quiser mais rápido/lento
+    const start = performance.now();
+
+    const tick = (now: number) => {
+      const progress = Math.min((now - start) / duration, 1);
+      const value = Math.round(easeOutExpo(progress) * target);
+      el.textContent = String(value);
+      if (progress < 1) requestAnimationFrame(tick);
+    };
+
+    requestAnimationFrame(tick);
+  };
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        observer.unobserve(entry.target);
+        animate(entry.target as HTMLElement);
+      });
+    },
+    { threshold: 0.3 },
+  );
+
+  counters.forEach((el) => observer.observe(el));
+</script>

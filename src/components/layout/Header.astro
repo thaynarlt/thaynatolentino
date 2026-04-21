@@ -1,0 +1,46 @@
+---
+interface Props {
+    current?: string;
+}
+
+const { current } = Astro.props;
+
+const navItems = [
+    { label: "Projetos", href: "#projetos" },
+    { label: "Experiência", href: "#experiencia" },
+    { label: "Sobre", href: "#sobre" },
+    { label: "Contato", href: "#contato" },
+];
+---
+
+<header
+    class="sticky top-0 z-50 bg-bg/80 backdrop-blur-md border-b border-border"
+>
+    <div
+        class="mx-auto max-w-6xl px-6 h-16 flex items-center justify-between gap-4"
+    >
+        <a
+            href="/"
+            class="font-display text-xl tracking-tight text-text-strong shrink-0"
+        >
+            Thayná<span class="text-accent">.</span>
+        </a>
+
+        <nav class="flex items-center gap-4 md:gap-8 text-sm md:text-base">
+            {
+                navItems.map((item) => (
+                    <a
+                        href={item.href}
+                        class={`relative whitespace-nowrap transition-colors font-medium ${
+                            current === item.href
+                                ? "text-accent"
+                                : "text-text-muted hover:text-text"
+                        } after:absolute after:left-0 after:-bottom-1 after:w-full after:h-px after:bg-accent after:origin-left after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300`}
+                    >
+                        {item.label}
+                    </a>
+                ))
+            }
+        </nav>
+    </div>
+</header>

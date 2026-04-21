@@ -1,0 +1,43 @@
+---
+import { projetos } from "../../data/projetos";
+import FilteredProjects from "../react/FilteredProjects";
+---
+
+<section id="projetos" class="py-20 md:py-28 border-t border-border">
+  <div class="mx-auto max-w-7xl px-6 space-y-14">
+    <!-- Cabeçalho da seção -->
+    <!-- Header em 2 colunas -->
+    <header class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-end">
+      <div class="md:col-span-7 space-y-4">
+        <p
+          data-reveal
+          class="text-sm uppercase tracking-widest text-accent font-semibold"
+        >
+          Projetos
+        </p>
+        <h2
+          data-reveal
+          style="--reveal-delay: 80ms"
+          class="font-display text-6xl md:text-8xl text-text-strong leading-[0.95]"
+        >
+          Um pouco de<br />
+          tudo que já<br />
+          <span class="italic text-accent">construí</span>.
+        </h2>
+      </div>
+
+      <div class="md:col-span-5 space-y-3">
+        <p
+          data-reveal
+          style="--reveal-delay: 160ms"
+          class="text-lg text-text-muted leading-relaxed"
+        >
+          UI/UX, front-end, design gráfico e edição de vídeo. Cada projeto
+          conversa entre si. Escolha um filtro pra explorar.
+        </p>
+      </div>
+    </header>
+
+    <FilteredProjects projetos={projetos} client:visible />
+  </div>
+</section>
