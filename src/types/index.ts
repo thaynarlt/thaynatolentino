@@ -1,0 +1,27 @@
+export type Nicho =
+  | 'UX/UI Design'
+  | 'Front-End'
+  | 'Design Gráfico'
+  | 'Edição de Vídeo'
+  | 'Outros';
+
+export interface Projeto {
+  id: number;
+  slug: string;
+  titulo: string;
+  descricao: string;
+  nicho: Nicho;
+  tecnologias: string[];
+  imagem: string;
+  link?: string;
+  github?: string;
+  destaque?: boolean;
+}
+
+export const NICHOS: readonly Nicho[] = [
+  'UX/UI Design',
+  'Front-End',
+  'Design Gráfico',
+  'Edição de Vídeo',
+  'Outros',
+] as const;

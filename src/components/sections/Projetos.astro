@@ -1,0 +1,30 @@
+---
+import { projetos } from "../../data/projetos";
+import ProjectCard from "../ui/ProjectCard.astro";
+---
+
+<section id="projetos" class="py-20 md:py-28 border-t border-border">
+  <div class="mx-auto max-w-6xl px-6 space-y-12">
+    <!-- Cabeçalho da seção -->
+    <header class="space-y-4">
+      <p class="text-sm uppercase tracking-widest text-accent font-semibold">
+        Projetos
+      </p>
+      <h2
+        class="font-display text-5xl md:text-6xl text-text-strong leading-tight max-w-3xl"
+      >
+        Um pouco de tudo que já<br />
+        desenhei e construí.
+      </h2>
+      <p class="text-lg text-text-muted max-w-2xl">
+        UI/UX, front-end, identidade visual, vídeo — cada peça conversa com as
+        outras.
+      </p>
+    </header>
+
+    <!-- Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {projetos.map((p) => <ProjectCard projeto={p} />)}
+    </div>
+  </div>
+</section>
