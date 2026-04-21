@@ -1,3 +1,5 @@
+import type { ImageMetadata } from 'astro';
+
 export type Nicho =
   | 'UX/UI Design'
   | 'Front-End'
@@ -14,7 +16,7 @@ export interface Projeto {
   descricao: string;
   nicho: Nicho;
   tecnologias: string[];
-  imagem: string;
+  imagem: ImageMetadata | string;
   link?: string;
   github?: string;
   destaque?: boolean;

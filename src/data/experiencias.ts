@@ -21,8 +21,8 @@ export const experiencias: Experiencia[] = [
   },
   {
     id: 2,
-    cargo: 'Estagiária de TI | Tech Intern',
-    empresa: 'INORPEL CYBERSECURITY | Inorpel Academy',
+    cargo: 'Estagiária de TI no ICS Academy',
+    empresa: 'INORPEL CYBERSECURITY',
     periodo: 'Novembro 2025 – Março 2026',
     descricao: 'Estágio em tecnologia da informação com foco em desenvolvimento e segurança cibernética. Participação em projetos práticos e aprendizado em ambiente corporativo.',
     tecnologias: ['TI', 'Cybersecurity', 'Desenvolvimento', 'Tecnologia'],

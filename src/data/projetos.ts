@@ -1,4 +1,22 @@
+import type { ImageMetadata } from 'astro';
 import type { Projeto } from '../types';
+
+// Carrega todas as imagens de /src/assets/projetos/ já otimizadas pelo Astro.
+// Cada entrada é { '../assets/projetos/nome.png': { default: ImageMetadata } }
+const images = import.meta.glob<{ default: ImageMetadata }>(
+  '../assets/projetos/*.png',
+  { eager: true }
+);
+
+// Helper: busca uma imagem local pelo filename.
+function img(filename: string): ImageMetadata {
+  const path = `../assets/projetos/${filename}`;
+  const mod = images[path];
+  if (!mod) {
+    throw new Error(`Imagem não encontrada: ${path}. Confira se o arquivo existe em src/assets/projetos/.`);
+  }
+  return mod.default;
+}
 
 export const projetos: Projeto[] = [
   // Design Gráfico
@@ -9,7 +27,7 @@ export const projetos: Projeto[] = [
     descricao: 'Criação completa de identidade visual para marca infantil, incluindo logo, paleta de cores delicadas e aplicações.',
     nicho: 'Design Gráfico',
     tecnologias: ['Adobe Illustrator', 'Photoshop', 'Branding', 'Design de Logo'],
-    imagem: '/projetos/maria-teresa-babygirl.png',
+    imagem: img('maria-teresa-babygirl.png'),
     link: 'https://www.behance.net/gallery/234302855/Identidade-Visual-Maria-Teresa-BabyGirl',
     destaque: false,
     tamanho: 'sm',
@@ -21,10 +39,10 @@ export const projetos: Projeto[] = [
     descricao: 'Criação de designs para linha de camisas católicas com elementos religiosos modernos e elegantes.',
     nicho: 'Design Gráfico',
     tecnologias: ['Adobe Illustrator', 'Photoshop', 'Design de Estampas'],
-    imagem: '/projetos/design-camisas-catolicas.png',
+    imagem: img('design-camisas-catolicas.png'),
     link: 'https://www.behance.net/gallery/199622209/Design-Camisas-Catolicas',
     destaque: true,
-    tamanho: 'sm'
+    tamanho: 'sm',
   },
   {
     id: 3,
@@ -33,10 +51,10 @@ export const projetos: Projeto[] = [
     descricao: 'Portfólio com diversos designs de camisas criativas e personalizadas para diferentes nichos.',
     nicho: 'Design Gráfico',
     tecnologias: ['Adobe Illustrator', 'Photoshop', 'Design de Produto'],
-    imagem: '/projetos/portfolio-camisas-diversas.png',
+    imagem: img('portfolio-camisas-diversas.png'),
     link: 'https://www.behance.net/gallery/210116431/Portfolio-Camisas-Diversas',
     destaque: false,
-    tamanho: 'md'
+    tamanho: 'md',
   },
   {
     id: 4,
@@ -45,10 +63,10 @@ export const projetos: Projeto[] = [
     descricao: 'Identidade visual profissional para grupo de médicos católicos, unindo simbolismo médico e religioso.',
     nicho: 'Design Gráfico',
     tecnologias: ['Adobe Illustrator', 'Branding', 'Design de Logo'],
-    imagem: '/projetos/logo-medicos-catolicos.png',
+    imagem: img('logo-medicos-catolicos.png'),
     link: 'https://www.behance.net/gallery/222339391/LOGO-Mdicos-Catolicos',
     destaque: false,
-    tamanho: 'sm'
+    tamanho: 'sm',
   },
   {
     id: 5,
@@ -57,10 +75,10 @@ export const projetos: Projeto[] = [
     descricao: 'Identidade visual completa para casamento, incluindo convites, papelaria e identidade visual do evento.',
     nicho: 'Design Gráfico',
     tecnologias: ['Adobe Illustrator', 'Photoshop', 'Design Editorial', 'Branding'],
-    imagem: '/projetos/casamento-anna-luiza-igor.png',
+    imagem: img('casamento-anna-luiza-igor.png'),
     link: 'https://www.behance.net/gallery/219489285/Identidade-Visual-Casamento-Anna-Luiza-e-Igor',
     destaque: true,
-    tamanho: 'sm'
+    tamanho: 'sm',
   },
   {
     id: 6,
@@ -69,11 +87,10 @@ export const projetos: Projeto[] = [
     descricao: 'Branding completo para consultório de psicologia, transmitindo acolhimento e profissionalismo.',
     nicho: 'Design Gráfico',
     tecnologias: ['Adobe Illustrator', 'Photoshop', 'Branding', 'Design de Logo'],
-    imagem: '/projetos/identidade-visual-psicologo.png',
+    imagem: img('identidade-visual-psicologo.png'),
     link: 'https://www.behance.net/gallery/218025707/Identidade-Visual-Psicologo',
     destaque: false,
-    tamanho: 'md'
-
+    tamanho: 'md',
   },
   {
     id: 7,
@@ -82,11 +99,10 @@ export const projetos: Projeto[] = [
     descricao: 'Identidade visual sofisticada para projeto religioso, com elementos clássicos e contemporâneos.',
     nicho: 'Design Gráfico',
     tecnologias: ['Adobe Illustrator', 'Photoshop', 'Branding'],
-    imagem: '/projetos/mantus-christi.png',
+    imagem: img('mantus-christi.png'),
     link: 'https://www.behance.net/gallery/200720111/Mantus-Christi-Identidade-visual',
     destaque: false,
-    tamanho: 'md'
-
+    tamanho: 'md',
   },
   {
     id: 8,
@@ -95,10 +111,10 @@ export const projetos: Projeto[] = [
     descricao: 'Design de crachá corporativo moderno e funcional para empresa Al Company.',
     nicho: 'Design Gráfico',
     tecnologias: ['Adobe Illustrator', 'Design de Produto', 'Branding'],
-    imagem: '/projetos/cracha-al-company.png',
+    imagem: img('cracha-al-company.png'),
     link: 'https://www.behance.net/gallery/200318579/Cracha-Al-Company',
     destaque: false,
-    tamanho: 'sm'
+    tamanho: 'sm',
   },
 
   // UX/UI Design
@@ -109,11 +125,10 @@ export const projetos: Projeto[] = [
     descricao: 'Design de landing page moderna e responsiva para empresa de tecnologia com foco em conversão.',
     nicho: 'UX/UI Design',
     tecnologias: ['Figma', 'UI Design', 'Prototyping', 'Responsive Design'],
-    imagem: '/projetos/al-company-landing-page.png',
+    imagem: img('al-company-landing-page.png'),
     link: 'https://www.behance.net/gallery/191525527/Al-Company-Landing-Page',
     destaque: true,
-    tamanho: 'md'
-
+    tamanho: 'md',
   },
   {
     id: 10,
@@ -122,11 +137,10 @@ export const projetos: Projeto[] = [
     descricao: 'Design de website completo para The Eras Tour Brasil com experiência imersiva e interativa.',
     nicho: 'UX/UI Design',
     tecnologias: ['Figma', 'UI Design', 'UX Research', 'Prototyping'],
-    imagem: '/projetos/eras-tour-brasil-design.png',
+    imagem: img('eras-tour-brasil-design.png'),
     link: 'https://www.behance.net/gallery/192611425/Website-The-Eras-Tour-Brasil',
     destaque: false,
-    tamanho: 'sm'
-
+    tamanho: 'sm',
   },
   {
     id: 11,
@@ -135,11 +149,10 @@ export const projetos: Projeto[] = [
     descricao: 'Interface intuitiva e acessível para sistema educacional, focada na experiência do usuário.',
     nicho: 'UX/UI Design',
     tecnologias: ['Figma', 'UI Design', 'Design System', 'Acessibilidade'],
-    imagem: '/projetos/projeto-ced.png',
+    imagem: img('projeto-ced.png'),
     link: 'https://www.figma.com/pt-br/comunidade/file/1514280813377321596/projeto-ced',
     destaque: true,
-    tamanho: 'md'
-
+    tamanho: 'md',
   },
   {
     id: 12,
@@ -148,11 +161,10 @@ export const projetos: Projeto[] = [
     descricao: 'Landing page clean e moderna para produto Oxxy, com design minimalista e foco em conversão.',
     nicho: 'UX/UI Design',
     tecnologias: ['Figma', 'UI Design', 'Landing Page', 'Prototyping'],
-    imagem: '/projetos/oxxy-landing-page.png',
+    imagem: img('oxxy-landing-page.png'),
     link: 'https://www.figma.com/community/file/1458511832397859570/oxxy-landing-page',
     destaque: false,
-    tamanho: 'sm'
-
+    tamanho: 'sm',
   },
 
   // Front-End
@@ -163,11 +175,10 @@ export const projetos: Projeto[] = [
     descricao: 'Landing page informativa sobre educação ambiental desenvolvida para o IFPB com design responsivo.',
     nicho: 'Front-End',
     tecnologias: ['HTML', 'CSS', 'JavaScript', 'Responsive Design'],
-    imagem: '/projetos/landing-page-educacao-ambiental.png',
+    imagem: img('landing-page-educacao-ambiental.png'),
     link: 'https://www.behance.net/gallery/192609595/Landing-Page-Educacao-Ambiental-IFPB',
     destaque: false,
-    tamanho: 'md'
-
+    tamanho: 'md',
   },
 
   // Outros
@@ -178,11 +189,10 @@ export const projetos: Projeto[] = [
     descricao: 'Sistema completo para cálculo e gerenciamento de folha de pagamento com banco de dados.',
     nicho: 'Outros',
     tecnologias: ['Java', 'MySQL', 'JDBC', 'Swing'],
-    imagem: '/projetos/folha.png',
+    imagem: img('folha.png'),
     github: 'https://github.com/thaynarlt/folha-de-pagamento',
     destaque: false,
-    tamanho: 'sm'
-
+    tamanho: 'sm',
   },
   {
     id: 15,
@@ -191,11 +201,10 @@ export const projetos: Projeto[] = [
     descricao: 'Sistema de gerenciamento de biblioteca com banco de dados relacional e consultas avançadas.',
     nicho: 'Outros',
     tecnologias: ['PostgreSQL', 'SQL', 'Database Design', 'Java'],
-    imagem: '/projetos/bd.png',
+    imagem: img('bd.png'),
     github: 'https://github.com/thaynarlt/Biblioteca-Interdimensional-BDII',
     destaque: true,
-    tamanho: 'sm'
-
+    tamanho: 'sm',
   },
   {
     id: 16,
@@ -204,10 +213,10 @@ export const projetos: Projeto[] = [
     descricao: 'Jogo interativo da forca desenvolvido em Java com interface gráfica e sistema de pontuação.',
     nicho: 'Outros',
     tecnologias: ['Java', 'Swing', 'POO', 'Game Logic'],
-    imagem: '/projetos/forca.png',
+    imagem: img('forca.png'),
     github: 'https://github.com/thaynarlt/jogo-da-forca-java',
     destaque: false,
-    tamanho: 'sm'
+    tamanho: 'sm',
   },
   {
     id: 17,
@@ -216,11 +225,10 @@ export const projetos: Projeto[] = [
     descricao: 'Sistema de reservas e gerenciamento de hotel implementando conceitos de sistemas operacionais.',
     nicho: 'Outros',
     tecnologias: ['Java', 'Threads', 'Sistemas Operacionais', 'Concorrência'],
-    imagem: '/projetos/hotelpirc.png',
+    imagem: img('hotelpirc.png'),
     github: 'https://github.com/thaynarlt/Hotel-PIRC-SO',
     destaque: false,
-    tamanho: 'sm'
-
+    tamanho: 'sm',
   },
   {
     id: 18,
@@ -229,14 +237,13 @@ export const projetos: Projeto[] = [
     descricao: 'Aplicação de to-do list desenvolvida em React with functionalities de adicionar, editar e deletar tarefas.',
     nicho: 'Outros',
     tecnologias: ['React', 'JavaScript', 'CSS', 'Local Storage'],
-    imagem: '/projetos/tarefa.png',
+    imagem: img('tarefa.png'),
     github: 'https://github.com/thaynarlt/ListaDeTarefas-React',
     destaque: false,
-    tamanho: 'sm'
-
+    tamanho: 'sm',
   },
 
-  // Edição de Vídeo
+  // Edição de Vídeo — thumbnails externas do YouTube ficam como string
   {
     id: 19,
     slug: 'bk-arts-motion-graphics',
@@ -247,8 +254,7 @@ export const projetos: Projeto[] = [
     imagem: 'https://img.youtube.com/vi/rZaWu5mbipo/maxresdefault.jpg',
     link: 'https://youtube.com/shorts/rZaWu5mbipo',
     destaque: true,
-    tamanho: 'sm'
-
+    tamanho: 'sm',
   },
   {
     id: 20,
@@ -260,7 +266,7 @@ export const projetos: Projeto[] = [
     imagem: 'https://img.youtube.com/vi/A6W85zRP6ic/maxresdefault.jpg',
     link: 'https://youtube.com/shorts/A6W85zRP6ic',
     destaque: false,
-    tamanho: 'sm'
+    tamanho: 'sm',
   },
   {
     id: 21,
@@ -272,7 +278,7 @@ export const projetos: Projeto[] = [
     imagem: 'https://img.youtube.com/vi/I5tTDAmIxIM/maxresdefault.jpg',
     link: 'https://youtube.com/shorts/I5tTDAmIxIM',
     destaque: false,
-    tamanho: 'sm'
+    tamanho: 'sm',
   },
   {
     id: 22,
@@ -284,7 +290,7 @@ export const projetos: Projeto[] = [
     imagem: 'https://img.youtube.com/vi/NISoHClezoE/maxresdefault.jpg',
     link: 'https://youtube.com/shorts/NISoHClezoE',
     destaque: false,
-    tamanho: 'md'
+    tamanho: 'md',
   },
   {
     id: 23,
@@ -296,7 +302,7 @@ export const projetos: Projeto[] = [
     imagem: 'https://img.youtube.com/vi/zUIcg_t1UWY/maxresdefault.jpg',
     link: 'https://youtube.com/shorts/zUIcg_t1UWY',
     destaque: false,
-    tamanho: 'md'
+    tamanho: 'md',
   },
   {
     id: 24,
@@ -308,7 +314,7 @@ export const projetos: Projeto[] = [
     imagem: 'https://img.youtube.com/vi/8_IyObaCZ9E/maxresdefault.jpg',
     link: 'https://youtube.com/shorts/8_IyObaCZ9E',
     destaque: false,
-    tamanho: 'sm'
+    tamanho: 'sm',
   },
   {
     id: 25,
@@ -320,8 +326,8 @@ export const projetos: Projeto[] = [
     imagem: 'https://img.youtube.com/vi/dc0Dw4AS3Ao/maxresdefault.jpg',
     link: 'https://youtube.com/shorts/dc0Dw4AS3Ao',
     destaque: false,
-    tamanho: 'sm'
-  }
+    tamanho: 'sm',
+  },
 ];
 
 export const nichos = ['UX/UI Design', 'Front-End', 'Design Gráfico', 'Edição de Vídeo', 'Outros'] as const;

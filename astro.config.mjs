@@ -6,9 +6,7 @@ import react from '@astrojs/react';
 
 // https://astro.build/config
 export default defineConfig({
-  vite: {
-    plugins: [tailwindcss()]
-  },
-
+  site: 'https://thaynatolentino.vercel.app', // troca pro seu domínio final
+  vite: { plugins: [tailwindcss()] },
   integrations: [react()]
 });

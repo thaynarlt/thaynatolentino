@@ -30,6 +30,11 @@ export default function ProjectCard({ projeto }: Props) {
   const href = projeto.link ?? projeto.github ?? '#';
   const size: Tamanho = projeto.tamanho ?? 'sm';
 
+  // imagem pode ser string (URL externa, ex.: YouTube) ou ImageMetadata (asset otimizado do Astro)
+  const imgSrc = typeof projeto.imagem === 'string'
+    ? projeto.imagem
+    : projeto.imagem.src;
+
   return (
     <motion.a
       layout
@@ -45,7 +50,7 @@ export default function ProjectCard({ projeto }: Props) {
       <div className={`relative overflow-hidden bg-accent-soft ${aspectBySize[size]}`}>
         {!imgError && (
           <img
-            src={projeto.imagem}
+            src={imgSrc}
             alt={projeto.titulo}
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
             loading="lazy"

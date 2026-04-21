@@ -2,9 +2,9 @@
 import { skills } from "../../data/skills";
 
 const stats = [
-  { valor: "3+", label: "Anos de experiência" },
-  { valor: "25+", label: "Projetos entregues" },
-  { valor: "10+", label: "Clientes atendidos" },
+  { valor: 3, sufixo: "+", label: "Anos de experiência" },
+  { valor: 25, sufixo: "+", label: "Projetos entregues" },
+  { valor: 10, sufixo: "+", label: "Clientes atendidos" },
 ];
 
 const sizeByWeight: Record<1 | 2 | 3, string> = {
@@ -49,11 +49,13 @@ const sizeByWeight: Record<1 | 2 | 3, string> = {
           style="--reveal-delay: 120ms"
           class="text-text-muted leading-relaxed max-w-xl"
         >
-          Sou estudante de Sistemas para Internet e atuo unindo UX/UI Design e
-          Front-End. Utilizo minha base em design gráfico e edição para criar
-          interfaces intuitivas, visualmente atraentes e centradas na melhor
-          experiência do usuário, sempre aliando criatividade, técnica e
-          organização nas entregas.
+          Sou estudante do último período de Sistemas para Internet e atuo
+          unindo UX/UI Design e Front-End. Utilizo minha base em design gráfico
+          e edição para criar interfaces intuitivas, visualmente atraentes e
+          centradas na melhor experiência do usuário, sempre aliando
+          criatividade, técnica e organização nas entregas. Além disso, estou
+          cursando pós graduação em Ethical Hacking e Cybersecurity a fim de se
+          aprofundar no campo de desenvolvimento seguro.
         </p>
       </div>
 
@@ -66,7 +68,8 @@ const sizeByWeight: Record<1 | 2 | 3, string> = {
           stats.map((s) => (
             <div class="space-y-1">
               <p class="font-display text-4xl md:text-5xl text-accent leading-none">
-                {s.valor}
+                {s.sufixo}
+                <span data-counter={s.valor}>0</span>
               </p>
               <p class="text-sm text-text-muted">{s.label}</p>
             </div>
@@ -92,3 +95,45 @@ const sizeByWeight: Record<1 | 2 | 3, string> = {
     </div>
   </div>
 </section>
+
+<script>
+  const counters = document.querySelectorAll<HTMLElement>("[data-counter]");
+
+  const easeOutExpo = (t: number) => 1 - Math.pow(1 - t, 4);
+
+  const animate = (el: HTMLElement) => {
+    const target = Number(el.dataset.counter);
+    if (!Number.isFinite(target)) return;
+
+    // Respeita prefers-reduced-motion: pula animação
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      el.textContent = String(target);
+      return;
+    }
+
+    const duration = 1400; // ms — ajusta se quiser mais rápido/lento
+    const start = performance.now();
+
+    const tick = (now: number) => {
+      const progress = Math.min((now - start) / duration, 1);
+      const value = Math.round(easeOutExpo(progress) * target);
+      el.textContent = String(value);
+      if (progress < 1) requestAnimationFrame(tick);
+    };
+
+    requestAnimationFrame(tick);
+  };
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        observer.unobserve(entry.target);
+        animate(entry.target as HTMLElement);
+      });
+    },
+    { threshold: 0.3 },
+  );
+
+  counters.forEach((el) => observer.observe(el));
+</script>
