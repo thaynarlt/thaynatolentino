@@ -18,6 +18,18 @@ export interface Projeto {
   destaque?: boolean;
 }
 
+export interface Experiencia {
+  id: number;
+  cargo: string;
+  empresa: string;
+  periodo: string;
+  descricao: string;
+  tecnologias: string[];
+  atual: boolean;
+  link?: string;
+}
+
+
 export const NICHOS: readonly Nicho[] = [
   'UX/UI Design',
   'Front-End',

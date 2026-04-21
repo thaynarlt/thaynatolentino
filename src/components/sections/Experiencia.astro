@@ -1,0 +1,70 @@
+---
+import { experiencias } from '../../data/experiencias';
+---
+
+<section id="experiencia" class="py-20 md:py-28 border-t border-border">
+  <div class="mx-auto max-w-4xl px-6 space-y-12">
+
+    <header class="space-y-4">
+      <p class="text-sm uppercase tracking-widest text-accent font-semibold">Experiência</p>
+      <h2 class="font-display text-5xl md:text-6xl text-text-strong leading-tight">
+        Onde já coloquei a mão.
+      </h2>
+    </header>
+
+    <ol class="relative space-y-12">
+      <!-- Linha vertical -->
+      <div
+        class="absolute top-3 bottom-3 left-[11px] w-0.5 bg-border"
+        aria-hidden="true"
+      ></div>
+
+      {experiencias.map((exp) => (
+        <li class="relative pl-10">
+          <!-- Dot marcador -->
+          <div class="absolute left-0 top-1 w-6 h-6 rounded-full bg-bg flex items-center justify-center">
+            {exp.atual ? (
+              <span class="relative flex w-3 h-3">
+                <span class="absolute inset-0 rounded-full bg-accent opacity-75 animate-ping"></span>
+                <span class="relative inline-flex w-3 h-3 rounded-full bg-accent"></span>
+              </span>
+            ) : (
+              <span class="w-3 h-3 rounded-full bg-ink-300"></span>
+            )}
+          </div>
+
+          <!-- Conteúdo -->
+          <div class="space-y-2">
+            <div class="flex flex-wrap items-center gap-3">
+              <span class="text-sm text-text-muted font-mono">{exp.periodo}</span>
+              {exp.atual && (
+                <span class="inline-flex items-center gap-1.5 text-xs px-2 py-0.5 rounded-full bg-accent-soft text-accent font-medium">
+                  <span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
+                  Atual
+                </span>
+              )}
+            </div>
+
+            <h3 class="font-display text-2xl text-text-strong leading-tight">
+              {exp.cargo}
+            </h3>
+
+            <p class="text-accent font-medium">{exp.empresa}</p>
+
+            <p class="text-text-muted leading-relaxed max-w-2xl">
+              {exp.descricao}
+            </p>
+
+            <div class="flex flex-wrap gap-1.5 pt-2">
+              {exp.tecnologias.map((tec) => (
+                <span class="text-xs px-2.5 py-1 rounded-full bg-surface-alt text-text-muted">
+                  {tec}
+                </span>
+              ))}
+            </div>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
