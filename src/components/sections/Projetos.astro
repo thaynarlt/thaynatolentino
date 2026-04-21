@@ -1,6 +1,6 @@
 ---
 import { projetos } from "../../data/projetos";
-import ProjectCard from "../ui/ProjectCard.astro";
+import FilteredProjects from "../react/FilteredProjects";
 ---
 
 <section id="projetos" class="py-20 md:py-28 border-t border-border">
@@ -13,18 +13,14 @@ import ProjectCard from "../ui/ProjectCard.astro";
       <h2
         class="font-display text-5xl md:text-6xl text-text-strong leading-tight max-w-3xl"
       >
-        Um pouco de tudo que já<br />
-        desenhei e construí.
+        Um pouco de tudo que já construí.
       </h2>
       <p class="text-lg text-text-muted max-w-2xl">
-        UI/UX, front-end, identidade visual, vídeo — cada peça conversa com as
-        outras.
+        UI/UX, front-end, design gráfico, edição de vídeo. Cada projeto conversa
+        entre si.
       </p>
     </header>
 
-    <!-- Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      {projetos.map((p) => <ProjectCard projeto={p} />)}
-    </div>
+    <FilteredProjects projetos={projetos} client:visible />
   </div>
 </section>

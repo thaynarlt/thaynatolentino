@@ -22,7 +22,7 @@ export const projetos: Projeto[] = [
     tecnologias: ['Adobe Illustrator', 'Photoshop', 'Design de Estampas'],
     imagem: '/projetos/design-camisas-catolicas.png',
     link: 'https://www.behance.net/gallery/199622209/Design-Camisas-Catolicas',
-    destaque: false
+    destaque: true
   },
   {
     id: 3,
