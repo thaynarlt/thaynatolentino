@@ -1,18 +1,22 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Header from "../components/layout/Header.astro";
+import Footer from "../components/layout/Footer.astro";
 import Hero from "../components/sections/Hero.astro";
 import Projetos from "../components/sections/Projetos.astro";
 import Experiencia from "../components/sections/Experiencia.astro";
 import Sobre from "../components/sections/Sobre.astro";
+import Contato from "../components/sections/Contato.astro";
 ---
 
 <Layout>
-  <Header current="hero" />
+  <Header />
   <main>
     <Hero />
     <Projetos />
     <Experiencia />
     <Sobre />
+    <Contato />
   </main>
+  <Footer />
 </Layout>

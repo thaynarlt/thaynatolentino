@@ -1,0 +1,182 @@
+---
+const email = "thayvfx@gmail.com"; // troca pelo seu
+const socials = [
+  {
+    label: "GitHub",
+    href: "https://github.com/thaynarlt",
+    icon: "github",
+  },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/thaynarlt/",
+    icon: "linkedin",
+  },
+  {
+    label: "Behance",
+    href: "https://www.behance.net/thaynatolentino",
+    icon: "behance",
+  },
+];
+---
+
+<section
+  id="contato"
+  class="py-24 md:py-32 border-t border-border relative overflow-hidden"
+>
+  <!-- Glow sutil no fundo -->
+  <div
+    class="absolute -top-20 -right-20 w-[500px] h-[500px] rounded-full blur-[120px] opacity-20 bg-accent pointer-events-none"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div class="mx-auto max-w-4xl px-6 space-y-12 relative">
+    <div class="space-y-6">
+      <p class="text-sm uppercase tracking-widest text-accent font-semibold">
+        Contato
+      </p>
+
+      <h2
+        class="font-display text-6xl md:text-8xl text-text-strong leading-[0.95]"
+      >
+        Vamos <span class="text-accent italic">conversar</span>.
+      </h2>
+
+      <p class="text-lg md:text-xl text-text-muted max-w-xl leading-relaxed">
+        Tem um projeto em mente, uma colaboração, ou só quer trocar ideia sobre
+        design e código? Me chama.
+      </p>
+    </div>
+
+    <!-- Email -->
+    <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+      <a
+        href={`mailto:${email}`}
+        class="font-display text-3xl md:text-5xl text-text-strong hover:text-accent transition-colors break-all"
+      >
+        {email}
+      </a>
+      <button
+        type="button"
+        data-copy-email
+        data-email={email}
+        class="self-start sm:self-auto inline-flex items-center gap-2 px-4 py-2 rounded-md border border-border-strong text-sm font-medium text-text-muted hover:border-accent hover:text-accent transition-colors"
+      >
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+          ></path>
+        </svg>
+        <span data-copy-label>Copiar email</span>
+      </button>
+    </div>
+
+    <!-- Social + localização -->
+    <div
+      class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 pt-8 border-t border-border"
+    >
+      <div class="flex items-center gap-5">
+        {
+          socials.map((social) => (
+            <a
+              href={social.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={social.label}
+              class="text-text-muted hover:text-accent transition-colors"
+            >
+              {social.icon === "github" && (
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+                </svg>
+              )}
+              {social.icon === "linkedin" && (
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                  <rect x="2" y="9" width="4" height="12" />
+                  <circle cx="4" cy="4" r="2" />
+                </svg>
+              )}
+              {social.icon === "behance" && (
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path d="M22 7h-7V5h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.564-1.729-5.564-5.675 0-3.91 2.325-5.92 5.466-5.92 3.082 0 4.964 1.782 5.375 4.426.078.506.109 1.188.095 2.14H15.97c.13 3.211 3.483 3.312 4.588 2.029h3.168zm-7.686-4h4.965c-.105-1.547-1.136-2.219-2.477-2.219-1.466 0-2.277.768-2.488 2.219zm-9.574 6.988H0V5.021h6.953c5.476.081 5.58 5.444 2.72 6.906 3.461 1.26 3.577 8.061-3.207 8.061zM3 11h3.584c2.508 0 2.906-3-.312-3H3v3zm3.391 3H3v3.016h3.341c3.055 0 2.868-3.016.05-3.016z" />
+                </svg>
+              )}
+            </a>
+          ))
+        }
+      </div>
+
+      <p class="text-sm text-text-muted inline-flex items-center gap-2">
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+          <circle cx="12" cy="10" r="3"></circle>
+        </svg>
+        João Pessoa, PB
+      </p>
+    </div>
+  </div>
+</section>
+
+<script>
+  const btn = document.querySelector<HTMLButtonElement>("[data-copy-email]");
+  const label = btn?.querySelector<HTMLElement>("[data-copy-label]");
+
+  btn?.addEventListener("click", async () => {
+    const email = btn.dataset.email;
+    if (!email || !label) return;
+
+    try {
+      await navigator.clipboard.writeText(email);
+      const original = label.textContent;
+      label.textContent = "Copiado!";
+      setTimeout(() => {
+        if (label) label.textContent = original;
+      }, 2000);
+    } catch {
+      // Fallback silencioso: abre mailto
+      window.location.href = `mailto:${email}`;
+    }
+  });
+</script>
