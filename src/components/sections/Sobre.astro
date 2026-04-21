@@ -17,10 +17,15 @@ const sizeByWeight: Record<1 | 2 | 3, string> = {
 <section id="sobre" class="py-20 md:py-28 border-t border-border">
   <div class="mx-auto max-w-5xl px-6 space-y-16">
     <header class="space-y-4">
-      <p class="text-sm uppercase tracking-widest text-accent font-semibold">
+      <p
+        data-reveal
+        class="text-sm uppercase tracking-widest text-accent font-semibold"
+      >
         Sobre
       </p>
       <h2
+        data-reveal
+        style="--reveal-delay: 80ms"
         class="font-display text-5xl md:text-6xl text-text-strong leading-tight"
       >
         Um ecossistema criativo.
@@ -30,13 +35,20 @@ const sizeByWeight: Record<1 | 2 | 3, string> = {
     <!-- Parágrafo grande + stats -->
     <div class="grid md:grid-cols-12 gap-10 items-start">
       <div class="md:col-span-8 space-y-6">
-        <p class="font-display text-3xl md:text-4xl text-text leading-snug">
+        <p
+          data-reveal
+          class="font-display text-3xl md:text-4xl text-text leading-snug"
+        >
           Eu <span class="text-accent italic">desenho</span>,
           <span class="text-accent italic">desenvolvo</span> e
           <span class="text-accent italic">edito</span> pra que cada peça conte uma
           história visual coerente.
         </p>
-        <p class="text-text-muted leading-relaxed max-w-xl">
+        <p
+          data-reveal
+          style="--reveal-delay: 120ms"
+          class="text-text-muted leading-relaxed max-w-xl"
+        >
           Sou estudante de Sistemas para Internet e atuo unindo UX/UI Design e
           Front-End. Utilizo minha base em design gráfico e edição para criar
           interfaces intuitivas, visualmente atraentes e centradas na melhor
@@ -45,7 +57,11 @@ const sizeByWeight: Record<1 | 2 | 3, string> = {
         </p>
       </div>
 
-      <div class="md:col-span-4 grid grid-cols-3 md:grid-cols-1 gap-6">
+      <div
+        data-reveal
+        style="--reveal-delay: 200ms"
+        class="md:col-span-4 grid grid-cols-3 md:grid-cols-1 gap-6"
+      >
         {
           stats.map((s) => (
             <div class="space-y-1">
@@ -60,7 +76,7 @@ const sizeByWeight: Record<1 | 2 | 3, string> = {
     </div>
 
     <!-- Skills cloud -->
-    <div class="space-y-6">
+    <div data-reveal class="space-y-6">
       <p
         class="text-sm uppercase tracking-widest text-text-muted font-semibold"
       >

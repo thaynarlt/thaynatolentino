@@ -33,11 +33,11 @@ const navItems = [
                 navItems.map((item) => (
                     <a
                         href={item.href}
-                        class={`whitespace-nowrap transition-colors font-medium ${
+                        class={`relative whitespace-nowrap transition-colors font-medium ${
                             current === item.href
                                 ? "text-accent"
                                 : "text-text-muted hover:text-text"
-                        }`}
+                        } after:absolute after:left-0 after:-bottom-1 after:w-full after:h-px after:bg-accent after:origin-left after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300`}
                     >
                         {item.label}
                     </a>

@@ -1,5 +1,5 @@
 ---
-import '../styles/global.css';
+import "../styles/global.css";
 
 interface Props {
   title?: string;
@@ -7,8 +7,8 @@ interface Props {
 }
 
 const {
-  title = 'Thayná Tolentino — Designer & Front-End',
-  description = 'Portfólio de Thayná Tolentino: UI/UX design, front-end, design gráfico, edição de vídeo e estampas.',
+  title = "Thayná Tolentino — Designer & Front-End",
+  description = "Portfólio de Thayná Tolentino: UI/UX design, front-end, design gráfico, edição de vídeo e estampas.",
 } = Astro.props;
 ---
 
@@ -21,6 +21,8 @@ const {
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
+    <link rel="preload" as="image" href="/perfil.png" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -29,7 +31,26 @@ const {
     />
 
     <title>{title}</title>
-  </head>
+    <script>
+      const reveal = (el: Element) => {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-visible");
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.12, rootMargin: "0px 0px -60px 0px" },
+        );
+        observer.observe(el);
+      };
+
+      document.querySelectorAll("[data-reveal]").forEach(reveal);
+    </script></head
+  >
+
   <body>
     <slot />
   </body>

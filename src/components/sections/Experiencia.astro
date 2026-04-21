@@ -6,8 +6,8 @@ import { experiencias } from '../../data/experiencias';
   <div class="mx-auto max-w-4xl px-6 space-y-12">
 
     <header class="space-y-4">
-      <p class="text-sm uppercase tracking-widest text-accent font-semibold">Experiência</p>
-      <h2 class="font-display text-5xl md:text-6xl text-text-strong leading-tight">
+      <p data-reveal class="text-sm uppercase tracking-widest text-accent font-semibold">Experiência</p>
+      <h2 data-reveal style="--reveal-delay: 80ms" class="font-display text-5xl md:text-6xl text-text-strong leading-tight">
         Onde já coloquei a mão.
       </h2>
     </header>
@@ -19,8 +19,8 @@ import { experiencias } from '../../data/experiencias';
         aria-hidden="true"
       ></div>
 
-      {experiencias.map((exp) => (
-        <li class="relative pl-10">
+      {experiencias.map((exp, i) => (
+        <li data-reveal style={`--reveal-delay: ${i * 100}ms`} class="relative pl-10">
           <!-- Dot marcador -->
           <div class="absolute left-0 top-1 w-6 h-6 rounded-full bg-bg flex items-center justify-center">
             {exp.atual ? (

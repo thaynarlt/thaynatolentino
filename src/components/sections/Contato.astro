@@ -32,24 +32,37 @@ const socials = [
 
   <div class="mx-auto max-w-4xl px-6 space-y-12 relative">
     <div class="space-y-6">
-      <p class="text-sm uppercase tracking-widest text-accent font-semibold">
+      <p
+        data-reveal
+        class="text-sm uppercase tracking-widest text-accent font-semibold"
+      >
         Contato
       </p>
 
       <h2
+        data-reveal
+        style="--reveal-delay: 80ms"
         class="font-display text-6xl md:text-8xl text-text-strong leading-[0.95]"
       >
         Vamos <span class="text-accent italic">conversar</span>.
       </h2>
 
-      <p class="text-lg md:text-xl text-text-muted max-w-xl leading-relaxed">
+      <p
+        data-reveal
+        style="--reveal-delay: 160ms"
+        class="text-lg md:text-xl text-text-muted max-w-xl leading-relaxed"
+      >
         Tem um projeto em mente, uma colaboração, ou só quer trocar ideia sobre
         design e código? Me chama.
       </p>
     </div>
 
     <!-- Email -->
-    <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+    <div
+      data-reveal
+      style="--reveal-delay: 240ms"
+      class="flex flex-col sm:flex-row sm:items-center gap-4"
+    >
       <a
         href={`mailto:${email}`}
         class="font-display text-3xl md:text-5xl text-text-strong hover:text-accent transition-colors break-all"
@@ -82,6 +95,8 @@ const socials = [
 
     <!-- Social + localização -->
     <div
+      data-reveal
+      style="--reveal-delay: 320ms"
       class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 pt-8 border-t border-border"
     >
       <div class="flex items-center gap-5">
