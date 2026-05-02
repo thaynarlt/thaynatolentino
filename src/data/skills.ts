@@ -24,5 +24,5 @@ export const skills: Skill[] = [
   { nome: 'Cybersecurity', peso: 1 },
   { nome: 'Java', peso: 1 },
   { nome: 'PostgreSQL', peso: 1 },
-  { nome: 'Design de Estampas', peso: 3 },
+  { nome: 'Design Gráfico', peso: 3 },
 ];

@@ -15,8 +15,8 @@ export const experiencias: Experiencia[] = [
     cargo: 'Product Designer | DevSecOps',
     empresa: 'INORPEL CYBERSECURITY',
     periodo: 'Março 2026 – Atual',
-    descricao: 'Desenvolvimento de materiais visuais estratégicos, evolução da identidade visual da ICS Academy e colaboração com os setores técnicos.',
-    tecnologias: ['Adobe Photoshop', 'Adobe Illustrator', 'UI/UX Design', 'Identidade Visual'],
+    descricao: 'Prototipação de telas para aplicação interna da empresa. Desenvolvimento de materiais visuais estratégicos, evolução da identidade visual da ICS Academy e colaboração com os setores técnicos.',
+    tecnologias: ['Adobe Photoshop', 'Adobe Illustrator', 'UI/UX Design', 'Identidade Visual', 'Figma'],
     atual: true,
   },
   {
@@ -24,8 +24,8 @@ export const experiencias: Experiencia[] = [
     cargo: 'Estagiária de TI no ICS Academy',
     empresa: 'INORPEL CYBERSECURITY',
     periodo: 'Novembro 2025 – Março 2026',
-    descricao: 'Estágio em tecnologia da informação com foco em desenvolvimento e segurança cibernética. Participação em projetos práticos e aprendizado em ambiente corporativo.',
-    tecnologias: ['TI', 'Cybersecurity', 'Desenvolvimento', 'Tecnologia'],
+    descricao: 'Estágio no ICS Academy, onde auxiliei na edição de vídeos e design gráfico dos produtos da empresa.',
+    tecnologias: ['Adobe Photoshop', 'Adobe Illustrator', 'Design Gráfico', 'Edição de Vídeo'],
     atual: false,
   },
   {
