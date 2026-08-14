@@ -6,10 +6,11 @@ interface Props {
 const { current } = Astro.props;
 
 const navItems = [
-    { label: "Projetos", href: "#projetos" },
-    { label: "Experiência", href: "#experiencia" },
-    { label: "Sobre", href: "#sobre" },
-    { label: "Contato", href: "#contato" },
+    { label: "Projetos", href: "/#projetos" },
+    { label: "Experiência", href: "/#experiencia" },
+    { label: "Formação", href: "/#formacao" },
+    { label: "Sobre", href: "/#sobre" },
+    { label: "Contato", href: "/#contato" },
 ];
 ---
 
@@ -26,7 +27,8 @@ const navItems = [
             Thayná<span class="text-accent">.</span>
         </a>
 
-        <nav class="flex items-center gap-4 md:gap-8 text-sm md:text-base">
+        <!-- Nav desktop -->
+        <nav class="hidden md:flex items-center gap-6 lg:gap-8 text-base">
             {
                 navItems.map((item) => (
                     <a
@@ -42,5 +44,94 @@ const navItems = [
                 ))
             }
         </nav>
+
+        <!-- Botão mobile -->
+        <button
+            id="menu-toggle"
+            type="button"
+            aria-label="Abrir menu"
+            aria-expanded="false"
+            aria-controls="mobile-menu"
+            class="md:hidden inline-flex items-center justify-center w-10 h-10 -mr-2 rounded-md text-text-muted hover:text-text transition-colors"
+        >
+            <svg
+                data-icon="open"
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            >
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+            <svg
+                data-icon="close"
+                class="hidden"
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            >
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
     </div>
+
+    <!-- Painel mobile -->
+    <nav
+        id="mobile-menu"
+        class="hidden md:hidden border-t border-border bg-bg/95 backdrop-blur-md"
+    >
+        <div class="px-6 py-3 flex flex-col">
+            {
+                navItems.map((item) => (
+                    <a
+                        href={item.href}
+                        data-menu-link
+                        class={`py-3 border-b border-border/60 last:border-0 font-medium transition-colors ${
+                            current === item.href
+                                ? "text-accent"
+                                : "text-text hover:text-accent"
+                        }`}
+                    >
+                        {item.label}
+                    </a>
+                ))
+            }
+        </div>
+    </nav>
 </header>
+
+<script>
+    const btn = document.getElementById("menu-toggle");
+    const menu = document.getElementById("mobile-menu");
+    const iconOpen = btn?.querySelector('[data-icon="open"]');
+    const iconClose = btn?.querySelector('[data-icon="close"]');
+
+    function setOpen(open: boolean) {
+        if (!menu || !btn) return;
+        menu.classList.toggle("hidden", !open);
+        iconOpen?.classList.toggle("hidden", open);
+        iconClose?.classList.toggle("hidden", !open);
+        btn.setAttribute("aria-expanded", String(open));
+        btn.setAttribute("aria-label", open ? "Fechar menu" : "Abrir menu");
+    }
+
+    btn?.addEventListener("click", () => {
+        setOpen(menu?.classList.contains("hidden") ?? true);
+    });
+
+    menu?.querySelectorAll("[data-menu-link]").forEach((a) =>
+        a.addEventListener("click", () => setOpen(false)),
+    );
+</script>

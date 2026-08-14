@@ -1,0 +1,109 @@
+---
+import { formacoes } from "../../data/formacao";
+---
+
+<section id="formacao" class="py-20 md:py-28 border-t border-border">
+  <div class="mx-auto max-w-4xl px-6 space-y-12">
+    <header class="space-y-4">
+      <p
+        data-reveal
+        class="text-sm uppercase tracking-widest text-accent font-semibold"
+      >
+        Formação
+      </p>
+      <h2
+        data-reveal
+        style="--reveal-delay: 80ms"
+        class="font-display text-5xl md:text-6xl text-text-strong leading-tight"
+      >
+        Onde me formei.
+      </h2>
+    </header>
+
+    <ol class="relative space-y-12">
+      <!-- Linha vertical -->
+      <div
+        class="absolute top-3 bottom-3 left-[11px] w-0.5 bg-border"
+        aria-hidden="true"
+      >
+      </div>
+
+      {
+        formacoes.map((f, i) => (
+          <li
+            data-reveal
+            style={`--reveal-delay: ${i * 100}ms`}
+            class="relative pl-10"
+          >
+            {/* Dot marcador */}
+            <div class="absolute left-0 top-1 w-6 h-6 rounded-full bg-bg flex items-center justify-center">
+              {f.atual ? (
+                <span class="relative flex w-3 h-3">
+                  <span class="absolute inset-0 rounded-full bg-accent opacity-75 animate-ping" />
+                  <span class="relative inline-flex w-3 h-3 rounded-full bg-accent" />
+                </span>
+              ) : (
+                <span class="w-3 h-3 rounded-full bg-ink-300" />
+              )}
+            </div>
+
+            {/* Conteúdo */}
+            <div class="space-y-2">
+              <div class="flex flex-wrap items-center gap-3">
+                <span class="text-sm text-text-muted font-mono">
+                  {f.periodo}
+                </span>
+                {f.atual && (
+                  <span class="inline-flex items-center gap-1.5 text-xs px-2 py-0.5 rounded-full bg-accent-soft text-accent font-medium">
+                    <span class="w-1.5 h-1.5 rounded-full bg-accent" />
+                    Atual
+                  </span>
+                )}
+                {f.nota && (
+                  <span class="text-xs px-2 py-0.5 rounded-full bg-surface-alt text-text-muted font-mono">
+                    {f.nota}
+                  </span>
+                )}
+              </div>
+
+              {f.grau && (
+                <p class="text-xs uppercase tracking-widest text-text-muted font-semibold">
+                  {f.grau}
+                </p>
+              )}
+
+              <h3 class="font-display text-2xl text-text-strong leading-tight">
+                {f.curso}
+              </h3>
+
+              <p class="text-accent font-medium">{f.instituicao}</p>
+
+              {f.descricao && (
+                <p class="text-text-muted leading-relaxed max-w-2xl">
+                  {f.descricao}
+                </p>
+              )}
+
+              {f.atividades && (
+                <p class="text-sm text-text-muted">
+                  <span class="text-text">Atividades e grupos:</span>{" "}
+                  {f.atividades}
+                </p>
+              )}
+
+              {f.competencias && f.competencias.length > 0 && (
+                <div class="flex flex-wrap gap-1.5 pt-2">
+                  {f.competencias.map((c) => (
+                    <span class="text-xs px-2.5 py-1 rounded-full bg-surface-alt text-text-muted">
+                      {c}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
