@@ -8,6 +8,7 @@ interface Props {
 }
 
 const nichoColors: Record<Nicho, { soft: string; solid: string }> = {
+  'Desenvolvimento': { soft: 'bg-indigo-100 text-indigo-700', solid: 'bg-indigo-600 text-white' },
   'UX/UI Design': { soft: 'bg-accent-soft text-accent', solid: 'bg-accent text-accent-fg' },
   'Front-End': { soft: 'bg-cyan-100 text-cyan-700', solid: 'bg-cyan-600 text-white' },
   'Design Gráfico': { soft: 'bg-surface-alt text-text', solid: 'bg-ink-700 text-white' },
