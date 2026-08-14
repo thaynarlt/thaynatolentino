@@ -243,6 +243,158 @@ export const projetos: Projeto[] = [
     tamanho: 'sm',
   },
 
+  // ───────────────────────────────────────────────────────────────
+  // Desenvolvimento — apps hospedados na Vercel (repositórios PRIVADOS).
+  // O card leva para a página de estudo de caso /projetos/[slug], que
+  // apresenta a demo ao vivo e o contexto sem expor o código.
+  //
+  // NOTA sobre imagens: por enquanto uso placeholders locais em
+  // /public/projetos/*.svg (sem depender de serviço externo). Para produção,
+  // tire um print real (de preferência já logada, não da tela de login),
+  // salve em src/assets/projetos/ e troque a string por img('nome.png').
+  // ───────────────────────────────────────────────────────────────
+  {
+    id: 26,
+    slug: 'copascom-placar-ao-vivo',
+    titulo: 'Copascom — Placar ao Vivo',
+    descricao: 'Organizador de campeonatos de futsal de base com visão pública em tempo real, estilo Apple Sports. O organizador monta o torneio; o público acompanha tudo por um link, sem login.',
+    nicho: 'Desenvolvimento',
+    tecnologias: ['Next.js 16', 'React 19', 'TypeScript', 'Tailwind CSS v4', 'Supabase', 'PostgreSQL', 'Realtime', 'Zod'],
+    imagem: '/projetos/copascom.svg',
+    demo: 'https://copascom.vercel.app/',
+    repoPrivado: true,
+    destaque: true,
+    tamanho: 'md',
+    detalhes: {
+      problema:
+        'Em campeonatos de futsal de base, o placar, as chaves e a classificação vivem em cadernos e grupos de WhatsApp. Quem não está na quadra fica sem acompanhar, e o organizador perde tempo recalculando tabela e chaveamento na mão.',
+      solucao:
+        'Plataforma em tempo real, estilo Apple Sports: o organizador monta o torneio (categorias, grupos, chaves, placares) e o público acompanha por um link, sem login. Cada categoria (Sub-6, Sub-7…) é um torneio independente, com formato, chaves e final próprios. Chaveamento, classificação (padrão futsal CBFS/FIFA) e avanço dos vencedores são calculados no servidor, e a home pública se atualiza sozinha via Supabase Realtime.',
+      funcionalidades: [
+        'Gestão por categoria: mata-mata puro ou fase de grupos + mata-mata, configurável',
+        'Chaveamento automático com distribuição de byes e avanço do vencedor',
+        'Fase de grupos com classificação no padrão futsal CBFS/FIFA (todos os critérios de desempate)',
+        'Placar por eventos: cada gol gera artilharia, timeline ao vivo e elenco por time',
+        'Agendamento de jogos, selo "AO VIVO" e pênaltis no mata-mata',
+        'Home pública read-only que atualiza sozinha via Supabase Realtime',
+      ],
+      aprendizados:
+        'O gargalo de um app assim não é CPU nem bundle — é o número de idas e voltas ao banco, cada uma pagando a latência de rede inteira. Aprendi a tratar latência como arquitetura: manter a região da Vercel igual à do Supabase (São Paulo), validar a sessão localmente com chaves JWT assimétricas (sem gastar rede a cada página) e recalcular o placar por trigger no próprio banco. No código, a regra é ler no Server Component, escrever em Server Action e confiar no RLS como última linha de defesa — toda lógica sensível (chaveamento, validação de placar, classificação) roda no servidor, nunca no navegador.',
+    },
+  },
+  {
+    id: 27,
+    slug: 'financas-controle-financeiro',
+    titulo: 'Finanças — Controle Financeiro',
+    descricao: 'Controle financeiro pessoal com login, importação automática do extrato bancário, metas de compra e dashboards que mostram quanto você tem livre de verdade.',
+    nicho: 'Desenvolvimento',
+    tecnologias: ['Next.js 16', 'React', 'TypeScript', 'Tailwind CSS 4', 'Supabase', 'PostgreSQL', 'Recharts', 'Vercel Cron'],
+    imagem: '/projetos/financas.svg',
+    demo: 'https://financeiro-nodejs.vercel.app/',
+    repoPrivado: true,
+    destaque: true,
+    tamanho: 'md',
+    detalhes: {
+      problema:
+        'Planilha de finanças não responde a pergunta que importa — "quanto eu posso gastar de verdade agora?" — e ainda exige lançar tudo na mão.',
+      solucao:
+        'App web com login que ancora o saldo no extrato real e mostra três números com corte no tempo: na conta agora, ainda entra este mês e livre de verdade (já descontando fixos e fatura em aberto). Importa o extrato automaticamente (API do Inter PJ via cron diário e arquivo OFX de qualquer banco), separa os gastos por origem (fatura, fixos, débito, pix) e traz metas de compra com análise de à vista × parcelado e onde economizar a partir do próprio histórico.',
+      funcionalidades: [
+        'Painel do mês com "quanto está livre de verdade" (descontando fixos e fatura)',
+        'Importação automática do extrato: API do Inter PJ (cron diário) e arquivo OFX',
+        'Entradas fixas e assinaturas com "caiu/pago", atrasados e checklist mensal',
+        'Prévia de fatura por cartão e controle de investimentos (aportes, metas, plano de gastos)',
+        'Metas de compra: à vista × parcelado, o que cabe e onde economizar, com simulação na hora',
+        'Relatórios com drill-down e consolidado anual Entrou × Gastou',
+      ],
+      aprendizados:
+        'O desafio mais interessante foi de modelagem, não de tela: separar "saldo em conta" de "livre de verdade", tratar investimento como dinheiro que sai da conta mas continua sendo seu, e ancorar o caixa no extrato para bater com o banco sem depender do histórico inteiro. Na integração, consumi a API do Inter PJ com mTLS num cron diário e escrevi um parser de OFX para importar qualquer banco. E na segurança: login obrigatório com RLS (cada conta vê só o que é seu), senha de 12+ caracteres barrando vazamentos via Have I Been Pwned (por k-anonimato) e contas novas nascendo pendentes de aprovação.',
+    },
+  },
+  {
+    id: 28,
+    slug: 'series-app-catalogo',
+    titulo: 'series.app — Catálogo de Séries',
+    descricao: 'Rastreador focado só em séries de TV, episódio por episódio. Nasceu do fim do TV Time, com uma premissa: nunca mais depender de um serviço que pode apagar o seu histórico.',
+    nicho: 'Desenvolvimento',
+    tecnologias: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Supabase', 'PostgreSQL', 'TVmaze API', 'PWA'],
+    imagem: '/projetos/series.svg',
+    demo: 'https://series-app-topaz.vercel.app/',
+    repoPrivado: true,
+    destaque: false,
+    tamanho: 'sm',
+    detalhes: {
+      problema:
+        'O TV Time foi desligado em 15/07/2026 e levou junto o histórico de quem usava. O desafio: acompanhar várias séries — o que já assistiu e qual o próximo episódio — sem depender de um serviço que pode sumir com os seus dados.',
+      solucao:
+        'Um rastreador focado exclusivamente em séries (sem filmes, sem distração): busca via TVmaze, marca episódios assistidos, mostra o progresso de cada temporada e destaca o próximo episódio a ver. É web-first e vira PWA, com a base de séries ingerida e cacheada no Supabase para reduzir chamadas à API e ganhar robustez. Foi desenhado desde o início para virar multiusuário sem refazer a fundação.',
+      funcionalidades: [
+        'Busca de séries pela TVmaze API',
+        'Listas por status: Assistindo, Quero assistir, Concluído e Abandonado',
+        'Marcação de episódios e progresso por temporada (ex.: 14/22)',
+        'Destaque do próximo episódio a assistir',
+        'Importação do histórico exportado do TV Time',
+        'PWA — instala na tela de início do celular',
+      ],
+      aprendizados:
+        'Aprendi a projetar a fundação pensando no futuro sem sobre-construir: schema e auth já prontos para multiusuário e sincronização, mesmo começando como app pessoal. E lidei com dados de terceiros na prática — cachear a base da TVmaze no Supabase para reduzir chamadas e ganhar robustez, respeitando a licença CC BY-SA com crédito visível à fonte.',
+    },
+  },
+  {
+    id: 29,
+    slug: 'locacoes-festas-gestao',
+    titulo: 'Locações & Festas — Gestão',
+    descricao: 'Gestão de locação de itens para festas — toalhas, mesas, cadeiras, capas e conjuntos. Substitui o caderno e não deixa reservar mais do que há em estoque.',
+    nicho: 'Desenvolvimento',
+    tecnologias: ['Next.js 14', 'React 18', 'TypeScript', 'Design System próprio', 'Supabase', 'PostgreSQL', 'Zod', 'PWA'],
+    imagem: '/projetos/locacoes.svg',
+    demo: 'https://locacoesvg-one.vercel.app/',
+    repoPrivado: true,
+    destaque: false,
+    tamanho: 'sm',
+    detalhes: {
+      problema:
+        'O controle de locação era feito no caderno: dava para reservar a mesma toalha para dois eventos no mesmo dia, esquecer de recolher e perder o controle do dinheiro.',
+      solucao:
+        'Sistema que substitui o caderno: cada pedido vira um registro com janela de entrega e recolhimento, itens, endereço, valor e status de pagamento. A disponibilidade é checada por janela de datas em duas camadas — no backend, com saldo em tempo real no formulário, e travada por trigger no Postgres, que nunca grava overbooking mesmo com dois pedidos simultâneos. Tem agenda do dia, Kanban logístico, calendário mensal e painel financeiro com inadimplentes.',
+      funcionalidades: [
+        'Checagem de disponibilidade por janela de datas (backend + trigger no banco, sem overbooking)',
+        'Kanban logístico: reservado → separado → entregue → recolhido',
+        'Agenda do dia, contador de atrasados e calendário mensal',
+        'Financeiro: status pago/parcial/pendente, faturamento e inadimplentes',
+        'Cadastro de clientes com endereços salvos e mensagens prontas de WhatsApp',
+        'PWA instalável, com atalhos para Novo pedido e Agenda',
+      ],
+      aprendizados:
+        'Dois destaques técnicos. Construí um design system próprio em TypeScript: os tokens geram todo o CSS do site por função, sem Tailwind nem CSS escrito à mão — mudar a marca inteira é editar uma paleta. E tratei a regra crítica (não reservar além do estoque) em duas camadas: validação no backend, com mensagem clara, e um trigger no Postgres como rede de segurança contra concorrência. Montei ainda o fluxo com Gitflow e ambientes separados de produção e staging (bancos Supabase distintos), para que um teste nunca toque no pedido real de uma cliente.',
+    },
+  },
+  {
+    id: 30,
+    slug: 'mantus-christi-landing-page',
+    titulo: 'Mantus Christi — Landing Page',
+    descricao: 'Landing page da marca de camisetas católicas Mantus Christi: coleções, o processo de pedidos e conversão via WhatsApp.',
+    nicho: 'Desenvolvimento',
+    tecnologias: ['Next.js', 'React', 'TypeScript', 'Landing Page'],
+    imagem: '/projetos/mantus-christi.svg',
+    demo: 'https://mantuschristi-lp.vercel.app/',
+    repoPrivado: true,
+    destaque: false,
+    tamanho: 'md',
+    detalhes: {
+      problema:
+        'A marca precisava de uma presença online que apresentasse as coleções e conduzisse o cliente até o pedido pelo WhatsApp.',
+      solucao:
+        'Landing page responsiva que mostra os lançamentos do mês, explica como funcionam os pedidos (aberto por 7 dias, produção em 20 dias) e leva à conversa no WhatsApp.',
+      funcionalidades: [
+        'Vitrine de coleções e lançamentos',
+        'Seção "como funciona" do processo de pedidos',
+        'CTA de conversão para o WhatsApp',
+        'Design responsivo, pensado para o celular',
+      ],
+    },
+  },
+
   // Edição de Vídeo — thumbnails externas do YouTube ficam como string
   {
     id: 19,
@@ -330,4 +482,4 @@ export const projetos: Projeto[] = [
   },
 ];
 
-export const nichos = ['UX/UI Design', 'Front-End', 'Design Gráfico', 'Edição de Vídeo', 'Outros'] as const;
+export const nichos = ['Desenvolvimento', 'UX/UI Design', 'Front-End', 'Design Gráfico', 'Edição de Vídeo', 'Outros'] as const;

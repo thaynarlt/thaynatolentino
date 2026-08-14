@@ -1,0 +1,48 @@
+---
+import { projetos } from "../../data/projetos";
+import LiveShowcase from "../react/LiveShowcase";
+
+// Só os projetos de programação — o foco desta seção.
+const devProjetos = projetos.filter((p) => p.nicho === "Desenvolvimento");
+---
+
+<section id="desenvolvimento" class="py-20 md:py-28 border-t border-border">
+  <div class="mx-auto max-w-7xl px-6 space-y-14">
+    <!-- Cabeçalho -->
+    <header class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-end">
+      <div class="md:col-span-7 space-y-4">
+        <p
+          data-reveal
+          class="text-sm uppercase tracking-widest text-accent font-semibold"
+        >
+          Desenvolvimento
+        </p>
+        <h2
+          data-reveal
+          style="--reveal-delay: 80ms"
+          class="font-display text-6xl md:text-8xl text-text-strong leading-[0.95]"
+        >
+          Aplicações que<br />
+          eu <span class="italic text-accent">programei</span>.
+        </h2>
+      </div>
+
+      <div class="md:col-span-5 space-y-3">
+        <p
+          data-reveal
+          style="--reveal-delay: 160ms"
+          class="text-lg text-text-muted leading-relaxed"
+        >
+          Produtos full-stack no ar, feitos com Next.js e React. Não é print: é
+          o app <span class="text-text-strong font-medium">rodando de verdade</span>
+          aqui dentro. Escolha um, alterne entre desktop e celular e explore.
+        </p>
+      </div>
+    </header>
+
+    <!-- Vitrine interativa (embed ao vivo / vídeo) -->
+    <div data-reveal style="--reveal-delay: 240ms">
+      <LiveShowcase projetos={devProjetos} client:visible />
+    </div>
+  </div>
+</section>

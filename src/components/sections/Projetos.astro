@@ -1,6 +1,10 @@
 ---
 import { projetos } from "../../data/projetos";
 import FilteredProjects from "../react/FilteredProjects";
+
+// Projetos de programação têm seção própria (Desenvolvimento), em destaque
+// logo após o Hero — aqui fica o portfólio criativo (design, UI/UX, vídeo).
+const projetosCriativos = projetos.filter((p) => p.nicho !== "Desenvolvimento");
 ---
 
 <section id="projetos" class="py-20 md:py-28 border-t border-border">
@@ -38,6 +42,6 @@ import FilteredProjects from "../react/FilteredProjects";
       </div>
     </header>
 
-    <FilteredProjects projetos={projetos} client:visible />
+    <FilteredProjects projetos={projetosCriativos} client:visible />
   </div>
 </section>
