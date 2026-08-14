@@ -27,8 +27,16 @@ const titleSizeBySize: Record<Tamanho, string> = {
 
 export default function ProjectCard({ projeto }: Props) {
   const [imgError, setImgError] = useState(false);
-  const href = projeto.link ?? projeto.github ?? '#';
   const size: Tamanho = projeto.tamanho ?? 'sm';
+
+  // Projetos de design/vídeo têm link externo (Behance, Figma, YouTube) e abrem em nova aba.
+  // Projetos de código (sem link externo, muitos com repo privado) vão para a página de
+  // estudo de caso interna, onde a demo ao vivo e o contexto são apresentados.
+  const isExternal = Boolean(projeto.link);
+  const href = projeto.link ?? `/projetos/${projeto.slug}`;
+  const externalProps = isExternal
+    ? { target: '_blank', rel: 'noopener noreferrer' }
+    : {};
 
   // imagem pode ser string (URL externa, ex.: YouTube) ou ImageMetadata (asset otimizado do Astro)
   const imgSrc = typeof projeto.imagem === 'string'
@@ -42,8 +50,7 @@ export default function ProjectCard({ projeto }: Props) {
       exit={{ opacity: 0, scale: 0.96 }}
       transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
       href={href}
-      target="_blank"
-      rel="noopener noreferrer"
+      {...externalProps}
       className={`group relative block col-span-12 ${spanBySize[size]} bg-surface border border-border rounded-xl overflow-hidden hover:border-accent hover:shadow-accent transition-[border-color,box-shadow] duration-300`}
     >
       {/* Imagem */}
