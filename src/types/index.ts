@@ -94,6 +94,31 @@ export interface Formacao {
   atual: boolean;
 }
 
+export interface Publicacao {
+  titulo: string;
+  /** Revista, congresso ou evento onde saiu. */
+  veiculo: string;
+  data: string;
+  url: string;
+  descricao?: string;
+}
+
+export interface Certificacao {
+  nome: string;
+  emissor: string;
+  data: string;
+  /** Link público para verificar a credencial. */
+  url?: string;
+  validade?: string;
+}
+
+export interface Reconhecimento {
+  titulo: string;
+  emissor: string;
+  data: string;
+  descricao: string;
+}
+
 export interface Skill {
   nome: string;
   peso: 1 | 2 | 3;
