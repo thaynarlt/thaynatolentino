@@ -13,7 +13,7 @@ const {
   image = "/og-image.png",
 } = Astro.props;
 
-const siteUrl = Astro.site ?? new URL("https://thaynatolentino.vercel.app");
+const siteUrl = Astro.site ?? new URL("https://thaynarlt.com.br");
 const ogImage = new URL(image, siteUrl).toString();
 const canonical = new URL(Astro.url.pathname, siteUrl).toString();
 ---
