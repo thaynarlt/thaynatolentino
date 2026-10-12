@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import Analytics from "@vercel/analytics/astro";
 import { caminhoEquivalente, codigoIdioma, idiomaDe, idiomas, localeOg } from "../i18n/idiomas";
 import { useTextos } from "../i18n/ui";
 
@@ -103,6 +104,9 @@ const alternativas = temTraducao
     />
 
     <title>{title}</title>
+
+    <!-- Extras por página (ex.: dados estruturados da home) -->
+    <slot name="head" />
     <script>
       const reveal = (el: Element) => {
         const observer = new IntersectionObserver(
@@ -125,5 +129,7 @@ const alternativas = temTraducao
 
   <body>
     <slot />
+    <!-- Vercel Web Analytics: sem cookies; precisa estar ativado no painel da Vercel -->
+    <Analytics />
   </body>
 </html>
