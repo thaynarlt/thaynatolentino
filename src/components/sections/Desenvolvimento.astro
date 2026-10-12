@@ -32,7 +32,7 @@ const devProjetos = await comCapasOtimizadas(
           class="font-display text-6xl md:text-8xl text-text-strong leading-[0.95]"
         >
           {t.desenvolvimento.titulo1}<br />
-          {t.desenvolvimento.titulo2}{" "}
+          {t.desenvolvimento.titulo2 && <>{t.desenvolvimento.titulo2}{" "}</>}
           <span class="italic text-accent">{t.desenvolvimento.tituloDestaque}</span>.
         </h2>
       </div>

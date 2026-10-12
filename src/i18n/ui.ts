@@ -37,8 +37,8 @@ const pt = {
   desenvolvimento: {
     eyebrow: "Desenvolvimento",
     titulo1: "Aplicações que",
-    titulo2: "eu",
-    tituloDestaque: "programei",
+    titulo2: "",
+    tituloDestaque: "desenvolvi",
     texto1: "Produtos full-stack no ar, feitos com Next.js e React. Não é print: é o app",
     textoDestaque: "rodando de verdade",
     texto2: "aqui dentro. Escolha um, alterne entre desktop e celular e explore.",
