@@ -1,0 +1,97 @@
+---
+/**
+ * Conteúdo que abre e fecha com animação ao clicar em "Ver detalhes".
+ * Usado na Experiência e na Formação para encurtar a página sem cortar texto.
+ */
+interface Props {
+  /** Id único do painel (ligado ao botão via aria-controls). */
+  id: string;
+  aberto?: boolean;
+  /** Texto do botão com o painel fechado. */
+  rotulo?: string;
+  /** Texto do botão com o painel aberto. */
+  rotuloAberto?: string;
+}
+
+const {
+  id,
+  aberto = false,
+  rotulo = "Ver detalhes",
+  rotuloAberto = "Ocultar detalhes",
+} = Astro.props;
+---
+
+<div
+  class="recolhivel"
+  data-recolhivel
+  data-aberto={String(aberto)}
+  data-rotulo-fechado={rotulo}
+  data-rotulo-aberto={rotuloAberto}
+>
+  <button
+    type="button"
+    aria-expanded={String(aberto)}
+    aria-controls={id}
+    class="group inline-flex items-center gap-1 text-sm font-medium text-accent hover:text-accent-hover transition-colors cursor-pointer"
+  >
+    <span data-rotulo>{aberto ? rotuloAberto : rotulo}</span>
+    <svg
+      class="w-4 h-4 transition-transform duration-300 group-aria-expanded:rotate-180"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <path d="m6 9 6 6 6-6"></path>
+    </svg>
+  </button>
+
+  <div id={id} class="painel" inert={!aberto}>
+    <div class="painel-conteudo">
+      <div class="pt-3 space-y-2">
+        <slot />
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Anima a altura de 0 até o conteúdo com o truque de grid-template-rows (0fr → 1fr). */
+  .painel {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transition:
+      grid-template-rows 0.5s var(--ease-out-expo),
+      opacity 0.3s ease;
+  }
+
+  .recolhivel[data-aberto="true"] > .painel {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+
+  .painel-conteudo {
+    min-height: 0;
+    overflow: hidden;
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-recolhivel]").forEach((el) => {
+    const botao = el.querySelector("button")!;
+    const painel = document.getElementById(botao.getAttribute("aria-controls")!)!;
+    const rotulo = botao.querySelector("[data-rotulo]")!;
+
+    botao.addEventListener("click", () => {
+      const aberto = el.dataset.aberto !== "true";
+      el.dataset.aberto = String(aberto);
+      botao.setAttribute("aria-expanded", String(aberto));
+      painel.inert = !aberto;
+      rotulo.textContent = (aberto ? el.dataset.rotuloAberto : el.dataset.rotuloFechado) ?? "";
+    });
+  });
+</script>

@@ -48,14 +48,33 @@ export interface Projeto {
   tamanho?: Tamanho;
 }
 
-export interface Experiencia {
-  id: number;
+export type Modalidade = 'Presencial' | 'Híbrido' | 'Remoto';
+
+/** Um cargo dentro de uma empresa. */
+export interface Cargo {
   cargo: string;
-  empresa: string;
+  /** Tipo de vínculo deste cargo, quando varia entre os cargos da empresa. */
+  tipo?: string;
+  modalidade?: Modalidade;
+  /** No formato "Mês Ano – Mês Ano" ou "Mês Ano – Atual". */
   periodo: string;
-  descricao: string;
+  /** Tópicos da descrição, um por item, na mesma ordem do LinkedIn. */
+  descricao: string[];
   tecnologias: string[];
   atual: boolean;
+}
+
+/** Uma empresa com um ou mais cargos, agrupados como no LinkedIn. */
+export interface Experiencia {
+  id: number;
+  empresa: string;
+  /** Tipo de vínculo comum a todos os cargos (ex.: "Meio período", "Estágio", "Autônomo"). */
+  tipo?: string;
+  /** Cidade de atuação (ex.: "João Pessoa, PB"). */
+  local?: string;
+  /** Do cargo mais recente ao mais antigo. */
+  cargos: Cargo[];
+  /** Estudo de caso relacionado, exibido ao fim dos detalhes. */
   link?: string;
 }
 

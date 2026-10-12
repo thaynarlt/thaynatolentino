@@ -1,0 +1,23 @@
+---
+import type { Cargo } from "../../types";
+
+interface Props {
+  cargo: Cargo;
+}
+
+const { cargo } = Astro.props;
+---
+
+<ul class="list-disc pl-5 space-y-1.5 text-text-muted leading-relaxed max-w-2xl marker:text-accent">
+  {cargo.descricao.map((item) => <li>{item}</li>)}
+</ul>
+
+<div class="flex flex-wrap gap-1.5 pt-2">
+  {
+    cargo.tecnologias.map((tec) => (
+      <span class="text-xs px-2.5 py-1 rounded-full bg-surface-alt text-text-muted">
+        {tec}
+      </span>
+    ))
+  }
+</div>
