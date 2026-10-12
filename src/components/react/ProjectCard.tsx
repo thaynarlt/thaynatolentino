@@ -49,6 +49,9 @@ export default function ProjectCard({ projeto }: Props) {
     ? { target: '_blank', rel: 'noopener noreferrer' }
     : {};
 
+  // Mesmo nome da imagem principal do estudo de caso: a capa "cresce" na navegação.
+  const transicaoCapa = isExternal ? undefined : { viewTransitionName: `capa-${projeto.slug}` };
+
   // imagem pode ser string (URL externa, ex.: YouTube) ou ImageMetadata (asset otimizado do Astro)
   const imgSrc = typeof projeto.imagem === 'string'
     ? projeto.imagem
@@ -65,7 +68,10 @@ export default function ProjectCard({ projeto }: Props) {
       className={`group relative block col-span-12 ${spanBySize[size]} bg-surface border border-border rounded-xl overflow-hidden hover:border-accent hover:shadow-accent transition-[border-color,box-shadow] duration-300 ${isXl ? layoutXl.card : ''}`}
     >
       {/* Imagem */}
-      <div className={`relative overflow-hidden bg-accent-soft ${aspectBySize[size]} ${isXl ? layoutXl.imagem : ''}`}>
+      <div
+        className={`relative overflow-hidden bg-accent-soft ${aspectBySize[size]} ${isXl ? layoutXl.imagem : ''}`}
+        style={transicaoCapa}
+      >
         {!imgError && (
           <img
             src={imgSrc}

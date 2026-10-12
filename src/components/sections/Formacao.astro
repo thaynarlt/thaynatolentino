@@ -37,6 +37,13 @@ const demaisCertificacoes = certificacoes.slice(3);
         aria-hidden="true"
       >
       </div>
+      <!-- Linha de destaque, desenhada pela rolagem -->
+      <div
+        data-linha-tempo
+        class="absolute top-3 bottom-3 left-[11px] w-0.5 bg-accent"
+        aria-hidden="true"
+      >
+      </div>
 
       {
         formacoes.map((f, i) => (
@@ -210,3 +217,7 @@ const demaisCertificacoes = certificacoes.slice(3);
     </div>
   </div>
 </section>
+
+<script>
+  import "../../scripts/linha-do-tempo";
+</script>

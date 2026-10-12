@@ -28,6 +28,12 @@ function periodoTotal(cargos: Cargo[]) {
         class="absolute top-3 bottom-3 left-[11px] w-0.5 bg-border"
         aria-hidden="true"
       ></div>
+      <!-- Linha de destaque, desenhada pela rolagem -->
+      <div
+        data-linha-tempo
+        class="absolute top-3 bottom-3 left-[11px] w-0.5 bg-accent"
+        aria-hidden="true"
+      ></div>
 
       {experiencias.map((exp, i) => {
         // Com mais de um cargo, a empresa vira o título e os cargos ficam aninhados, como no LinkedIn.
@@ -131,3 +137,7 @@ function periodoTotal(cargos: Cargo[]) {
     </ol>
   </div>
 </section>
+
+<script>
+  import "../../scripts/linha-do-tempo";
+</script>

@@ -92,6 +92,8 @@ export interface Cargo {
 export interface Experiencia {
   id: number;
   empresa: string;
+  /** Nome exibido na faixa de empresas abaixo do Hero (padrão: `empresa`). */
+  nomeCurto?: string;
   /** Tipo de vínculo comum a todos os cargos (ex.: "Meio período", "Estágio", "Autônomo"). */
   tipo?: string;
   /** Cidade de atuação (ex.: "João Pessoa, PB"). */

@@ -162,6 +162,34 @@ body {
 }
 
 /* ==========================================================================
+   Transição entre páginas (View Transitions nativas, sem JS)
+   A capa do card e a imagem do estudo de caso compartilham o mesmo
+   view-transition-name (capa-<slug>), então o navegador anima uma na outra.
+   ========================================================================== */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-group(*) {
+  animation-duration: 0.5s;
+  animation-timing-function: var(--ease-out-expo);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
+  }
+}
+
+/* ==========================================================================
+   Linha do tempo desenhada pela rolagem (src/scripts/linha-do-tempo.ts)
+   ========================================================================== */
+[data-linha-tempo] {
+  transform-origin: top;
+  transform: scaleY(var(--progresso, 1));
+}
+
+/* ==========================================================================
    Scroll Reveal — ativado ao entrar no viewport
    ========================================================================== */
 [data-reveal] {

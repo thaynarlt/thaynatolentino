@@ -1,0 +1,67 @@
+---
+import { experiencias } from "../../data/experiencias";
+
+// Repete a lista para cada metade da faixa ser mais larga que a tela;
+// a animação desloca exatamente uma metade, então o loop não tem emenda.
+const nomes = experiencias.map((e) => e.nomeCurto ?? e.empresa);
+const metade = [...nomes, ...nomes];
+---
+
+<!-- Só borda de cima: a de baixo já vem da seção Desenvolvimento. -->
+<section aria-label="Empresas onde já trabalhei" class="border-t border-border py-6">
+  <div class="mx-auto max-w-6xl px-6 flex items-center gap-6 md:gap-10">
+    <p
+      class="shrink-0 text-xs uppercase tracking-widest text-text-muted font-semibold"
+    >
+      Experiência em
+    </p>
+
+    <div class="faixa relative flex-1 overflow-hidden">
+      <div class="faixa-trilho flex w-max">
+        {
+          [0, 1].map((copia) => (
+            <ul
+              class="flex shrink-0 items-center"
+              aria-hidden={copia === 1 ? "true" : undefined}
+            >
+              {metade.map((nome) => (
+                <li class="flex items-center gap-8 pr-8 font-display text-2xl md:text-3xl text-text-strong/70 whitespace-nowrap">
+                  {nome}
+                  <span class="text-accent text-base" aria-hidden="true">
+                    ✦
+                  </span>
+                </li>
+              ))}
+            </ul>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .faixa {
+    mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  }
+
+  .faixa-trilho {
+    animation: rolar 40s linear infinite;
+  }
+
+  .faixa:hover .faixa-trilho {
+    animation-play-state: paused;
+  }
+
+  @keyframes rolar {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .faixa-trilho {
+      animation: none;
+    }
+  }
+</style>
