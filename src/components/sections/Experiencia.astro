@@ -1,5 +1,15 @@
 ---
 import { experiencias } from '../../data/experiencias';
+import type { Cargo } from '../../types';
+import CargoDetalhes from '../ui/CargoDetalhes.astro';
+import Recolhivel from '../ui/Recolhivel.astro';
+
+// Período total na empresa: do início do cargo mais antigo ao fim do mais recente.
+function periodoTotal(cargos: Cargo[]) {
+  const [, fim] = cargos[0].periodo.split(' – ');
+  const [inicio] = cargos[cargos.length - 1].periodo.split(' – ');
+  return `${inicio} – ${fim}`;
+}
 ---
 
 <section id="experiencia" class="py-20 md:py-28 border-t border-border">
@@ -19,52 +29,105 @@ import { experiencias } from '../../data/experiencias';
         aria-hidden="true"
       ></div>
 
-      {experiencias.map((exp, i) => (
-        <li data-reveal style={`--reveal-delay: ${i * 100}ms`} class="relative pl-10">
-          <!-- Dot marcador -->
-          <div class="absolute left-0 top-1 w-6 h-6 rounded-full bg-bg flex items-center justify-center">
-            {exp.atual ? (
-              <span class="relative flex w-3 h-3">
-                <span class="absolute inset-0 rounded-full bg-accent opacity-75 animate-ping"></span>
-                <span class="relative inline-flex w-3 h-3 rounded-full bg-accent"></span>
-              </span>
-            ) : (
-              <span class="w-3 h-3 rounded-full bg-ink-300"></span>
-            )}
-          </div>
+      {experiencias.map((exp, i) => {
+        // Com mais de um cargo, a empresa vira o título e os cargos ficam aninhados, como no LinkedIn.
+        const agrupado = exp.cargos.length > 1;
+        const [unico] = exp.cargos;
+        const atual = exp.cargos.some((c) => c.atual);
+        const meta = agrupado
+          ? [exp.tipo, exp.local]
+          : [exp.tipo ?? unico.tipo, exp.local, unico.modalidade];
 
-          <!-- Conteúdo -->
-          <div class="space-y-2">
-            <div class="flex flex-wrap items-center gap-3">
-              <span class="text-sm text-text-muted font-mono">{exp.periodo}</span>
-              {exp.atual && (
-                <span class="inline-flex items-center gap-1.5 text-xs px-2 py-0.5 rounded-full bg-accent-soft text-accent font-medium">
-                  <span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
-                  Atual
+        return (
+          <li data-reveal style={`--reveal-delay: ${i * 100}ms`} class="relative pl-10">
+            <!-- Dot marcador -->
+            <div class="absolute left-0 top-1 w-6 h-6 rounded-full bg-bg flex items-center justify-center">
+              {atual ? (
+                <span class="relative flex w-3 h-3">
+                  <span class="absolute inset-0 rounded-full bg-accent opacity-75 animate-ping"></span>
+                  <span class="relative inline-flex w-3 h-3 rounded-full bg-accent"></span>
                 </span>
+              ) : (
+                <span class="w-3 h-3 rounded-full bg-border-strong"></span>
               )}
             </div>
 
-            <h3 class="font-display text-2xl text-text-strong leading-tight">
-              {exp.cargo}
-            </h3>
-
-            <p class="text-accent font-medium">{exp.empresa}</p>
-
-            <p class="text-text-muted leading-relaxed max-w-2xl">
-              {exp.descricao}
-            </p>
-
-            <div class="flex flex-wrap gap-1.5 pt-2">
-              {exp.tecnologias.map((tec) => (
-                <span class="text-xs px-2.5 py-1 rounded-full bg-surface-alt text-text-muted">
-                  {tec}
+            <!-- Conteúdo -->
+            <div class="space-y-2">
+              <div class="flex flex-wrap items-center gap-3">
+                <span class="text-sm text-text-muted font-mono">
+                  {agrupado ? periodoTotal(exp.cargos) : unico.periodo}
                 </span>
-              ))}
+                {atual && (
+                  <span class="inline-flex items-center gap-1.5 text-xs px-2 py-0.5 rounded-full bg-accent-soft text-accent font-medium">
+                    <span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
+                    Atual
+                  </span>
+                )}
+              </div>
+
+              <h3 class="font-display text-2xl text-text-strong leading-tight">
+                {agrupado ? exp.empresa : unico.cargo}
+              </h3>
+
+              {!agrupado && <p class="text-accent font-medium">{exp.empresa}</p>}
+
+              {meta.some(Boolean) && (
+                <p class="text-sm text-text-muted">{meta.filter(Boolean).join(' · ')}</p>
+              )}
+
+              {!agrupado && (
+                <Recolhivel id={`experiencia-${exp.id}`} aberto={i === 0}>
+                  <CargoDetalhes cargo={unico} />
+                  {exp.link && (
+                    <a
+                      href={exp.link}
+                      class="inline-flex items-center gap-1.5 pt-2 text-sm font-medium text-accent hover:gap-2.5 transition-all"
+                    >
+                      Ver o estudo de caso
+                      <span aria-hidden="true">→</span>
+                    </a>
+                  )}
+                </Recolhivel>
+              )}
             </div>
-          </div>
-        </li>
-      ))}
+
+            {agrupado && (
+              <ol class="relative mt-6 space-y-8">
+                <!-- Linha dos cargos -->
+                <div
+                  class="absolute top-2 bottom-2 left-[3px] w-0.5 bg-border"
+                  aria-hidden="true"
+                ></div>
+
+                {exp.cargos.map((c, j) => (
+                  <li class="relative pl-6 space-y-2">
+                    <span
+                      class={`absolute left-0 top-2 w-2 h-2 rounded-full ${c.atual ? 'bg-accent' : 'bg-border-strong'}`}
+                      aria-hidden="true"
+                    ></span>
+
+                    <h4 class="font-display text-xl text-text-strong leading-tight">
+                      {c.cargo}
+                    </h4>
+
+                    <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-text-muted">
+                      <span class="font-mono">{c.periodo}</span>
+                      {(c.tipo || c.modalidade) && (
+                        <span>{[c.tipo, c.modalidade].filter(Boolean).join(' · ')}</span>
+                      )}
+                    </div>
+
+                    <Recolhivel id={`experiencia-${exp.id}-${j}`} aberto={i === 0 && j === 0}>
+                      <CargoDetalhes cargo={c} />
+                    </Recolhivel>
+                  </li>
+                ))}
+              </ol>
+            )}
+          </li>
+        );
+      })}
     </ol>
   </div>
 </section>

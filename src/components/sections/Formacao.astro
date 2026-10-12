@@ -1,5 +1,15 @@
 ---
 import { formacoes } from "../../data/formacao";
+import {
+  certificacoes,
+  publicacoes,
+  reconhecimentos,
+} from "../../data/credenciais";
+import CertificacaoItem from "../ui/CertificacaoItem.astro";
+import Recolhivel from "../ui/Recolhivel.astro";
+
+const certificacoesVisiveis = certificacoes.slice(0, 3);
+const demaisCertificacoes = certificacoes.slice(3);
 ---
 
 <section id="formacao" class="py-20 md:py-28 border-t border-border">
@@ -43,7 +53,7 @@ import { formacoes } from "../../data/formacao";
                   <span class="relative inline-flex w-3 h-3 rounded-full bg-accent" />
                 </span>
               ) : (
-                <span class="w-3 h-3 rounded-full bg-ink-300" />
+                <span class="w-3 h-3 rounded-full bg-border-strong" />
               )}
             </div>
 
@@ -78,32 +88,125 @@ import { formacoes } from "../../data/formacao";
 
               <p class="text-accent font-medium">{f.instituicao}</p>
 
-              {f.descricao && (
-                <p class="text-text-muted leading-relaxed max-w-2xl">
-                  {f.descricao}
-                </p>
-              )}
+              {(f.descricao || f.atividades || f.competencias?.length) && (
+                <Recolhivel id={`formacao-${f.id}`} aberto={i === 0}>
+                  {f.descricao && (
+                    <p class="text-text-muted leading-relaxed max-w-2xl">
+                      {f.descricao}
+                    </p>
+                  )}
 
-              {f.atividades && (
-                <p class="text-sm text-text-muted">
-                  <span class="text-text">Atividades e grupos:</span>{" "}
-                  {f.atividades}
-                </p>
-              )}
+                  {f.atividades && (
+                    <p class="text-sm text-text-muted">
+                      <span class="text-text">Atividades e grupos:</span>{" "}
+                      {f.atividades}
+                    </p>
+                  )}
 
-              {f.competencias && f.competencias.length > 0 && (
-                <div class="flex flex-wrap gap-1.5 pt-2">
-                  {f.competencias.map((c) => (
-                    <span class="text-xs px-2.5 py-1 rounded-full bg-surface-alt text-text-muted">
-                      {c}
-                    </span>
-                  ))}
-                </div>
+                  {f.competencias && f.competencias.length > 0 && (
+                    <div class="flex flex-wrap gap-1.5 pt-2">
+                      {f.competencias.map((c) => (
+                        <span class="text-xs px-2.5 py-1 rounded-full bg-surface-alt text-text-muted">
+                          {c}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </Recolhivel>
               )}
             </div>
           </li>
         ))
       }
     </ol>
+
+    <!-- Publicação, reconhecimento e certificações -->
+    <div
+      data-reveal
+      class="grid gap-12 md:grid-cols-2 border-t border-border pt-12"
+    >
+      <div class="space-y-10">
+        <div class="space-y-4">
+          <h3
+            class="text-sm uppercase tracking-widest text-text-muted font-semibold"
+          >
+            Publicação
+          </h3>
+          {
+            publicacoes.map((p) => (
+              <a
+                href={p.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="group block rounded-xl border border-border bg-surface p-6 space-y-3 hover:border-accent hover:shadow-accent transition-[border-color,box-shadow] duration-300"
+              >
+                <p class="text-xs text-text-muted font-mono">
+                  {p.veiculo} · {p.data}
+                </p>
+                <p class="font-display text-xl text-text-strong leading-snug">
+                  {p.titulo}
+                </p>
+                {p.descricao && (
+                  <p class="text-sm text-text-muted leading-relaxed">
+                    {p.descricao}
+                  </p>
+                )}
+                <span class="inline-flex items-center gap-1.5 text-sm font-medium text-accent group-hover:gap-2.5 transition-all">
+                  Ler o artigo
+                  <span aria-hidden="true">→</span>
+                </span>
+              </a>
+            ))
+          }
+        </div>
+
+        <div class="space-y-4">
+          <h3
+            class="text-sm uppercase tracking-widest text-text-muted font-semibold"
+          >
+            Reconhecimento
+          </h3>
+          {
+            reconhecimentos.map((r) => (
+              <div class="space-y-1.5">
+                <p class="font-medium text-text-strong">{r.titulo}</p>
+                <p class="text-sm text-text-muted">
+                  {r.emissor} · {r.data}
+                </p>
+                <p class="text-sm text-text-muted leading-relaxed">
+                  {r.descricao}
+                </p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      <div class="space-y-4">
+        <h3
+          class="text-sm uppercase tracking-widest text-text-muted font-semibold"
+        >
+          Certificações
+        </h3>
+        <ul class="divide-y divide-border">
+          {certificacoesVisiveis.map((c) => <CertificacaoItem certificacao={c} />)}
+        </ul>
+        {
+          demaisCertificacoes.length > 0 && (
+            <Recolhivel
+              id="certificacoes-demais"
+              rotulo={`Ver todas (${certificacoes.length})`}
+              rotuloAberto="Mostrar menos"
+            >
+              <ul class="divide-y divide-border">
+                {demaisCertificacoes.map((c) => (
+                  <CertificacaoItem certificacao={c} />
+                ))}
+              </ul>
+            </Recolhivel>
+          )
+        }
+      </div>
+    </div>
   </div>
 </section>

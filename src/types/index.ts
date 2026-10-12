@@ -8,7 +8,25 @@ export type Nicho =
   | 'Edição de Vídeo'
   | 'Outros';
 
-export type Tamanho = 'sm' | 'md' | 'lg';
+/** `xl` ocupa a linha inteira do grid: reservado ao estudo de caso em destaque. */
+export type Tamanho = 'sm' | 'md' | 'lg' | 'xl';
+
+/** Imagem da galeria com legenda (aparece abaixo da imagem e ao ampliar). */
+export interface ItemGaleria {
+  imagem: ImageMetadata | string;
+  titulo?: string;
+  descricao?: string;
+}
+
+/** Vídeo hospedado fora do site (ex.: Google Drive). O player só carrega ao clicar. */
+export interface VideoProjeto {
+  titulo: string;
+  /** URL do player para o iframe (ex.: https://drive.google.com/file/d/ID/preview). */
+  embed: string;
+  /** Miniatura exibida antes do clique. */
+  poster: string;
+  descricao?: string;
+}
 
 /**
  * Conteúdo opcional do estudo de caso, exibido na página /projetos/[slug].
@@ -18,10 +36,16 @@ export type Tamanho = 'sm' | 'md' | 'lg';
 export interface DetalhesProjeto {
   problema?: string;
   solucao?: string;
+  resultados?: string;
   aprendizados?: string;
   funcionalidades?: string[];
-  /** Screenshots adicionais (assets otimizados do Astro ou URLs externas). */
-  galeria?: (ImageMetadata | string)[];
+  /** Links extras exibidos como botões no topo do estudo de caso (ex.: artigo publicado). */
+  links?: { label: string; url: string }[];
+  /** Screenshots adicionais (assets otimizados do Astro ou URLs externas), com ou sem legenda. */
+  galeria?: (ImageMetadata | string | ItemGaleria)[];
+  /** Crédito exibido abaixo da galeria (ex.: imagens sob licença Creative Commons). */
+  creditoGaleria?: { texto: string; url?: string };
+  videos?: VideoProjeto[];
 }
 
 export interface Projeto {
@@ -48,14 +72,33 @@ export interface Projeto {
   tamanho?: Tamanho;
 }
 
-export interface Experiencia {
-  id: number;
+export type Modalidade = 'Presencial' | 'Híbrido' | 'Remoto';
+
+/** Um cargo dentro de uma empresa. */
+export interface Cargo {
   cargo: string;
-  empresa: string;
+  /** Tipo de vínculo deste cargo, quando varia entre os cargos da empresa. */
+  tipo?: string;
+  modalidade?: Modalidade;
+  /** No formato "Mês Ano – Mês Ano" ou "Mês Ano – Atual". */
   periodo: string;
-  descricao: string;
+  /** Tópicos da descrição, um por item, na mesma ordem do LinkedIn. */
+  descricao: string[];
   tecnologias: string[];
   atual: boolean;
+}
+
+/** Uma empresa com um ou mais cargos, agrupados como no LinkedIn. */
+export interface Experiencia {
+  id: number;
+  empresa: string;
+  /** Tipo de vínculo comum a todos os cargos (ex.: "Meio período", "Estágio", "Autônomo"). */
+  tipo?: string;
+  /** Cidade de atuação (ex.: "João Pessoa, PB"). */
+  local?: string;
+  /** Do cargo mais recente ao mais antigo. */
+  cargos: Cargo[];
+  /** Estudo de caso relacionado, exibido ao fim dos detalhes. */
   link?: string;
 }
 
@@ -73,6 +116,31 @@ export interface Formacao {
   atividades?: string;
   competencias?: string[];
   atual: boolean;
+}
+
+export interface Publicacao {
+  titulo: string;
+  /** Revista, congresso ou evento onde saiu. */
+  veiculo: string;
+  data: string;
+  url: string;
+  descricao?: string;
+}
+
+export interface Certificacao {
+  nome: string;
+  emissor: string;
+  data: string;
+  /** Link público para verificar a credencial. */
+  url?: string;
+  validade?: string;
+}
+
+export interface Reconhecimento {
+  titulo: string;
+  emissor: string;
+  data: string;
+  descricao: string;
 }
 
 export interface Skill {

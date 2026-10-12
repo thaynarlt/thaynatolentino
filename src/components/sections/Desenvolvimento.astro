@@ -1,9 +1,13 @@
 ---
 import { projetos } from "../../data/projetos";
 import LiveShowcase from "../react/LiveShowcase";
+import { comCapasOtimizadas } from "../../utils/imagens";
 
 // Só os projetos de programação — o foco desta seção.
-const devProjetos = projetos.filter((p) => p.nicho === "Desenvolvimento");
+const devProjetos = await comCapasOtimizadas(
+  projetos.filter((p) => p.nicho === "Desenvolvimento"),
+  1600,
+);
 ---
 
 <section id="desenvolvimento" class="py-20 md:py-28 border-t border-border">

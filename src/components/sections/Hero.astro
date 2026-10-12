@@ -1,5 +1,7 @@
 ---
+import { Image } from "astro:assets";
 import Button from "../ui/Button.astro";
+import perfil from "../../assets/perfil.png";
 
 const availableForWork = true;
 ---
@@ -17,11 +19,15 @@ const availableForWork = true;
       <div
         class="relative aspect-[4/5] rounded-2xl overflow-hidden bg-surface-alt"
       >
-        <img
-          src="/perfil.png"
+        <Image
+          src={perfil}
           alt="Thayná Tolentino"
+          widths={[400, 800, 1200]}
+          sizes="(min-width: 768px) 440px, 100vw"
+          format="webp"
           class="w-full h-full object-cover"
           loading="eager"
+          fetchpriority="high"
         />
         <div
           class="absolute inset-0 ring-1 ring-border rounded-2xl pointer-events-none"
@@ -59,8 +65,8 @@ const availableForWork = true;
         style="--reveal-delay: 160ms"
         class="text-lg md:text-xl text-text-muted max-w-xl leading-relaxed"
       >
-        Designer de interfaces e desenvolvedora front-end. Além disso, possuo
-        uma boa experiência em design gráfico e edição de vídeo.
+        Desenvolvedora front-end e designer de interfaces. Construo produtos do
+        Figma ao deploy, com bagagem em design gráfico e edição de vídeo.
       </p>
 
       <div

@@ -1,0 +1,50 @@
+---
+import type { Certificacao } from "../../types";
+
+interface Props {
+  certificacao: Certificacao;
+}
+
+const { certificacao: c } = Astro.props;
+
+// Com link de verificação vira <a>; sem link, só texto.
+const Tag = c.url ? "a" : "div";
+const linkProps = c.url
+  ? { href: c.url, target: "_blank", rel: "noopener noreferrer" }
+  : {};
+---
+
+<li>
+  <Tag {...linkProps} class="group flex items-start justify-between gap-4 py-3">
+    <div class="space-y-0.5">
+      <p
+        class:list={[
+          "font-medium text-text-strong leading-snug",
+          c.url && "group-hover:text-accent transition-colors",
+        ]}
+      >
+        {c.nome}
+      </p>
+      <p class="text-sm text-text-muted">
+        {[c.emissor, c.data, c.validade].filter(Boolean).join(" · ")}
+      </p>
+    </div>
+    {
+      c.url && (
+        <svg
+          class="shrink-0 mt-1 w-4 h-4 text-text-muted group-hover:text-accent transition-colors"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <line x1="7" y1="17" x2="17" y2="7" />
+          <polyline points="7 7 17 7 17 17" />
+        </svg>
+      )
+    }
+  </Tag>
+</li>
