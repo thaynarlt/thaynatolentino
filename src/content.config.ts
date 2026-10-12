@@ -12,7 +12,7 @@ const notas = defineCollection({
     data: z.coerce.date(),
     tags: z.array(z.string()).default([]),
     /** Link do post original, quando a nota nasceu no LinkedIn. */
-    linkedin: z.string().url().optional(),
+    linkedin: z.url().optional(),
   }),
 });
 

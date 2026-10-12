@@ -1,0 +1,486 @@
+---
+// Estudo de caso de um projeto, usado por /projetos/[slug] e /en/projects/[slug].
+// Recebe o projeto já traduzido (projetoEm) pela rota.
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/layout/Header.astro";
+import Footer from "../../components/layout/Footer.astro";
+import Badge from "../../components/ui/Badge.astro";
+import type { Projeto } from "../../types";
+import { otimizarImagem } from "../../utils/imagens";
+import { idiomaDe, urls } from "../../i18n/idiomas";
+import { termo } from "../../i18n/termos";
+import { useTextos } from "../../i18n/ui";
+
+interface Props {
+  projeto: Projeto;
+}
+
+const { projeto } = Astro.props;
+const contato = "thayvfx@gmail.com";
+const idioma = idiomaDe(Astro.currentLocale);
+const t = useTextos(idioma);
+
+// imagem/galeria podem ser string (URL externa) ou ImageMetadata (convertida para WebP)
+const imgSrc = await otimizarImagem(projeto.imagem, 1600);
+const galeria = await Promise.all(
+  (projeto.detalhes?.galeria ?? []).map(async (item, i) => {
+    // Aceita só a imagem ou { imagem, titulo, descricao }.
+    const g = typeof item === "object" && "imagem" in item ? item : { imagem: item };
+    return {
+      ...g,
+      src: await otimizarImagem(g.imagem, 1600),
+      alt: g.titulo ?? `${projeto.titulo} — ${t.estudo.imagem} ${i + 1}`,
+    };
+  }),
+);
+
+const videos = projeto.detalhes?.videos ?? [];
+const credito = projeto.detalhes?.creditoGaleria;
+
+// Só exibe o link do repositório quando ele é público.
+const mostrarRepo = Boolean(projeto.github) && projeto.repoPrivado !== true;
+
+const assuntoAcesso = encodeURIComponent(`${t.estudo.assuntoAcesso} — ${projeto.titulo}`);
+const corpoAcesso = encodeURIComponent(t.estudo.corpoAcesso(projeto.titulo));
+
+const temDetalhes = Boolean(
+  projeto.detalhes?.problema ||
+    projeto.detalhes?.solucao ||
+    projeto.detalhes?.resultados ||
+    projeto.detalhes?.aprendizados ||
+    (projeto.detalhes?.funcionalidades?.length ?? 0) > 0,
+);
+---
+
+<Layout
+  title={`${projeto.titulo} — Thayná Tolentino`}
+  description={projeto.descricao}
+>
+  <Header secaoAtual="projetos" />
+
+  <main class="mx-auto max-w-5xl px-6 py-12 md:py-16 space-y-12">
+    <!-- Voltar -->
+    <a
+      href={urls.inicio(idioma, "projetos")}
+      class="inline-flex items-center gap-2 text-sm text-text-muted hover:text-accent transition-colors"
+    >
+      <span aria-hidden="true">←</span>
+      {t.estudo.voltar}
+    </a>
+
+    <!-- Cabeçalho -->
+    <header class="space-y-6">
+      <Badge nicho={projeto.nicho} rotulo={termo(projeto.nicho, idioma)} variant="soft" size="md" />
+
+      <h1
+        class="font-display text-5xl md:text-7xl text-text-strong leading-[0.95]"
+      >
+        {projeto.titulo}
+      </h1>
+
+      <p class="text-lg md:text-xl text-text-muted max-w-2xl leading-relaxed">
+        {projeto.descricao}
+      </p>
+
+      <!-- Ações -->
+      <div class="flex flex-wrap items-center gap-3 pt-2">
+        {
+          projeto.demo && (
+            <a
+              href={projeto.demo}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 px-5 py-2.5 rounded-md bg-accent text-accent-fg text-sm font-semibold hover:opacity-90 transition-opacity"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <line x1="7" y1="17" x2="17" y2="7" />
+                <polyline points="7 7 17 7 17 17" />
+              </svg>
+              {t.estudo.demo}
+            </a>
+          )
+        }
+
+        {
+          projeto.link && (
+            <a
+              href={projeto.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 px-5 py-2.5 rounded-md border border-border-strong text-sm font-medium text-text hover:border-accent hover:text-accent transition-colors"
+            >
+              {t.estudo.verProjeto}
+              <span aria-hidden="true">→</span>
+            </a>
+          )
+        }
+
+        {
+          projeto.detalhes?.links?.map((l) => (
+            <a
+              href={l.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 px-5 py-2.5 rounded-md border border-border-strong text-sm font-medium text-text hover:border-accent hover:text-accent transition-colors"
+            >
+              {l.label}
+              <span aria-hidden="true">→</span>
+            </a>
+          ))
+        }
+
+        {
+          mostrarRepo && (
+            <a
+              href={projeto.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 px-5 py-2.5 rounded-md border border-border-strong text-sm font-medium text-text hover:border-accent hover:text-accent transition-colors"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path d="M12 .5C5.73.5.5 5.73.5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.34-1.3-1.7-1.3-1.7-1.06-.72.08-.71.08-.71 1.17.08 1.79 1.2 1.79 1.2 1.04 1.79 2.73 1.27 3.4.97.1-.75.4-1.27.73-1.56-2.56-.29-5.26-1.28-5.26-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.43-2.7 5.4-5.28 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.73 18.27.5 12 .5z" />
+              </svg>
+              {t.estudo.verCodigo}
+            </a>
+          )
+        }
+
+        {
+          projeto.repoPrivado && (
+            <a
+              href={`mailto:${contato}?subject=${assuntoAcesso}&body=${corpoAcesso}`}
+              class="inline-flex items-center gap-2 px-5 py-2.5 rounded-md border border-border-strong text-sm font-medium text-text-muted hover:border-accent hover:text-accent transition-colors"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+              </svg>
+              {t.estudo.codigoPrivado}
+            </a>
+          )
+        }
+      </div>
+    </header>
+
+    <!-- Imagem principal -->
+    <div
+      class="rounded-2xl overflow-hidden border border-border bg-accent-soft"
+      style={`view-transition-name: capa-${projeto.slug}`}
+    >
+      <img
+        src={imgSrc}
+        alt={projeto.titulo}
+        class="w-full h-auto object-cover"
+        loading="eager"
+      />
+    </div>
+
+    <!-- Corpo: estudo de caso + sidebar -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12">
+      <!-- Conteúdo -->
+      <div class="md:col-span-2 space-y-10">
+        {
+          projeto.detalhes?.problema && (
+            <section class="space-y-3">
+              <h2 class="font-display text-2xl text-text-strong">{t.estudo.desafio}</h2>
+              <p class="text-text-muted leading-relaxed whitespace-pre-line">
+                {projeto.detalhes.problema}
+              </p>
+            </section>
+          )
+        }
+
+        {
+          projeto.detalhes?.solucao && (
+            <section class="space-y-3">
+              <h2 class="font-display text-2xl text-text-strong">{t.estudo.solucao}</h2>
+              <p class="text-text-muted leading-relaxed whitespace-pre-line">
+                {projeto.detalhes.solucao}
+              </p>
+            </section>
+          )
+        }
+
+        {
+          (projeto.detalhes?.funcionalidades?.length ?? 0) > 0 && (
+            <section class="space-y-3">
+              <h2 class="font-display text-2xl text-text-strong">
+                {t.estudo.funcionalidades}
+              </h2>
+              <ul class="space-y-2">
+                {projeto.detalhes!.funcionalidades!.map((f) => (
+                  <li class="flex items-start gap-3 text-text-muted">
+                    <span class="text-accent mt-1" aria-hidden="true">
+                      ▹
+                    </span>
+                    <span>{f}</span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )
+        }
+
+        {
+          projeto.detalhes?.resultados && (
+            <section class="space-y-3">
+              <h2 class="font-display text-2xl text-text-strong">{t.estudo.resultados}</h2>
+              <p class="text-text-muted leading-relaxed whitespace-pre-line">
+                {projeto.detalhes.resultados}
+              </p>
+            </section>
+          )
+        }
+
+        {
+          projeto.detalhes?.aprendizados && (
+            <section class="space-y-3">
+              <h2 class="font-display text-2xl text-text-strong">
+                {t.estudo.aprendizados}
+              </h2>
+              <p class="text-text-muted leading-relaxed whitespace-pre-line">
+                {projeto.detalhes.aprendizados}
+              </p>
+            </section>
+          )
+        }
+
+        {
+          !temDetalhes && (
+            <p class="text-text-muted leading-relaxed">
+              {t.estudo.semDetalhes}
+            </p>
+          )
+        }
+      </div>
+
+      <!-- Sidebar: stack -->
+      <aside class="space-y-6">
+        <div
+          class="rounded-xl border border-border bg-surface p-6 space-y-4 md:sticky md:top-24"
+        >
+          <h2
+            class="text-xs uppercase tracking-widest text-accent font-semibold"
+          >
+            {t.estudo.stack}
+          </h2>
+          <div class="flex flex-wrap gap-2">
+            {
+              projeto.tecnologias.map((tec) => (
+                <span class="text-xs px-2.5 py-1 rounded-full bg-surface-alt text-text-muted">
+                  {tec}
+                </span>
+              ))
+            }
+          </div>
+
+          {
+            projeto.repoPrivado && (
+              <p class="text-xs text-text-muted leading-relaxed pt-2 border-t border-border">
+                {t.estudo.avisoPrivado}
+              </p>
+            )
+          }
+        </div>
+      </aside>
+    </div>
+
+    <!-- Vídeos: mostra só a miniatura; o player externo carrega ao clicar -->
+    {
+      videos.length > 0 && (
+        <section class="space-y-5">
+          <h2 class="font-display text-2xl text-text-strong">{t.estudo.videos}</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-8">
+            {videos.map((v, i) => (
+              <figure
+                class:list={[
+                  "space-y-3",
+                  videos.length % 2 === 1 && i === 0 && "sm:col-span-2",
+                ]}
+              >
+                <div class="relative aspect-video rounded-xl overflow-hidden border border-border bg-black">
+                  <button
+                    type="button"
+                    data-video-embed={v.embed}
+                    data-video-titulo={v.titulo}
+                    aria-label={`${t.estudo.assistir}: ${v.titulo}`}
+                    class="group absolute inset-0 w-full h-full cursor-pointer"
+                  >
+                    <img
+                      src={v.poster}
+                      alt=""
+                      loading="lazy"
+                      class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
+                    />
+                    <span class="absolute inset-0 flex items-center justify-center">
+                      <span class="w-16 h-16 rounded-full bg-bg/90 flex items-center justify-center text-accent shadow-lg transition-transform group-hover:scale-110">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                          <path d="M8 5v14l11-7z" />
+                        </svg>
+                      </span>
+                    </span>
+                  </button>
+                </div>
+                <figcaption class="space-y-1">
+                  <p class="text-sm font-medium text-text-strong">{v.titulo}</p>
+                  {v.descricao && (
+                    <p class="text-sm text-text-muted leading-relaxed">{v.descricao}</p>
+                  )}
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </section>
+      )
+    }
+
+    <!-- Galeria -->
+    {
+      galeria.length > 0 && (
+        <section class="space-y-5">
+          <h2 class="font-display text-2xl text-text-strong">{t.estudo.galeria}</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-8">
+            {galeria.map((g) => (
+              <figure class="space-y-3">
+                <button
+                  type="button"
+                  data-galeria-abrir
+                  data-src={g.src}
+                  data-alt={g.alt}
+                  data-titulo={g.titulo ?? ""}
+                  data-descricao={g.descricao ?? ""}
+                  aria-label={`${t.estudo.ampliar}: ${g.alt}`}
+                  class="group block w-full rounded-xl overflow-hidden border border-border bg-accent-soft cursor-zoom-in hover:border-accent transition-colors"
+                >
+                  <img
+                    src={g.src}
+                    alt={g.alt}
+                    class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                    loading="lazy"
+                  />
+                </button>
+                {(g.titulo || g.descricao) && (
+                  <figcaption class="space-y-1">
+                    {g.titulo && (
+                      <p class="text-sm font-medium text-text-strong">{g.titulo}</p>
+                    )}
+                    {g.descricao && (
+                      <p class="text-sm text-text-muted leading-relaxed">{g.descricao}</p>
+                    )}
+                  </figcaption>
+                )}
+              </figure>
+            ))}
+          </div>
+          {credito && (
+            <p class="text-xs text-text-muted">
+              {credito.url ? (
+                <a
+                  href={credito.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="underline decoration-border-strong underline-offset-2 hover:text-accent transition-colors"
+                >
+                  {credito.texto}
+                </a>
+              ) : (
+                credito.texto
+              )}
+            </p>
+          )}
+        </section>
+      )
+    }
+  </main>
+
+  <!-- Imagem ampliada da galeria -->
+  <dialog
+    id="galeria-ampliada"
+    aria-label={t.estudo.imagemAmpliada}
+    class="m-auto w-full max-w-[min(92vw,1100px)] bg-transparent p-0 backdrop:bg-black/80"
+  >
+    <div class="space-y-3">
+      <div class="flex justify-end">
+        <button
+          type="button"
+          data-galeria-fechar
+          aria-label={t.estudo.fechar}
+          class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-bg/90 text-text-strong hover:text-accent transition-colors"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <img data-galeria-img alt="" class="w-full h-auto max-h-[75vh] object-contain rounded-xl bg-bg" />
+      <div class="space-y-1 text-white">
+        <p data-galeria-titulo class="font-medium"></p>
+        <p data-galeria-descricao class="text-sm text-white/75 leading-relaxed"></p>
+      </div>
+    </div>
+  </dialog>
+
+  <Footer />
+</Layout>
+
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>("#galeria-ampliada");
+  const img = dialog?.querySelector<HTMLImageElement>("[data-galeria-img]");
+  const titulo = dialog?.querySelector<HTMLElement>("[data-galeria-titulo]");
+  const descricao = dialog?.querySelector<HTMLElement>("[data-galeria-descricao]");
+
+  document.querySelectorAll<HTMLButtonElement>("[data-galeria-abrir]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      if (!dialog || !img || !titulo || !descricao) return;
+      img.src = btn.dataset.src ?? "";
+      img.alt = btn.dataset.alt ?? "";
+      titulo.textContent = btn.dataset.titulo ?? "";
+      descricao.textContent = btn.dataset.descricao ?? "";
+      dialog.showModal();
+    });
+  });
+
+  dialog?.querySelector("[data-galeria-fechar]")?.addEventListener("click", () => dialog.close());
+
+  // Clicar fora da imagem (no fundo escuro) também fecha; Esc já fecha nativamente.
+  dialog?.addEventListener("click", (e) => {
+    if (e.target === dialog) dialog.close();
+  });
+
+  // Troca a miniatura pelo player só no clique, para não carregar vários players de uma vez.
+  document.querySelectorAll<HTMLButtonElement>("[data-video-embed]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const iframe = document.createElement("iframe");
+      iframe.src = btn.dataset.videoEmbed ?? "";
+      iframe.title = btn.dataset.videoTitulo ?? "Vídeo";
+      iframe.allow = "autoplay; fullscreen";
+      iframe.allowFullscreen = true;
+      iframe.className = "absolute inset-0 w-full h-full border-0";
+      btn.replaceWith(iframe);
+    });
+  });
+</script>

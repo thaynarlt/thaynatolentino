@@ -5,6 +5,10 @@ import Badge from './Badge';
 
 interface Props {
   projeto: Projeto;
+  /** Categoria no idioma da página. */
+  rotuloNicho?: string;
+  /** Início do link do estudo de caso (ex.: /projetos/ ou /en/projects/). */
+  baseEstudoDeCaso?: string;
 }
 
 const spanBySize: Record<Tamanho, string> = {
@@ -35,7 +39,7 @@ const layoutXl = {
   conteudo: 'md:col-span-5 md:flex md:flex-col md:justify-center md:p-10',
 };
 
-export default function ProjectCard({ projeto }: Props) {
+export default function ProjectCard({ projeto, rotuloNicho, baseEstudoDeCaso = '/projetos/' }: Props) {
   const [imgError, setImgError] = useState(false);
   const size: Tamanho = projeto.tamanho ?? 'sm';
   const isXl = size === 'xl';
@@ -44,7 +48,7 @@ export default function ProjectCard({ projeto }: Props) {
   // Projetos de código (sem link externo, muitos com repo privado) vão para a página de
   // estudo de caso interna, onde a demo ao vivo e o contexto são apresentados.
   const isExternal = Boolean(projeto.link);
-  const href = projeto.link ?? `/projetos/${projeto.slug}`;
+  const href = projeto.link ?? `${baseEstudoDeCaso}${projeto.slug}`;
   const externalProps = isExternal
     ? { target: '_blank', rel: 'noopener noreferrer' }
     : {};
@@ -85,7 +89,7 @@ export default function ProjectCard({ projeto }: Props) {
 
         {/* Badge no canto */}
         <div className="absolute top-4 left-4">
-          <Badge nicho={projeto.nicho} variant="solid" size={size === 'lg' || size === 'xl' ? 'md' : 'sm'} />
+          <Badge nicho={projeto.nicho} rotulo={rotuloNicho} variant="solid" size={size === 'lg' || size === 'xl' ? 'md' : 'sm'} />
         </div>
 
         {/* Seta no hover */}

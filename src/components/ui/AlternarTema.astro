@@ -1,18 +1,22 @@
 ---
 /** Botão que alterna entre tema claro e escuro e lembra a escolha. */
+import { idiomaDe } from "../../i18n/idiomas";
+import { useTextos } from "../../i18n/ui";
+
 interface Props {
   class?: string;
 }
 
 const { class: className = "" } = Astro.props;
+const t = useTextos(idiomaDe(Astro.currentLocale));
 ---
 
 <button
   type="button"
   data-alternar-tema
-  data-rotulo-escuro="Ativar tema escuro"
-  data-rotulo-claro="Ativar tema claro"
-  aria-label="Alternar tema"
+  data-rotulo-escuro={t.nav.temaEscuro}
+  data-rotulo-claro={t.nav.temaClaro}
+  aria-label={t.nav.temaEscuro}
   class={`inline-flex items-center justify-center w-10 h-10 rounded-md text-text-muted hover:text-text transition-colors ${className}`}
 >
   <!-- Lua: aparece no tema claro -->

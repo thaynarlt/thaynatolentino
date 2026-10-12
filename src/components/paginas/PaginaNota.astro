@@ -1,0 +1,74 @@
+---
+// Página de uma nota, usada por /notas/[slug] e /en/notes/[slug].
+import { render } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import Header from "../layout/Header.astro";
+import Footer from "../layout/Footer.astro";
+import { formatarData, type Nota } from "../../utils/notas";
+import { idiomaDe, urls } from "../../i18n/idiomas";
+import { useTextos } from "../../i18n/ui";
+
+interface Props {
+  nota: Nota;
+}
+
+const { nota } = Astro.props;
+const { titulo, resumo, data, tags, linkedin } = nota.data;
+const { Content } = await render(nota);
+const idioma = idiomaDe(Astro.currentLocale);
+const t = useTextos(idioma);
+---
+
+<Layout title={`${titulo} — Thayná Tolentino`} description={resumo}>
+  <Header secaoAtual="notas" />
+
+  <main class="mx-auto max-w-3xl px-6 py-12 md:py-16 space-y-10">
+    <a
+      href={urls.notas(idioma)}
+      class="inline-flex items-center gap-2 text-sm text-text-muted hover:text-accent transition-colors"
+    >
+      <span aria-hidden="true">←</span>
+      {t.notas.todas}
+    </a>
+
+    <article class="space-y-10">
+      <header class="space-y-5">
+        <time datetime={data.toISOString()} class="text-sm text-text-muted font-mono">
+          {formatarData(data, idioma)}
+        </time>
+        <h1 class="font-display text-5xl md:text-6xl text-text-strong leading-[1.05]">
+          {titulo}
+        </h1>
+        {
+          tags.length > 0 && (
+            <ul class="flex flex-wrap gap-1.5">
+              {tags.map((tag) => (
+                <li class="text-xs px-2.5 py-1 rounded-full bg-surface-alt text-text-muted">{tag}</li>
+              ))}
+            </ul>
+          )
+        }
+      </header>
+
+      <div class="prosa">
+        <Content />
+      </div>
+
+      {
+        linkedin && (
+          <footer class="border-t border-border pt-6 text-sm text-text-muted">
+            {t.notas.publicadoNo}{" "}
+            <a
+              href={linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-accent hover:text-accent-hover underline underline-offset-2"
+            >LinkedIn</a>.
+          </footer>
+        )
+      }
+    </article>
+  </main>
+
+  <Footer />
+</Layout>

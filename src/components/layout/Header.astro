@@ -1,24 +1,24 @@
 ---
 import AlternarTema from "../ui/AlternarTema.astro";
+import { caminhoEquivalente, codigoIdioma, idiomaDe, urls } from "../../i18n/idiomas";
+import { useTextos } from "../../i18n/ui";
 
 interface Props {
-    current?: string;
+    /** Id da seção a destacar em páginas internas (ex.: "notas"). */
+    secaoAtual?: string;
 }
 
-const { current } = Astro.props;
+const { secaoAtual } = Astro.props;
+const idioma = idiomaDe(Astro.currentLocale);
+const t = useTextos(idioma);
+const outroIdioma = idioma === "pt" ? "en" : "pt";
+const urlOutroIdioma = caminhoEquivalente(Astro.url.pathname, outroIdioma);
 
-const navItems = [
-    { label: "Desenvolvimento", href: "/#desenvolvimento" },
-    { label: "Projetos", href: "/#projetos" },
-    { label: "Experiência", href: "/#experiencia" },
-    { label: "Formação", href: "/#formacao" },
-    { label: "Sobre", href: "/#sobre" },
-    { label: "Notas", href: "/#notas" },
-    { label: "Contato", href: "/#contato" },
-];
+const secoes = ["desenvolvimento", "projetos", "experiencia", "formacao", "sobre", "notas", "contato"] as const;
+const navItems = secoes.map((id) => ({ id, label: t.nav[id], href: urls.inicio(idioma, id) }));
 
 // O link ativo fica destacado; na home, o script abaixo atualiza conforme a rolagem.
-const ativo = (href: string) => (current === href ? "true" : undefined);
+const ativo = (id: string) => (secaoAtual === id ? "true" : undefined);
 ---
 
 <header
@@ -29,7 +29,7 @@ const ativo = (href: string) => (current === href ? "true" : undefined);
         class="mx-auto max-w-6xl px-6 h-16 flex items-center justify-between gap-4"
     >
         <a
-            href="/"
+            href={urls.inicio(idioma)}
             class="font-display text-xl tracking-tight text-text-strong shrink-0"
         >
             Thayná<span class="text-accent">.</span>
@@ -42,8 +42,8 @@ const ativo = (href: string) => (current === href ? "true" : undefined);
                     navItems.map((item) => (
                         <a
                             href={item.href}
-                            data-nav-secao={item.href.split("#")[1]}
-                            aria-current={ativo(item.href)}
+                            data-nav-secao={item.id}
+                            aria-current={ativo(item.id)}
                             class="relative whitespace-nowrap transition-colors font-medium text-text-muted hover:text-text aria-[current=true]:text-accent after:absolute after:left-0 after:-bottom-1 after:w-full after:h-px after:bg-accent after:origin-left after:scale-x-0 hover:after:scale-x-100 aria-[current=true]:after:scale-x-100 after:transition-transform after:duration-300"
                         >
                             {item.label}
@@ -52,13 +52,27 @@ const ativo = (href: string) => (current === href ? "true" : undefined);
                 }
             </nav>
 
+            <!-- Seletor de idioma: leva à mesma página no outro idioma -->
+            <a
+                href={urlOutroIdioma}
+                hreflang={codigoIdioma[outroIdioma]}
+                lang={codigoIdioma[outroIdioma]}
+                aria-label={t.nav.trocarIdioma}
+                title={t.nav.trocarIdioma}
+                class="inline-flex items-center justify-center h-10 px-2 rounded-md text-sm font-semibold tracking-wide text-text-muted hover:text-accent transition-colors"
+            >
+                {outroIdioma.toUpperCase()}
+            </a>
+
             <AlternarTema />
 
             <!-- Botão mobile -->
             <button
                 id="menu-toggle"
                 type="button"
-                aria-label="Abrir menu"
+                aria-label={t.nav.abrirMenu}
+                data-rotulo-abrir={t.nav.abrirMenu}
+                data-rotulo-fechar={t.nav.fecharMenu}
                 aria-expanded="false"
                 aria-controls="mobile-menu"
                 class="lg:hidden inline-flex items-center justify-center w-10 h-10 -mr-2 rounded-md text-text-muted hover:text-text transition-colors"
@@ -108,8 +122,8 @@ const ativo = (href: string) => (current === href ? "true" : undefined);
                     <a
                         href={item.href}
                         data-menu-link
-                        data-nav-secao={item.href.split("#")[1]}
-                        aria-current={ativo(item.href)}
+                        data-nav-secao={item.id}
+                        aria-current={ativo(item.id)}
                         class="py-3 border-b border-border/60 last:border-0 font-medium transition-colors text-text hover:text-accent aria-[current=true]:text-accent"
                     >
                         {item.label}
@@ -132,7 +146,7 @@ const ativo = (href: string) => (current === href ? "true" : undefined);
         iconOpen?.classList.toggle("hidden", open);
         iconClose?.classList.toggle("hidden", !open);
         btn.setAttribute("aria-expanded", String(open));
-        btn.setAttribute("aria-label", open ? "Fechar menu" : "Abrir menu");
+        btn.setAttribute("aria-label", (open ? btn.dataset.rotuloFechar : btn.dataset.rotuloAbrir) ?? "");
     }
 
     btn?.addEventListener("click", () => {

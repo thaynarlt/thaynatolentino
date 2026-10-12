@@ -1,0 +1,20 @@
+---
+import EstudoDeCaso from "../../../components/paginas/EstudoDeCaso.astro";
+import { projetosEm } from "../../../i18n/conteudo";
+import type { Projeto } from "../../../types";
+
+export function getStaticPaths() {
+  return projetosEm("en").map((projeto) => ({
+    params: { slug: projeto.slug },
+    props: { projeto },
+  }));
+}
+
+interface Props {
+  projeto: Projeto;
+}
+
+const { projeto } = Astro.props;
+---
+
+<EstudoDeCaso projeto={projeto} />

@@ -1,15 +1,13 @@
 ---
-const year = new Date().getFullYear();
+import { idiomaDe, urls } from "../../i18n/idiomas";
+import { useTextos } from "../../i18n/ui";
 
-const quickLinks = [
-  { label: "Desenvolvimento", href: "/#desenvolvimento" },
-  { label: "Projetos", href: "/#projetos" },
-  { label: "Experiência", href: "/#experiencia" },
-  { label: "Formação", href: "/#formacao" },
-  { label: "Sobre", href: "/#sobre" },
-  { label: "Notas", href: "/#notas" },
-  { label: "Contato", href: "/#contato" },
-];
+const year = new Date().getFullYear();
+const idioma = idiomaDe(Astro.currentLocale);
+const t = useTextos(idioma);
+
+const secoes = ["desenvolvimento", "projetos", "experiencia", "formacao", "sobre", "notas", "contato"] as const;
+const quickLinks = secoes.map((id) => ({ label: t.nav[id], href: urls.inicio(idioma, id) }));
 ---
 
 <footer class="border-t border-border py-10">
@@ -21,7 +19,7 @@ const quickLinks = [
         Thayná<span class="text-accent">.</span>
       </p>
       <p class="text-sm text-text-muted">
-        © {year} · Feito com
+        © {year} · {t.rodape.feitoCom}
         <a
           href="https://astro.build"
           target="_blank"

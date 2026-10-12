@@ -1,13 +1,21 @@
 ---
-import { projetos } from "../../data/projetos";
+import { NICHOS, type Nicho } from "../../types";
+import { projetosEm } from "../../i18n/conteudo";
+import { idiomaDe, urls } from "../../i18n/idiomas";
+import { termo } from "../../i18n/termos";
+import { useTextos } from "../../i18n/ui";
 import FilteredProjects from "../react/FilteredProjects";
 import { comCapasOtimizadas } from "../../utils/imagens";
+
+const idioma = idiomaDe(Astro.currentLocale);
+const t = useTextos(idioma);
 
 // Projetos de programação têm seção própria (Desenvolvimento), em destaque
 // logo após o Hero — aqui fica o portfólio criativo (design, UI/UX, vídeo).
 const projetosCriativos = await comCapasOtimizadas(
-  projetos.filter((p) => p.nicho !== "Desenvolvimento"),
+  projetosEm(idioma).filter((p) => p.nicho !== "Desenvolvimento"),
 );
+const rotulosNicho = Object.fromEntries(NICHOS.map((n) => [n, termo(n, idioma)])) as Record<Nicho, string>;
 ---
 
 <section id="projetos" class="py-20 md:py-28 border-t border-border">
@@ -20,16 +28,16 @@ const projetosCriativos = await comCapasOtimizadas(
           data-reveal
           class="text-sm uppercase tracking-widest text-accent font-semibold"
         >
-          Projetos
+          {t.projetos.eyebrow}
         </p>
         <h2
           data-reveal
           style="--reveal-delay: 80ms"
           class="font-display text-6xl md:text-8xl text-text-strong leading-[0.95]"
         >
-          Um pouco de<br />
-          tudo que já<br />
-          <span class="italic text-accent">construí</span>.
+          {t.projetos.titulo1}<br />
+          {t.projetos.titulo2}<br />
+          <span class="italic text-accent">{t.projetos.tituloDestaque}</span>.
         </h2>
       </div>
 
@@ -39,12 +47,17 @@ const projetosCriativos = await comCapasOtimizadas(
           style="--reveal-delay: 160ms"
           class="text-lg text-text-muted leading-relaxed"
         >
-          UI/UX, front-end, design gráfico e edição de vídeo. Cada projeto
-          conversa entre si. Escolha um filtro pra explorar.
+          {t.projetos.texto}
         </p>
       </div>
     </header>
 
-    <FilteredProjects projetos={projetosCriativos} client:visible />
+    <FilteredProjects
+      projetos={projetosCriativos}
+      textos={{ destaques: t.projetos.destaques, todos: t.projetos.todos, vazio: t.projetos.vazio }}
+      rotulosNicho={rotulosNicho}
+      baseEstudoDeCaso={urls.projeto(idioma, "")}
+      client:visible
+    />
   </div>
 </section>

@@ -6,6 +6,8 @@ interface Props {
   variant?: "solid" | "soft";
   size?: "sm" | "md";
   class?: string;
+  /** Texto exibido (ex.: categoria traduzida). Padrão: o próprio nicho. */
+  rotulo?: string;
 }
 
 const {
@@ -13,6 +15,7 @@ const {
   variant = "soft",
   size = "sm",
   class: className = "",
+  rotulo,
 } = Astro.props;
 
 const nichoColors: Record<Nicho, { soft: string; solid: string }> = {
@@ -54,5 +57,5 @@ const sizeClass = sizes[size];
 <span
   class={`inline-flex items-center rounded-full font-medium ${colorClass} ${sizeClass} ${className}`}
 >
-  {nicho}
+  {rotulo ?? nicho}
 </span>

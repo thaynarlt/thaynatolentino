@@ -1,5 +1,9 @@
 ---
 import { experiencias } from "../../data/experiencias";
+import { idiomaDe } from "../../i18n/idiomas";
+import { useTextos } from "../../i18n/ui";
+
+const t = useTextos(idiomaDe(Astro.currentLocale));
 
 // Repete a lista para cada metade da faixa ser mais larga que a tela;
 // a animação desloca exatamente uma metade, então o loop não tem emenda.
@@ -8,12 +12,12 @@ const metade = [...nomes, ...nomes];
 ---
 
 <!-- Só borda de cima: a de baixo já vem da seção Desenvolvimento. -->
-<section aria-label="Empresas onde já trabalhei" class="border-t border-border py-6">
+<section aria-label={t.faixa.aria} class="border-t border-border py-6">
   <div class="mx-auto max-w-6xl px-6 flex items-center gap-6 md:gap-10">
     <p
       class="shrink-0 text-xs uppercase tracking-widest text-text-muted font-semibold"
     >
-      Experiência em
+      {t.faixa.rotulo}
     </p>
 
     <div class="faixa relative flex-1 overflow-hidden">

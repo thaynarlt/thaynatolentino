@@ -1,11 +1,15 @@
 ---
 import type { Certificacao } from "../../types";
+import { idiomaDe } from "../../i18n/idiomas";
+import { periodo } from "../../i18n/termos";
 
 interface Props {
   certificacao: Certificacao;
 }
 
 const { certificacao: c } = Astro.props;
+const idioma = idiomaDe(Astro.currentLocale);
+const detalhes = [c.emissor, periodo(c.data, idioma), c.validade && periodo(c.validade, idioma)];
 
 // Com link de verificação vira <a>; sem link, só texto.
 const Tag = c.url ? "a" : "div";
@@ -26,7 +30,7 @@ const linkProps = c.url
         {c.nome}
       </p>
       <p class="text-sm text-text-muted">
-        {[c.emissor, c.data, c.validade].filter(Boolean).join(" · ")}
+        {detalhes.filter(Boolean).join(" · ")}
       </p>
     </div>
     {

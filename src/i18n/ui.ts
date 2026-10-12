@@ -1,0 +1,321 @@
+import type { Idioma } from "../types";
+
+// Textos fixos da interface. O inglês é tipado pelo português: se faltar
+// uma chave, o TypeScript acusa.
+const pt = {
+  meta: {
+    titulo: "Thayná Tolentino — Designer & Front-End",
+    descricao:
+      "Portfólio de Thayná Tolentino: UI/UX design, front-end, design gráfico, edição de vídeo e estampas.",
+  },
+  nav: {
+    desenvolvimento: "Desenvolvimento",
+    projetos: "Projetos",
+    experiencia: "Experiência",
+    formacao: "Formação",
+    sobre: "Sobre",
+    notas: "Notas",
+    contato: "Contato",
+    abrirMenu: "Abrir menu",
+    fecharMenu: "Fechar menu",
+    temaEscuro: "Ativar tema escuro",
+    temaClaro: "Ativar tema claro",
+    trocarIdioma: "Read in English",
+  },
+  hero: {
+    disponivel: "Disponível pra novos projetos",
+    subtitulo:
+      "Desenvolvedora front-end e designer de interfaces. Construo produtos do Figma ao deploy, com bagagem em design gráfico e edição de vídeo.",
+    verProjetos: "Ver projetos",
+    falarComigo: "Falar comigo",
+    fotoAlt: "Thayná Tolentino",
+  },
+  faixa: {
+    rotulo: "Experiência em",
+    aria: "Empresas onde já trabalhei",
+  },
+  desenvolvimento: {
+    eyebrow: "Desenvolvimento",
+    titulo1: "Aplicações que",
+    titulo2: "eu",
+    tituloDestaque: "programei",
+    texto1: "Produtos full-stack no ar, feitos com Next.js e React. Não é print: é o app",
+    textoDestaque: "rodando de verdade",
+    texto2: "aqui dentro. Escolha um, alterne entre desktop e celular e explore.",
+  },
+  vitrine: {
+    aoVivo: "rodando ao vivo",
+    desktop: "Desktop",
+    celular: "Celular",
+    verDesktop: "Ver em desktop",
+    verCelular: "Ver em celular",
+    telaCheia: "Tela cheia",
+    demonstracao: "Demonstração",
+    aoVivoSelo: "Ao vivo",
+    carregando: "Carregando o app…",
+    video: "vídeo",
+    estudoDeCaso: "Ver o estudo de caso de",
+  },
+  projetos: {
+    eyebrow: "Projetos",
+    titulo1: "Um pouco de",
+    titulo2: "tudo que já",
+    tituloDestaque: "construí",
+    texto:
+      "UI/UX, front-end, design gráfico e edição de vídeo. Cada projeto conversa entre si. Escolha um filtro pra explorar.",
+    destaques: "Destaques",
+    todos: "Todos",
+    vazio: "Nenhum projeto nesse filtro ainda.",
+  },
+  experiencia: {
+    eyebrow: "Experiência",
+    titulo: "Onde já atuei no mercado.",
+    atual: "Atual",
+    estudoDeCaso: "Ver o estudo de caso",
+  },
+  formacao: {
+    eyebrow: "Formação",
+    titulo: "Onde me formei.",
+    atividades: "Atividades e grupos:",
+    publicacao: "Publicação",
+    lerArtigo: "Ler o artigo",
+    reconhecimento: "Reconhecimento",
+    certificacoes: "Certificações",
+    verTodas: "Ver todas",
+    mostrarMenos: "Mostrar menos",
+  },
+  detalhes: {
+    ver: "Ver detalhes",
+    ocultar: "Ocultar detalhes",
+  },
+  sobre: {
+    eyebrow: "Sobre",
+    titulo: "Um ecossistema criativo.",
+    frase1: "Eu",
+    desenho: "desenho",
+    desenvolvo: "desenvolvo",
+    e: "e",
+    edito: "edito",
+    frase2: "pra que cada peça conte uma história visual coerente.",
+    texto:
+      "Sou formada em Sistemas para Internet e atuo unindo UX/UI Design e Front-End. Utilizo minha base em design gráfico e edição para criar interfaces intuitivas, visualmente atraentes e centradas na melhor experiência do usuário, sempre aliando criatividade, técnica e organização nas entregas. Além disso, estou cursando pós-graduação em Ethical Hacking e Cybersecurity para me aprofundar no campo do desenvolvimento seguro.",
+    anos: "Anos de experiência",
+    projetos: "Projetos entregues",
+    clientes: "Clientes atendidos",
+    ferramentas: "Ferramentas & práticas",
+  },
+  notas: {
+    eyebrow: "Notas",
+    titulo: "Ideias e bastidores.",
+    descricao: "Textos curtos sobre design, front-end, IA e o que acontece por trás dos meus projetos.",
+    verTodas: "Ver todas as notas",
+    lerNota: "Ler nota",
+    todas: "Todas as notas",
+    voltarInicio: "Voltar ao início",
+    publicadoNo: "Publicado originalmente no",
+    metaTitulo: "Notas — Thayná Tolentino",
+  },
+  contato: {
+    eyebrow: "Contato",
+    titulo: "Vamos",
+    tituloDestaque: "conversar",
+    texto:
+      "Tem um projeto em mente, uma colaboração, ou só quer trocar ideia sobre design e código? Me chama.",
+    copiarEmail: "Copiar email",
+    copiado: "Copiado!",
+    baixarCv: "Baixar CV",
+  },
+  rodape: {
+    feitoCom: "Feito com",
+  },
+  estudo: {
+    voltar: "Voltar aos projetos",
+    demo: "Ver demo ao vivo",
+    verProjeto: "Ver projeto",
+    verCodigo: "Ver código",
+    codigoPrivado: "Código privado — solicitar acesso",
+    assuntoAcesso: "Acesso ao código",
+    corpoAcesso: (titulo: string) =>
+      `Olá, Thayná! Vi o projeto "${titulo}" no seu portfólio e gostaria de conhecer o código.`,
+    desafio: "O desafio",
+    solucao: "A solução",
+    funcionalidades: "Funcionalidades",
+    resultados: "Resultados",
+    aprendizados: "Aprendizados",
+    semDetalhes:
+      "Este projeto ainda não tem um estudo de caso detalhado. Em breve, mais sobre o processo e as decisões técnicas por trás dele.",
+    stack: "Stack & ferramentas",
+    avisoPrivado:
+      "O código-fonte é privado (contém dados sensíveis). Posso liberar acesso de leitura sob solicitação.",
+    videos: "Vídeos",
+    assistir: "Assistir",
+    galeria: "Galeria",
+    ampliar: "Ampliar imagem",
+    imagemAmpliada: "Imagem ampliada",
+    imagem: "imagem",
+    fechar: "Fechar",
+  },
+};
+
+export type TextosUi = typeof pt;
+
+const en: TextosUi = {
+  meta: {
+    titulo: "Thayná Tolentino — Designer & Front-End Developer",
+    descricao:
+      "Portfolio of Thayná Tolentino: UI/UX design, front-end development, graphic design, video editing and print design.",
+  },
+  nav: {
+    desenvolvimento: "Development",
+    projetos: "Projects",
+    experiencia: "Experience",
+    formacao: "Education",
+    sobre: "About",
+    notas: "Notes",
+    contato: "Contact",
+    abrirMenu: "Open menu",
+    fecharMenu: "Close menu",
+    temaEscuro: "Switch to dark theme",
+    temaClaro: "Switch to light theme",
+    trocarIdioma: "Ler em português",
+  },
+  hero: {
+    disponivel: "Available for new projects",
+    subtitulo:
+      "Front-end developer and interface designer. I build products from Figma to deploy, with a background in graphic design and video editing.",
+    verProjetos: "See projects",
+    falarComigo: "Get in touch",
+    fotoAlt: "Thayná Tolentino",
+  },
+  faixa: {
+    rotulo: "Experience at",
+    aria: "Companies I have worked with",
+  },
+  desenvolvimento: {
+    eyebrow: "Development",
+    titulo1: "Apps that",
+    titulo2: "I",
+    tituloDestaque: "built",
+    texto1: "Full-stack products in production, built with Next.js and React. Not a screenshot: it's the app",
+    textoDestaque: "actually running",
+    texto2: "right here. Pick one, switch between desktop and mobile and explore.",
+  },
+  vitrine: {
+    aoVivo: "running live",
+    desktop: "Desktop",
+    celular: "Mobile",
+    verDesktop: "View on desktop",
+    verCelular: "View on mobile",
+    telaCheia: "Full screen",
+    demonstracao: "Demo",
+    aoVivoSelo: "Live",
+    carregando: "Loading the app…",
+    video: "video",
+    estudoDeCaso: "See the case study for",
+  },
+  projetos: {
+    eyebrow: "Projects",
+    titulo1: "A bit of",
+    titulo2: "everything I've",
+    tituloDestaque: "built",
+    texto:
+      "UI/UX, front-end, graphic design and video editing. Every project talks to the others. Pick a filter to explore.",
+    destaques: "Highlights",
+    todos: "All",
+    vazio: "No projects in this filter yet.",
+  },
+  experiencia: {
+    eyebrow: "Experience",
+    titulo: "Where I've worked.",
+    atual: "Current",
+    estudoDeCaso: "See the case study",
+  },
+  formacao: {
+    eyebrow: "Education",
+    titulo: "Where I studied.",
+    atividades: "Activities and groups:",
+    publicacao: "Publication",
+    lerArtigo: "Read the article",
+    reconhecimento: "Recognition",
+    certificacoes: "Certifications",
+    verTodas: "See all",
+    mostrarMenos: "Show less",
+  },
+  detalhes: {
+    ver: "Show details",
+    ocultar: "Hide details",
+  },
+  sobre: {
+    eyebrow: "About",
+    titulo: "A creative ecosystem.",
+    frase1: "I",
+    desenho: "design",
+    desenvolvo: "build",
+    e: "and",
+    edito: "edit",
+    frase2: "so every piece tells a coherent visual story.",
+    texto:
+      "I hold a degree in Internet Systems and work at the intersection of UX/UI design and front-end development. I draw on my background in graphic design and video editing to create interfaces that are intuitive, visually appealing and centered on the best user experience, always combining creativity, technique and organization. I'm also pursuing a postgraduate specialization in Ethical Hacking and Cybersecurity to go deeper into secure development.",
+    anos: "Years of experience",
+    projetos: "Projects delivered",
+    clientes: "Clients served",
+    ferramentas: "Tools & practices",
+  },
+  notas: {
+    eyebrow: "Notes",
+    titulo: "Ideas and behind the scenes.",
+    descricao: "Short pieces on design, front-end, AI and what happens behind my projects.",
+    verTodas: "See all notes",
+    lerNota: "Read note",
+    todas: "All notes",
+    voltarInicio: "Back to home",
+    publicadoNo: "Originally published on",
+    metaTitulo: "Notes — Thayná Tolentino",
+  },
+  contato: {
+    eyebrow: "Contact",
+    titulo: "Let's",
+    tituloDestaque: "talk",
+    texto:
+      "Have a project in mind, a collaboration, or just want to chat about design and code? Reach out.",
+    copiarEmail: "Copy email",
+    copiado: "Copied!",
+    baixarCv: "Download CV",
+  },
+  rodape: {
+    feitoCom: "Built with",
+  },
+  estudo: {
+    voltar: "Back to projects",
+    demo: "See live demo",
+    verProjeto: "See project",
+    verCodigo: "See code",
+    codigoPrivado: "Private code — request access",
+    assuntoAcesso: "Code access",
+    corpoAcesso: (titulo: string) =>
+      `Hi, Thayná! I saw the project "${titulo}" in your portfolio and would like to take a look at the code.`,
+    desafio: "The challenge",
+    solucao: "The solution",
+    funcionalidades: "Features",
+    resultados: "Results",
+    aprendizados: "What I learned",
+    semDetalhes:
+      "This project doesn't have a detailed case study yet. More about the process and the technical decisions behind it soon.",
+    stack: "Stack & tools",
+    avisoPrivado:
+      "The source code is private (it contains sensitive data). I can grant read access on request.",
+    videos: "Videos",
+    assistir: "Watch",
+    galeria: "Gallery",
+    ampliar: "Enlarge image",
+    imagemAmpliada: "Enlarged image",
+    imagem: "image",
+    fechar: "Close",
+  },
+};
+
+const textos: Record<Idioma, TextosUi> = { pt, en };
+
+export function useTextos(idioma: Idioma): TextosUi {
+  return textos[idioma];
+}

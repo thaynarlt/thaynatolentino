@@ -1,14 +1,23 @@
 ---
-import { experiencias } from '../../data/experiencias';
 import type { Cargo } from '../../types';
+import { experienciasEm } from '../../i18n/conteudo';
+import { caminhoEquivalente, idiomaDe } from '../../i18n/idiomas';
+import { periodo, termo } from '../../i18n/termos';
+import { useTextos } from '../../i18n/ui';
 import CargoDetalhes from '../ui/CargoDetalhes.astro';
 import Recolhivel from '../ui/Recolhivel.astro';
+
+const idioma = idiomaDe(Astro.currentLocale);
+const t = useTextos(idioma);
+const experiencias = experienciasEm(idioma);
+// Vínculo e modalidade são termos curtos, traduzidos na hora de exibir.
+const tr = (s?: string) => (s ? termo(s, idioma) : s);
 
 // Período total na empresa: do início do cargo mais antigo ao fim do mais recente.
 function periodoTotal(cargos: Cargo[]) {
   const [, fim] = cargos[0].periodo.split(' – ');
   const [inicio] = cargos[cargos.length - 1].periodo.split(' – ');
-  return `${inicio} – ${fim}`;
+  return periodo(`${inicio} – ${fim}`, idioma);
 }
 ---
 
@@ -16,9 +25,9 @@ function periodoTotal(cargos: Cargo[]) {
   <div class="mx-auto max-w-4xl px-6 space-y-12">
 
     <header class="space-y-4">
-      <p data-reveal class="text-sm uppercase tracking-widest text-accent font-semibold">Experiência</p>
+      <p data-reveal class="text-sm uppercase tracking-widest text-accent font-semibold">{t.experiencia.eyebrow}</p>
       <h2 data-reveal style="--reveal-delay: 80ms" class="font-display text-5xl md:text-6xl text-text-strong leading-tight">
-        Onde já atuei no mercado.
+        {t.experiencia.titulo}
       </h2>
     </header>
 
@@ -41,8 +50,8 @@ function periodoTotal(cargos: Cargo[]) {
         const [unico] = exp.cargos;
         const atual = exp.cargos.some((c) => c.atual);
         const meta = agrupado
-          ? [exp.tipo, exp.local]
-          : [exp.tipo ?? unico.tipo, exp.local, unico.modalidade];
+          ? [tr(exp.tipo), exp.local]
+          : [tr(exp.tipo ?? unico.tipo), exp.local, tr(unico.modalidade)];
 
         return (
           <li data-reveal style={`--reveal-delay: ${i * 100}ms`} class="relative pl-10">
@@ -62,12 +71,12 @@ function periodoTotal(cargos: Cargo[]) {
             <div class="space-y-2">
               <div class="flex flex-wrap items-center gap-3">
                 <span class="text-sm text-text-muted font-mono">
-                  {agrupado ? periodoTotal(exp.cargos) : unico.periodo}
+                  {agrupado ? periodoTotal(exp.cargos) : periodo(unico.periodo, idioma)}
                 </span>
                 {atual && (
                   <span class="inline-flex items-center gap-1.5 text-xs px-2 py-0.5 rounded-full bg-accent-soft text-accent font-medium">
                     <span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
-                    Atual
+                    {t.experiencia.atual}
                   </span>
                 )}
               </div>
@@ -87,10 +96,10 @@ function periodoTotal(cargos: Cargo[]) {
                   <CargoDetalhes cargo={unico} />
                   {exp.link && (
                     <a
-                      href={exp.link}
+                      href={caminhoEquivalente(exp.link, idioma)}
                       class="inline-flex items-center gap-1.5 pt-2 text-sm font-medium text-accent hover:gap-2.5 transition-all"
                     >
-                      Ver o estudo de caso
+                      {t.experiencia.estudoDeCaso}
                       <span aria-hidden="true">→</span>
                     </a>
                   )}
@@ -118,9 +127,9 @@ function periodoTotal(cargos: Cargo[]) {
                     </h4>
 
                     <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-text-muted">
-                      <span class="font-mono">{c.periodo}</span>
+                      <span class="font-mono">{periodo(c.periodo, idioma)}</span>
                       {(c.tipo || c.modalidade) && (
-                        <span>{[c.tipo, c.modalidade].filter(Boolean).join(' · ')}</span>
+                        <span>{[tr(c.tipo), tr(c.modalidade)].filter(Boolean).join(' · ')}</span>
                       )}
                     </div>
 

@@ -1,5 +1,7 @@
 ---
 import "../styles/global.css";
+import { caminhoEquivalente, codigoIdioma, idiomaDe, idiomas, localeOg } from "../i18n/idiomas";
+import { useTextos } from "../i18n/ui";
 
 interface Props {
   title?: string;
@@ -7,19 +9,35 @@ interface Props {
   image?: string;
 }
 
+const idioma = idiomaDe(Astro.currentLocale);
+const t = useTextos(idioma);
+
 const {
-  title = "Thayná Tolentino — Designer & Front-End",
-  description = "Portfólio de Thayná Tolentino: UI/UX design, front-end, design gráfico, edição de vídeo e estampas.",
+  title = t.meta.titulo,
+  description = t.meta.descricao,
   image = "/og-image.png",
 } = Astro.props;
 
 const siteUrl = Astro.site ?? new URL("https://thaynarlt.com.br");
 const ogImage = new URL(image, siteUrl).toString();
 const canonical = new URL(Astro.url.pathname, siteUrl).toString();
+
+// Mesma página nos dois idiomas, para o Google ligar uma à outra (hreflang).
+// Páginas sem tradução (ex.: /design-system) não recebem os links.
+const semBarraFinal = (p: string) => p.replace(/(.)\/$/, "$1");
+const caminho = semBarraFinal(Astro.url.pathname);
+const ida = caminhoEquivalente(caminho, idioma === "pt" ? "en" : "pt");
+const temTraducao = semBarraFinal(caminhoEquivalente(ida, idioma)) === caminho;
+const alternativas = temTraducao
+  ? idiomas.map((i) => ({
+      idioma: i,
+      url: new URL(caminhoEquivalente(caminho, i), siteUrl).toString(),
+    }))
+  : [];
 ---
 
 <!doctype html>
-<html lang="pt-BR">
+<html lang={codigoIdioma[idioma]}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -45,6 +63,16 @@ const canonical = new URL(Astro.url.pathname, siteUrl).toString();
 
     <!-- SEO básico -->
     <link rel="canonical" href={canonical} />
+    {
+      alternativas.map((a) => (
+        <link rel="alternate" hreflang={codigoIdioma[a.idioma]} href={a.url} />
+      ))
+    }
+    {
+      alternativas.length > 0 && (
+        <link rel="alternate" hreflang="x-default" href={alternativas[0].url} />
+      )
+    }
     <meta name="author" content="Thayná Tolentino" />
     <meta name="robots" content="index, follow" />
 
@@ -56,7 +84,8 @@ const canonical = new URL(Astro.url.pathname, siteUrl).toString();
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:locale" content={localeOg[idioma]} />
+    <meta property="og:locale:alternate" content={localeOg[idioma === "pt" ? "en" : "pt"]} />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />

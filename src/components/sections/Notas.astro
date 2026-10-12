@@ -1,9 +1,14 @@
 ---
 import NotaCard from "../ui/NotaCard.astro";
 import { notasPorIdioma } from "../../utils/notas";
+import { idiomaDe, urls } from "../../i18n/idiomas";
+import { useTextos } from "../../i18n/ui";
+
+const idioma = idiomaDe(Astro.currentLocale);
+const t = useTextos(idioma);
 
 // Na home, só as três mais recentes; a lista completa fica em /notas.
-const recentes = (await notasPorIdioma("pt")).slice(0, 3);
+const recentes = (await notasPorIdioma(idioma)).slice(0, 3);
 ---
 
 <section id="notas" class="py-20 md:py-28 border-t border-border">
@@ -11,23 +16,23 @@ const recentes = (await notasPorIdioma("pt")).slice(0, 3);
     <header class="flex flex-wrap items-end justify-between gap-6">
       <div class="space-y-4">
         <p data-reveal class="text-sm uppercase tracking-widest text-accent font-semibold">
-          Notas
+          {t.notas.eyebrow}
         </p>
         <h2
           data-reveal
           style="--reveal-delay: 80ms"
           class="font-display text-5xl md:text-6xl text-text-strong leading-tight"
         >
-          Ideias e bastidores.
+          {t.notas.titulo}
         </h2>
       </div>
       <a
         data-reveal
         style="--reveal-delay: 160ms"
-        href="/notas"
+        href={urls.notas(idioma)}
         class="inline-flex items-center gap-1.5 text-accent font-medium hover:gap-2.5 transition-all"
       >
-        Ver todas as notas
+        {t.notas.verTodas}
         <span aria-hidden="true">→</span>
       </a>
     </header>

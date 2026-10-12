@@ -1,9 +1,14 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { Projeto } from '../../types';
+import type { TextosUi } from '../../i18n/ui';
 
 interface Props {
   projetos: Projeto[];
+  /** Textos da interface no idioma da página. */
+  textos: TextosUi['vitrine'];
+  /** Início do link do estudo de caso (ex.: /projetos/ ou /en/projects/). */
+  baseEstudoDeCaso: string;
 }
 
 // imagem pode ser string (URL externa) ou ImageMetadata (asset otimizado do Astro)
@@ -21,7 +26,7 @@ function domain(url?: string): string {
 
 type Device = 'desktop' | 'mobile';
 
-export default function LiveShowcase({ projetos }: Props) {
+export default function LiveShowcase({ projetos, textos, baseEstudoDeCaso }: Props) {
   const [activeId, setActiveId] = useState<number>(projetos[0]?.id);
   const [live, setLive] = useState(false); // o embed/vídeo do projeto ativo foi ativado?
   const [loaded, setLoaded] = useState(false); // iframe/vídeo terminou de carregar?
@@ -71,7 +76,7 @@ export default function LiveShowcase({ projetos }: Props) {
             {active.titulo}
           </span>
           <span className="hidden sm:inline text-sm text-text-muted">
-            — rodando ao vivo
+            — {textos.aoVivo}
           </span>
         </div>
 
@@ -84,7 +89,7 @@ export default function LiveShowcase({ projetos }: Props) {
                 type="button"
                 onClick={() => setDevice(d)}
                 aria-pressed={device === d}
-                title={d === 'desktop' ? 'Ver em desktop' : 'Ver em celular'}
+                title={d === 'desktop' ? textos.verDesktop : textos.verCelular}
                 className={`inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-medium transition-colors ${
                   device === d
                     ? 'bg-surface-alt text-text-strong'
@@ -96,7 +101,7 @@ export default function LiveShowcase({ projetos }: Props) {
                 ) : (
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" /><line x1="12" y1="18" x2="12" y2="18" /></svg>
                 )}
-                <span className="hidden sm:inline">{d === 'desktop' ? 'Desktop' : 'Celular'}</span>
+                <span className="hidden sm:inline">{d === 'desktop' ? textos.desktop : textos.celular}</span>
               </button>
             ))}
           </div>
@@ -108,7 +113,7 @@ export default function LiveShowcase({ projetos }: Props) {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-surface px-3 py-1.5 text-xs font-medium text-text hover:border-accent hover:text-accent transition-colors"
             >
-              Tela cheia
+              {textos.telaCheia}
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="7" y1="17" x2="17" y2="7" /><polyline points="7 7 17 7 17 17" /></svg>
             </a>
           )}
@@ -134,7 +139,7 @@ export default function LiveShowcase({ projetos }: Props) {
             </div>
           </div>
           <span className="hidden sm:inline text-xs text-text-muted">
-            {hasVideo ? 'Demonstração' : 'Ao vivo'}
+            {hasVideo ? textos.demonstracao : textos.aoVivoSelo}
           </span>
         </div>
 
@@ -167,7 +172,7 @@ export default function LiveShowcase({ projetos }: Props) {
                   >
                     <div className="inline-flex items-center gap-2 rounded-full bg-bg/90 backdrop-blur px-4 py-2 text-sm text-text-muted shadow">
                       <svg className="animate-spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M21 12a9 9 0 1 1-6.219-8.56" /></svg>
-                      Carregando o app…
+                      {textos.carregando}
                     </div>
                   </motion.div>
                 )}
@@ -229,7 +234,7 @@ export default function LiveShowcase({ projetos }: Props) {
                 />
                 {p.video && (
                   <span className="absolute bottom-1.5 right-1.5 rounded bg-bg/85 px-1.5 py-0.5 text-[10px] font-medium text-text-strong">
-                    ▶ vídeo
+                    ▶ {textos.video}
                   </span>
                 )}
               </div>
@@ -250,10 +255,10 @@ export default function LiveShowcase({ projetos }: Props) {
       {/* Link pro estudo de caso do projeto ativo */}
       <div className="flex justify-center pt-2">
         <a
-          href={`/projetos/${active.slug}`}
+          href={`${baseEstudoDeCaso}${active.slug}`}
           className="inline-flex items-center gap-1.5 text-accent text-sm font-medium hover:gap-2.5 transition-all"
         >
-          Ver o estudo de caso de {active.titulo}
+          {textos.estudoDeCaso} {active.titulo}
           <span aria-hidden="true">→</span>
         </a>
       </div>

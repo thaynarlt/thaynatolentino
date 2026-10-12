@@ -89,6 +89,29 @@ export interface Cargo {
 }
 
 /** Uma empresa com um ou mais cargos, agrupados como no LinkedIn. */
+export type Idioma = 'pt' | 'en';
+
+/**
+ * Textos de um projeto em outro idioma (src/i18n/en/projetos.ts).
+ * Campos omitidos mantêm o original; listas seguem a mesma ordem do original.
+ * Tecnologias são traduzidas pelo dicionário de termos (src/i18n/termos.ts).
+ */
+export interface TraducaoProjeto {
+  titulo?: string;
+  descricao: string;
+  detalhes?: {
+    problema?: string;
+    solucao?: string;
+    resultados?: string;
+    aprendizados?: string;
+    funcionalidades?: string[];
+    links?: { label: string }[];
+    galeria?: { titulo?: string; descricao?: string }[];
+    videos?: { titulo: string; descricao?: string }[];
+    creditoGaleria?: string;
+  };
+}
+
 export interface Experiencia {
   id: number;
   empresa: string;

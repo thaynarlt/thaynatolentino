@@ -1,0 +1,17 @@
+---
+import PaginaNota from "../../../components/paginas/PaginaNota.astro";
+import { notasPorIdioma, slugDaNota, type Nota } from "../../../utils/notas";
+
+export async function getStaticPaths() {
+  const notas = await notasPorIdioma("en");
+  return notas.map((nota) => ({ params: { slug: slugDaNota(nota) }, props: { nota } }));
+}
+
+interface Props {
+  nota: Nota;
+}
+
+const { nota } = Astro.props;
+---
+
+<PaginaNota nota={nota} />

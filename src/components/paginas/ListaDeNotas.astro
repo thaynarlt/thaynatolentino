@@ -1,0 +1,48 @@
+---
+// Lista de notas, usada por /notas e /en/notes.
+import Layout from "../../layouts/Layout.astro";
+import Header from "../layout/Header.astro";
+import Footer from "../layout/Footer.astro";
+import NotaCard from "../ui/NotaCard.astro";
+import { notasPorIdioma } from "../../utils/notas";
+import { idiomaDe, urls } from "../../i18n/idiomas";
+import { useTextos } from "../../i18n/ui";
+
+const idioma = idiomaDe(Astro.currentLocale);
+const t = useTextos(idioma);
+const notas = await notasPorIdioma(idioma);
+---
+
+<Layout title={t.notas.metaTitulo} description={t.notas.descricao}>
+  <Header secaoAtual="notas" />
+
+  <main class="mx-auto max-w-6xl px-6 py-12 md:py-16 space-y-12">
+    <a
+      href={urls.inicio(idioma, "notas")}
+      class="inline-flex items-center gap-2 text-sm text-text-muted hover:text-accent transition-colors"
+    >
+      <span aria-hidden="true">←</span>
+      {t.notas.voltarInicio}
+    </a>
+
+    <header class="space-y-4">
+      <p class="text-sm uppercase tracking-widest text-accent font-semibold">{t.notas.eyebrow}</p>
+      <h1 class="font-display text-5xl md:text-7xl text-text-strong leading-[0.95]">
+        {t.notas.titulo}
+      </h1>
+      <p class="text-lg text-text-muted max-w-2xl leading-relaxed">{t.notas.descricao}</p>
+    </header>
+
+    <ul class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {
+        notas.map((nota) => (
+          <li>
+            <NotaCard nota={nota} />
+          </li>
+        ))
+      }
+    </ul>
+  </main>
+
+  <Footer />
+</Layout>
