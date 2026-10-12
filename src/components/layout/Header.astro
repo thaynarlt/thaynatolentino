@@ -1,4 +1,6 @@
 ---
+import AlternarTema from "../ui/AlternarTema.astro";
+
 interface Props {
     current?: string;
 }
@@ -13,6 +15,9 @@ const navItems = [
     { label: "Sobre", href: "/#sobre" },
     { label: "Contato", href: "/#contato" },
 ];
+
+// O link ativo fica destacado; na home, o script abaixo atualiza conforme a rolagem.
+const ativo = (href: string) => (current === href ? "true" : undefined);
 ---
 
 <header
@@ -28,64 +33,66 @@ const navItems = [
             Thayná<span class="text-accent">.</span>
         </a>
 
-        <!-- Nav desktop -->
-        <nav class="hidden md:flex items-center gap-6 lg:gap-8 text-base">
-            {
-                navItems.map((item) => (
-                    <a
-                        href={item.href}
-                        class={`relative whitespace-nowrap transition-colors font-medium ${
-                            current === item.href
-                                ? "text-accent"
-                                : "text-text-muted hover:text-text"
-                        } after:absolute after:left-0 after:-bottom-1 after:w-full after:h-px after:bg-accent after:origin-left after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300`}
-                    >
-                        {item.label}
-                    </a>
-                ))
-            }
-        </nav>
+        <div class="flex items-center gap-2 lg:gap-4">
+            <!-- Nav desktop -->
+            <nav class="hidden md:flex items-center gap-6 lg:gap-8 text-base">
+                {
+                    navItems.map((item) => (
+                        <a
+                            href={item.href}
+                            data-nav-secao={item.href.split("#")[1]}
+                            aria-current={ativo(item.href)}
+                            class="relative whitespace-nowrap transition-colors font-medium text-text-muted hover:text-text aria-[current=true]:text-accent after:absolute after:left-0 after:-bottom-1 after:w-full after:h-px after:bg-accent after:origin-left after:scale-x-0 hover:after:scale-x-100 aria-[current=true]:after:scale-x-100 after:transition-transform after:duration-300"
+                        >
+                            {item.label}
+                        </a>
+                    ))
+                }
+            </nav>
 
-        <!-- Botão mobile -->
-        <button
-            id="menu-toggle"
-            type="button"
-            aria-label="Abrir menu"
-            aria-expanded="false"
-            aria-controls="mobile-menu"
-            class="md:hidden inline-flex items-center justify-center w-10 h-10 -mr-2 rounded-md text-text-muted hover:text-text transition-colors"
-        >
-            <svg
-                data-icon="open"
-                width="22"
-                height="22"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+            <AlternarTema />
+
+            <!-- Botão mobile -->
+            <button
+                id="menu-toggle"
+                type="button"
+                aria-label="Abrir menu"
+                aria-expanded="false"
+                aria-controls="mobile-menu"
+                class="md:hidden inline-flex items-center justify-center w-10 h-10 -mr-2 rounded-md text-text-muted hover:text-text transition-colors"
             >
-                <line x1="3" y1="6" x2="21" y2="6"></line>
-                <line x1="3" y1="12" x2="21" y2="12"></line>
-                <line x1="3" y1="18" x2="21" y2="18"></line>
-            </svg>
-            <svg
-                data-icon="close"
-                class="hidden"
-                width="22"
-                height="22"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-            >
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
-        </button>
+                <svg
+                    data-icon="open"
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                >
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+                <svg
+                    data-icon="close"
+                    class="hidden"
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                >
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
     </div>
 
     <!-- Painel mobile -->
@@ -99,11 +106,9 @@ const navItems = [
                     <a
                         href={item.href}
                         data-menu-link
-                        class={`py-3 border-b border-border/60 last:border-0 font-medium transition-colors ${
-                            current === item.href
-                                ? "text-accent"
-                                : "text-text hover:text-accent"
-                        }`}
+                        data-nav-secao={item.href.split("#")[1]}
+                        aria-current={ativo(item.href)}
+                        class="py-3 border-b border-border/60 last:border-0 font-medium transition-colors text-text hover:text-accent aria-[current=true]:text-accent"
                     >
                         {item.label}
                     </a>
@@ -135,4 +140,35 @@ const navItems = [
     menu?.querySelectorAll("[data-menu-link]").forEach((a) =>
         a.addEventListener("click", () => setOpen(false)),
     );
+
+    // Menu que acompanha a rolagem: destaca a seção que está no meio da tela.
+    const links = document.querySelectorAll<HTMLAnchorElement>("[data-nav-secao]");
+    const secoes = [...new Set([...links].map((a) => a.dataset.navSecao))]
+        .map((id) => (id ? document.getElementById(id) : null))
+        .filter((s): s is HTMLElement => Boolean(s));
+
+    function marcar(id: string | null) {
+        links.forEach((a) => {
+            if (a.dataset.navSecao === id) a.setAttribute("aria-current", "true");
+            else a.removeAttribute("aria-current");
+        });
+    }
+
+    if (secoes.length > 0) {
+        const visiveis = new Set<string>();
+        const observador = new IntersectionObserver(
+            (entradas) => {
+                entradas.forEach((e) => {
+                    if (e.isIntersecting) visiveis.add(e.target.id);
+                    else visiveis.delete(e.target.id);
+                });
+                // Se mais de uma cruzar a faixa, vale a que vem primeiro na página.
+                const atual = secoes.find((s) => visiveis.has(s.id));
+                marcar(atual?.id ?? null);
+            },
+            // Faixa fina um pouco acima do meio da tela.
+            { rootMargin: "-40% 0px -55% 0px" },
+        );
+        secoes.forEach((s) => observador.observe(s));
+    }
 </script>

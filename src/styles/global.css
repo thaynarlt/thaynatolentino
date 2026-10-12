@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* `dark:` segue o tema escolhido no site (data-theme), não só o do sistema. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
 /* ==========================================================================
    CAMADA 1 — Primitivos (valores crus, não usados diretamente em componentes)
    ========================================================================== */
@@ -59,6 +62,21 @@
   --color-support: var(--magenta-500);
   --color-support-hover: var(--magenta-600);
 
+  /* Paleta crua exposta como utilitários (bg-ink-700, text-magenta-600…) */
+  --color-ink-50: var(--ink-50);
+  --color-ink-100: var(--ink-100);
+  --color-ink-200: var(--ink-200);
+  --color-ink-300: var(--ink-300);
+  --color-ink-400: var(--ink-400);
+  --color-ink-500: var(--ink-500);
+  --color-ink-600: var(--ink-600);
+  --color-ink-700: var(--ink-700);
+  --color-ink-800: var(--ink-800);
+  --color-ink-900: var(--ink-900);
+  --color-magenta-500: var(--magenta-500);
+  --color-magenta-600: var(--magenta-600);
+  --color-magenta-700: var(--magenta-700);
+
   /* Tipografia */
   --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
   --font-display: 'Instrument Serif', 'Times New Roman', serif;
@@ -76,6 +94,34 @@
 }
 
 /* ==========================================================================
+   Tema escuro — redefine só os semânticos; os componentes não mudam.
+   O data-theme é aplicado por um script no <head>, antes da pintura.
+   ========================================================================== */
+:root {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --color-bg: var(--ink-900);
+  --color-surface: var(--ink-800);
+  --color-surface-alt: var(--ink-700);
+  --color-border: var(--ink-700);
+  --color-border-strong: var(--ink-600);
+
+  --color-text: var(--ink-200);
+  --color-text-muted: var(--ink-400);
+  --color-text-strong: var(--ink-50);
+  --color-text-inverse: var(--ink-900);
+
+  --color-accent: var(--cyan-400);
+  --color-accent-hover: var(--cyan-300);
+  --color-accent-soft: var(--cyan-900);
+  --color-accent-fg: var(--ink-900);
+}
+
+/* ==========================================================================
    Globals — comportamento de página
    ========================================================================== */
 html {
@@ -85,6 +131,9 @@ html {
 body {
   background-color: var(--color-bg);
   color: var(--color-text);
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

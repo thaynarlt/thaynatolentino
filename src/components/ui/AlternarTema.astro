@@ -1,0 +1,86 @@
+---
+/** Botão que alterna entre tema claro e escuro e lembra a escolha. */
+interface Props {
+  class?: string;
+}
+
+const { class: className = "" } = Astro.props;
+---
+
+<button
+  type="button"
+  data-alternar-tema
+  data-rotulo-escuro="Ativar tema escuro"
+  data-rotulo-claro="Ativar tema claro"
+  aria-label="Alternar tema"
+  class={`inline-flex items-center justify-center w-10 h-10 rounded-md text-text-muted hover:text-text transition-colors ${className}`}
+>
+  <!-- Lua: aparece no tema claro -->
+  <svg
+    class="dark:hidden"
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+  </svg>
+  <!-- Sol: aparece no tema escuro -->
+  <svg
+    class="hidden dark:block"
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <circle cx="12" cy="12" r="4"></circle>
+    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+  </svg>
+</button>
+
+<script>
+  const raiz = document.documentElement;
+  const botoes = document.querySelectorAll<HTMLButtonElement>("[data-alternar-tema]");
+
+  function atualizarRotulos() {
+    const escuro = raiz.dataset.theme === "dark";
+    botoes.forEach((b) => {
+      b.setAttribute("aria-label", (escuro ? b.dataset.rotuloClaro : b.dataset.rotuloEscuro) ?? "");
+    });
+  }
+
+  function aplicar(tema: "light" | "dark", salvar: boolean) {
+    raiz.dataset.theme = tema;
+    if (salvar) {
+      try {
+        localStorage.setItem("tema", tema);
+      } catch {}
+    }
+    atualizarRotulos();
+  }
+
+  botoes.forEach((b) =>
+    b.addEventListener("click", () => aplicar(raiz.dataset.theme === "dark" ? "light" : "dark", true)),
+  );
+
+  // Sem escolha salva, acompanha a mudança de tema do sistema.
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) => {
+    let salvo = null;
+    try {
+      salvo = localStorage.getItem("tema");
+    } catch {}
+    if (!salvo) aplicar(e.matches ? "dark" : "light", false);
+  });
+
+  atualizarRotulos();
+</script>
