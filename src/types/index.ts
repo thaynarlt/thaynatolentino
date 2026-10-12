@@ -8,7 +8,25 @@ export type Nicho =
   | 'Edição de Vídeo'
   | 'Outros';
 
-export type Tamanho = 'sm' | 'md' | 'lg';
+/** `xl` ocupa a linha inteira do grid: reservado ao estudo de caso em destaque. */
+export type Tamanho = 'sm' | 'md' | 'lg' | 'xl';
+
+/** Imagem da galeria com legenda (aparece abaixo da imagem e ao ampliar). */
+export interface ItemGaleria {
+  imagem: ImageMetadata | string;
+  titulo?: string;
+  descricao?: string;
+}
+
+/** Vídeo hospedado fora do site (ex.: Google Drive). O player só carrega ao clicar. */
+export interface VideoProjeto {
+  titulo: string;
+  /** URL do player para o iframe (ex.: https://drive.google.com/file/d/ID/preview). */
+  embed: string;
+  /** Miniatura exibida antes do clique. */
+  poster: string;
+  descricao?: string;
+}
 
 /**
  * Conteúdo opcional do estudo de caso, exibido na página /projetos/[slug].
@@ -18,10 +36,16 @@ export type Tamanho = 'sm' | 'md' | 'lg';
 export interface DetalhesProjeto {
   problema?: string;
   solucao?: string;
+  resultados?: string;
   aprendizados?: string;
   funcionalidades?: string[];
-  /** Screenshots adicionais (assets otimizados do Astro ou URLs externas). */
-  galeria?: (ImageMetadata | string)[];
+  /** Links extras exibidos como botões no topo do estudo de caso (ex.: artigo publicado). */
+  links?: { label: string; url: string }[];
+  /** Screenshots adicionais (assets otimizados do Astro ou URLs externas), com ou sem legenda. */
+  galeria?: (ImageMetadata | string | ItemGaleria)[];
+  /** Crédito exibido abaixo da galeria (ex.: imagens sob licença Creative Commons). */
+  creditoGaleria?: { texto: string; url?: string };
+  videos?: VideoProjeto[];
 }
 
 export interface Projeto {

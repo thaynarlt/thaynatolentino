@@ -11,23 +11,34 @@ const spanBySize: Record<Tamanho, string> = {
   sm: 'md:col-span-3',
   md: 'md:col-span-6',
   lg: 'md:col-span-6',
+  xl: 'md:col-span-12',
 };
 
 const aspectBySize: Record<Tamanho, string> = {
   sm: 'aspect-[4/3]',
   md: 'aspect-[16/10]',
   lg: 'aspect-[3/2]',
+  xl: 'aspect-video',
 };
 
 const titleSizeBySize: Record<Tamanho, string> = {
   sm: 'text-lg md:text-xl',
   md: 'text-2xl md:text-3xl',
   lg: 'text-3xl md:text-4xl',
+  xl: 'text-3xl md:text-4xl',
+};
+
+// O destaque (xl) fica horizontal no desktop: imagem 16:9 à esquerda, texto à direita.
+const layoutXl = {
+  card: 'md:grid md:grid-cols-12',
+  imagem: 'md:col-span-7',
+  conteudo: 'md:col-span-5 md:flex md:flex-col md:justify-center md:p-10',
 };
 
 export default function ProjectCard({ projeto }: Props) {
   const [imgError, setImgError] = useState(false);
   const size: Tamanho = projeto.tamanho ?? 'sm';
+  const isXl = size === 'xl';
 
   // Projetos de design/vídeo têm link externo (Behance, Figma, YouTube) e abrem em nova aba.
   // Projetos de código (sem link externo, muitos com repo privado) vão para a página de
@@ -51,10 +62,10 @@ export default function ProjectCard({ projeto }: Props) {
       transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
       href={href}
       {...externalProps}
-      className={`group relative block col-span-12 ${spanBySize[size]} bg-surface border border-border rounded-xl overflow-hidden hover:border-accent hover:shadow-accent transition-[border-color,box-shadow] duration-300`}
+      className={`group relative block col-span-12 ${spanBySize[size]} bg-surface border border-border rounded-xl overflow-hidden hover:border-accent hover:shadow-accent transition-[border-color,box-shadow] duration-300 ${isXl ? layoutXl.card : ''}`}
     >
       {/* Imagem */}
-      <div className={`relative overflow-hidden bg-accent-soft ${aspectBySize[size]}`}>
+      <div className={`relative overflow-hidden bg-accent-soft ${aspectBySize[size]} ${isXl ? layoutXl.imagem : ''}`}>
         {!imgError && (
           <img
             src={imgSrc}
@@ -68,7 +79,7 @@ export default function ProjectCard({ projeto }: Props) {
 
         {/* Badge no canto */}
         <div className="absolute top-4 left-4">
-          <Badge nicho={projeto.nicho} variant="solid" size={size === 'lg' ? 'md' : 'sm'} />
+          <Badge nicho={projeto.nicho} variant="solid" size={size === 'lg' || size === 'xl' ? 'md' : 'sm'} />
         </div>
 
         {/* Seta no hover */}
@@ -81,7 +92,7 @@ export default function ProjectCard({ projeto }: Props) {
       </div>
 
       {/* Conteúdo */}
-      <div className="p-5 md:p-6">
+      <div className={`p-5 ${isXl ? layoutXl.conteudo : 'md:p-6'}`}>
         <div className="flex items-start justify-between gap-4 mb-2">
           <h3 className={`font-display text-text-strong leading-tight ${titleSizeBySize[size]} mb-2`}>
             {projeto.titulo}

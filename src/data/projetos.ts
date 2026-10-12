@@ -4,7 +4,7 @@ import type { Projeto } from '../types';
 // Carrega todas as imagens de /src/assets/projetos/ já otimizadas pelo Astro.
 // Cada entrada é { '../assets/projetos/nome.png': { default: ImageMetadata } }
 const images = import.meta.glob<{ default: ImageMetadata }>(
-  '../assets/projetos/*.png',
+  '../assets/projetos/*.{png,jpg}',
   { eager: true }
 );
 
@@ -18,7 +18,148 @@ function img(filename: string): ImageMetadata {
   return mod.default;
 }
 
+// Helper: player e miniatura de um vídeo público do Google Drive pelo ID do arquivo.
+function driveVideo(id: string) {
+  return {
+    embed: `https://drive.google.com/file/d/${id}/preview`,
+    poster: `https://drive.google.com/thumbnail?id=${id}&sz=w1280`,
+  };
+}
+
 export const projetos: Projeto[] = [
+  // ───────────────────────────────────────────────────────────────
+  // Estudo de caso em destaque (tamanho 'xl' = linha inteira). Fica primeiro
+  // para abrir o grid de Destaques sem quebrar o encaixe dos outros cards.
+  //
+  // NOTA sobre imagens: as telas do Meu SUS Digital TV e do Novembro Azul vêm
+  // do artigo publicado (CC BY 4.0, por isso o crédito); as do Amparar+,
+  // LabStation e Catálogo são os prints do Figma publicados no LinkedIn (800px).
+  // Os vídeos ficam na pasta pública do projeto no Google Drive do LAVID.
+  // ───────────────────────────────────────────────────────────────
+  {
+    id: 31,
+    slug: 'tv-3-0-saude-publica-lavid',
+    titulo: 'TV 3.0 para a Saúde Pública — LAVID/UFPB',
+    descricao: 'Interfaces de TV 3.0 que levam serviços do SUS para a televisão: Meu SUS Digital na TV, Campanha Novembro Azul e Amparar+. Validadas com usuários reais e publicadas em artigo científico.',
+    nicho: 'UX/UI Design',
+    tecnologias: ['Figma', 'Prototipagem', 'Estudos de usabilidade', 'Plano de pesquisa de UX', 'UX Design', 'UI Design', 'TV 3.0'],
+    imagem: img('lavid-novembro-azul-abertura.jpg'),
+    destaque: true,
+    tamanho: 'xl',
+    detalhes: {
+      problema:
+        'Muita gente tem dificuldade de usar serviços de saúde pelo celular ou pelo computador, mas tem uma TV em casa. A TV 3.0, nova geração da TV digital brasileira, traz interatividade, geolocalização e alertas de emergência. No LAVID, laboratório de pesquisa do Centro de Informática da UFPB, o desafio era usar esses recursos para levar serviços de saúde pública à televisão, em iniciativas com a Prefeitura de João Pessoa, a TV Cidade e o Ministério da Saúde.',
+      solucao:
+        'Atuei como UX/UI Designer nos projetos de TV 3.0 do laboratório, do levantamento de histórias de usuário aos protótipos de alta fidelidade e testes de usabilidade, em colaboração com uma equipe multidisciplinar. No Meu SUS Digital para TV, desenhei o fluxo de teleatendimento, do QR Code à fila de espera, e as campanhas sazonais, com a aplicação da Campanha Novembro Azul. Junto aos meus colegas, desenhei as telas do Amparar+, voltado para TEA e TDAH.',
+      funcionalidades: [
+        'Meu SUS Digital na TV · Campanhas Sazonais: telas que ampliam o acesso a serviços de saúde pública para quem tem dificuldade com celular ou computador',
+        'Meu SUS Digital na TV · Fila de Espera: conteúdos informativos sobre a fila enquanto o paciente aguarda o atendimento remoto',
+        'Campanha Novembro Azul: quiz de rastreamento preliminar de sintomas do câncer de próstata, integrado ao agendamento de teleatendimento',
+        'Amparar+ · Quiz Mitos e Verdades: jogo de cartas interativo, com feedback imediato, sobre TEA e TDAH',
+        'Amparar+ · Diversão: jogo da memória para estimular a concentração e a cognição de forma acessível',
+        'LabStation e Catálogo de Aplicações: interfaces para iniciar apps em modo de desenvolvimento e apresentar os aplicativos da plataforma',
+      ],
+      resultados:
+        'As interfaces foram validadas com usuários reais. O Meu SUS Digital para TV foi apresentado em congresso e à Prefeitura de João Pessoa, e a Campanha Novembro Azul, na Semana Nacional de Ciência e Tecnologia.\n\nO trabalho também resultou no artigo "Exploring geolocation and emergency alert in public health service via TV 3.0 in Brazil", publicado no SET International Journal of Broadcast Engineering (vol. 11, 2025), do qual sou coautora.',
+      links: [
+        { label: 'Ler o artigo', url: 'https://revistas.set.org.br/ijbe/article/view/307' },
+      ],
+      videos: [
+        {
+          titulo: 'Apresentação do projeto TV 3.0',
+          descricao: 'Visão geral das aplicações interativas e inclusivas em saúde e educação desenvolvidas no LAVID (vídeo da equipe do projeto).',
+          ...driveVideo('1-QZqqyzvi5XADzqJnlsFhmTfM1cyyCvq'),
+        },
+        {
+          titulo: 'Meu SUS Digital TV',
+          descricao: 'Demonstração do app rodando na TV.',
+          ...driveVideo('1nh5_ihHxptz-RReHrLk7xrIhus_nC6Du'),
+        },
+        {
+          titulo: 'Amparar+',
+          descricao: 'Demonstração do app voltado para TEA e TDAH.',
+          ...driveVideo('1HEByszQoWRe3unynZDp4VOXmAXNzKw3T'),
+        },
+        {
+          titulo: 'LabStation',
+          descricao: 'Ferramenta para iniciar aplicações em modo de desenvolvimento.',
+          ...driveVideo('1vSt18TA3X7xm8GcDQpSRwxQpOKSRqUeP'),
+        },
+        {
+          titulo: 'LabApp',
+          descricao: 'Ferramenta que apresenta os aplicativos da plataforma.',
+          ...driveVideo('1sFcIer160XH5VWjXwgIQakagTKGRB4nP'),
+        },
+      ],
+      galeria: [
+        {
+          imagem: img('lavid-meu-sus-qr-atendimento.jpg'),
+          titulo: 'Meu SUS TV · Atendimento pelo QR Code',
+          descricao: 'Para buscar atendimento, o telespectador escaneia o QR Code na TV e entra imediatamente na fila do serviço.',
+        },
+        {
+          imagem: img('lavid-meu-sus-fila-acompanhar.jpg'),
+          titulo: 'Meu SUS TV · Acompanhar a fila na TV',
+          descricao: 'Já na fila, ele pode voltar ao canal e assistir à programação enquanto espera a vez de entrar na sala de teleatendimento.',
+        },
+        {
+          imagem: img('lavid-meu-sus-fila-contador.jpg'),
+          titulo: 'Meu SUS TV · Posição na fila',
+          descricao: 'Enquanto assiste, um pequeno card no canto superior esquerdo mostra quantas pessoas ainda estão na frente.',
+        },
+        {
+          imagem: img('lavid-meu-sus-fila-proximo.jpg'),
+          titulo: 'Meu SUS TV · Você é o próximo',
+          descricao: 'Quando falta apenas uma pessoa, a TV avisa que ele é o próximo a entrar na sala virtual.',
+        },
+        {
+          imagem: img('lavid-meu-sus-fila-sua-vez.jpg'),
+          titulo: 'Meu SUS TV · Chegou a sua vez',
+          descricao: 'Na vez dele, um pop-up avisa que o atendimento vai começar, acompanhado de um som de notificação.',
+        },
+        {
+          imagem: img('lavid-novembro-azul-abertura.jpg'),
+          titulo: 'Campanha Novembro Azul · Abertura',
+          descricao: 'Interface simples, com poucas opções, para atrair o público e facilitar o uso.',
+        },
+        {
+          imagem: img('lavid-novembro-azul-quiz.jpg'),
+          titulo: 'Campanha Novembro Azul · Quiz',
+          descricao: 'Perguntas de sim ou não fazem um rastreamento preliminar de sintomas relacionados ao câncer de próstata.',
+        },
+        {
+          imagem: img('lavid-novembro-azul-resultado.jpg'),
+          titulo: 'Campanha Novembro Azul · Resultado',
+          descricao: 'Se houver sintomas, a TV orienta o agendamento de uma consulta com urologista pelo QR Code.',
+        },
+        {
+          imagem: img('lavid-amparar-quiz.jpg'),
+          titulo: 'Amparar+ · Quiz Mitos e Verdades',
+          descricao: 'Seção da aplicação Amparar+, voltada para TEA e TDAH. Um jogo interativo de cartas permite que o usuário descubra informações corretas sobre o TEA e TDAH, recebendo feedback imediato e promovendo a conscientização de forma lúdica e educativa.',
+        },
+        {
+          imagem: img('lavid-amparar-diversao.jpg'),
+          titulo: 'Amparar+ · Diversão',
+          descricao: 'Jogo da memória interativo, com o objetivo de estimular a concentração, a cognição e o entretenimento de forma acessível e inclusiva.',
+        },
+        {
+          imagem: img('lavid-labstation.jpg'),
+          titulo: 'LabStation',
+          descricao: 'Interface voltada à inicialização de aplicações em modo de desenvolvimento, para oferecer aos desenvolvedores uma experiência mais prática e intuitiva ao configurar e executar ambientes de testes.',
+        },
+        {
+          imagem: img('lavid-catalogo-aplicacoes.jpg'),
+          titulo: 'Catálogo de Aplicações',
+          descricao: 'Catálogo que apresenta de forma organizada e acessível os aplicativos e funcionalidades da plataforma, facilitando a navegação e promovendo maior engajamento do usuário.',
+        },
+      ],
+      creditoGaleria: {
+        texto: 'Telas do Meu SUS Digital TV e da Campanha Novembro Azul: Alves et al. (2025), SET International Journal of Broadcast Engineering, licença CC BY 4.0.',
+        url: 'https://revistas.set.org.br/ijbe/article/view/307',
+      },
+    },
+  },
+
   // Design Gráfico
   {
     id: 1,

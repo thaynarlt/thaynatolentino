@@ -5,6 +5,7 @@ import Footer from "../../components/layout/Footer.astro";
 import Badge from "../../components/ui/Badge.astro";
 import { projetos } from "../../data/projetos";
 import type { Projeto } from "../../types";
+import { otimizarImagem } from "../../utils/imagens";
 
 export function getStaticPaths() {
   return projetos.map((projeto) => ({
@@ -20,10 +21,22 @@ interface Props {
 const { projeto } = Astro.props;
 const contato = "thayvfx@gmail.com";
 
-// imagem/galeria podem ser string (URL externa) ou ImageMetadata (asset otimizado)
-const src = (img: Projeto["imagem"]) => (typeof img === "string" ? img : img.src);
-const imgSrc = src(projeto.imagem);
-const galeria = (projeto.detalhes?.galeria ?? []).map(src);
+// imagem/galeria podem ser string (URL externa) ou ImageMetadata (convertida para WebP)
+const imgSrc = await otimizarImagem(projeto.imagem, 1600);
+const galeria = await Promise.all(
+  (projeto.detalhes?.galeria ?? []).map(async (item, i) => {
+    // Aceita só a imagem ou { imagem, titulo, descricao }.
+    const g = typeof item === "object" && "imagem" in item ? item : { imagem: item };
+    return {
+      ...g,
+      src: await otimizarImagem(g.imagem, 1600),
+      alt: g.titulo ?? `${projeto.titulo} — imagem ${i + 1}`,
+    };
+  }),
+);
+
+const videos = projeto.detalhes?.videos ?? [];
+const credito = projeto.detalhes?.creditoGaleria;
 
 // Só exibe o link do repositório quando ele é público.
 const mostrarRepo = Boolean(projeto.github) && projeto.repoPrivado !== true;
@@ -38,6 +51,7 @@ const corpoAcesso = encodeURIComponent(
 const temDetalhes = Boolean(
   projeto.detalhes?.problema ||
     projeto.detalhes?.solucao ||
+    projeto.detalhes?.resultados ||
     projeto.detalhes?.aprendizados ||
     (projeto.detalhes?.funcionalidades?.length ?? 0) > 0,
 );
@@ -113,6 +127,20 @@ const temDetalhes = Boolean(
               <span aria-hidden="true">→</span>
             </a>
           )
+        }
+
+        {
+          projeto.detalhes?.links?.map((l) => (
+            <a
+              href={l.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 px-5 py-2.5 rounded-md border border-border-strong text-sm font-medium text-text hover:border-accent hover:text-accent transition-colors"
+            >
+              {l.label}
+              <span aria-hidden="true">→</span>
+            </a>
+          ))
         }
 
         {
@@ -221,6 +249,17 @@ const temDetalhes = Boolean(
         }
 
         {
+          projeto.detalhes?.resultados && (
+            <section class="space-y-3">
+              <h2 class="font-display text-2xl text-text-strong">Resultados</h2>
+              <p class="text-text-muted leading-relaxed whitespace-pre-line">
+                {projeto.detalhes.resultados}
+              </p>
+            </section>
+          )
+        }
+
+        {
           projeto.detalhes?.aprendizados && (
             <section class="space-y-3">
               <h2 class="font-display text-2xl text-text-strong">
@@ -275,27 +314,179 @@ const temDetalhes = Boolean(
       </aside>
     </div>
 
-    <!-- Galeria -->
+    <!-- Vídeos: mostra só a miniatura; o player externo carrega ao clicar -->
     {
-      galeria.length > 0 && (
+      videos.length > 0 && (
         <section class="space-y-5">
-          <h2 class="font-display text-2xl text-text-strong">Galeria</h2>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {galeria.map((g, i) => (
-              <div class="rounded-xl overflow-hidden border border-border bg-accent-soft">
-                <img
-                  src={g}
-                  alt={`${projeto.titulo} — imagem ${i + 1}`}
-                  class="w-full h-auto object-cover"
-                  loading="lazy"
-                />
-              </div>
+          <h2 class="font-display text-2xl text-text-strong">Vídeos</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-8">
+            {videos.map((v, i) => (
+              <figure
+                class:list={[
+                  "space-y-3",
+                  videos.length % 2 === 1 && i === 0 && "sm:col-span-2",
+                ]}
+              >
+                <div class="relative aspect-video rounded-xl overflow-hidden border border-border bg-black">
+                  <button
+                    type="button"
+                    data-video-embed={v.embed}
+                    data-video-titulo={v.titulo}
+                    aria-label={`Assistir: ${v.titulo}`}
+                    class="group absolute inset-0 w-full h-full cursor-pointer"
+                  >
+                    <img
+                      src={v.poster}
+                      alt=""
+                      loading="lazy"
+                      class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
+                    />
+                    <span class="absolute inset-0 flex items-center justify-center">
+                      <span class="w-16 h-16 rounded-full bg-bg/90 flex items-center justify-center text-accent shadow-lg transition-transform group-hover:scale-110">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                          <path d="M8 5v14l11-7z" />
+                        </svg>
+                      </span>
+                    </span>
+                  </button>
+                </div>
+                <figcaption class="space-y-1">
+                  <p class="text-sm font-medium text-text-strong">{v.titulo}</p>
+                  {v.descricao && (
+                    <p class="text-sm text-text-muted leading-relaxed">{v.descricao}</p>
+                  )}
+                </figcaption>
+              </figure>
             ))}
           </div>
         </section>
       )
     }
+
+    <!-- Galeria -->
+    {
+      galeria.length > 0 && (
+        <section class="space-y-5">
+          <h2 class="font-display text-2xl text-text-strong">Galeria</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-8">
+            {galeria.map((g) => (
+              <figure class="space-y-3">
+                <button
+                  type="button"
+                  data-galeria-abrir
+                  data-src={g.src}
+                  data-alt={g.alt}
+                  data-titulo={g.titulo ?? ""}
+                  data-descricao={g.descricao ?? ""}
+                  aria-label={`Ampliar imagem: ${g.alt}`}
+                  class="group block w-full rounded-xl overflow-hidden border border-border bg-accent-soft cursor-zoom-in hover:border-accent transition-colors"
+                >
+                  <img
+                    src={g.src}
+                    alt={g.alt}
+                    class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                    loading="lazy"
+                  />
+                </button>
+                {(g.titulo || g.descricao) && (
+                  <figcaption class="space-y-1">
+                    {g.titulo && (
+                      <p class="text-sm font-medium text-text-strong">{g.titulo}</p>
+                    )}
+                    {g.descricao && (
+                      <p class="text-sm text-text-muted leading-relaxed">{g.descricao}</p>
+                    )}
+                  </figcaption>
+                )}
+              </figure>
+            ))}
+          </div>
+          {credito && (
+            <p class="text-xs text-text-muted">
+              {credito.url ? (
+                <a
+                  href={credito.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="underline decoration-border-strong underline-offset-2 hover:text-accent transition-colors"
+                >
+                  {credito.texto}
+                </a>
+              ) : (
+                credito.texto
+              )}
+            </p>
+          )}
+        </section>
+      )
+    }
   </main>
+
+  <!-- Imagem ampliada da galeria -->
+  <dialog
+    id="galeria-ampliada"
+    aria-label="Imagem ampliada"
+    class="m-auto w-full max-w-[min(92vw,1100px)] bg-transparent p-0 backdrop:bg-black/80"
+  >
+    <div class="space-y-3">
+      <div class="flex justify-end">
+        <button
+          type="button"
+          data-galeria-fechar
+          aria-label="Fechar"
+          class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-bg/90 text-text-strong hover:text-accent transition-colors"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <img data-galeria-img alt="" class="w-full h-auto max-h-[75vh] object-contain rounded-xl bg-bg" />
+      <div class="space-y-1 text-white">
+        <p data-galeria-titulo class="font-medium"></p>
+        <p data-galeria-descricao class="text-sm text-white/75 leading-relaxed"></p>
+      </div>
+    </div>
+  </dialog>
 
   <Footer />
 </Layout>
+
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>("#galeria-ampliada");
+  const img = dialog?.querySelector<HTMLImageElement>("[data-galeria-img]");
+  const titulo = dialog?.querySelector<HTMLElement>("[data-galeria-titulo]");
+  const descricao = dialog?.querySelector<HTMLElement>("[data-galeria-descricao]");
+
+  document.querySelectorAll<HTMLButtonElement>("[data-galeria-abrir]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      if (!dialog || !img || !titulo || !descricao) return;
+      img.src = btn.dataset.src ?? "";
+      img.alt = btn.dataset.alt ?? "";
+      titulo.textContent = btn.dataset.titulo ?? "";
+      descricao.textContent = btn.dataset.descricao ?? "";
+      dialog.showModal();
+    });
+  });
+
+  dialog?.querySelector("[data-galeria-fechar]")?.addEventListener("click", () => dialog.close());
+
+  // Clicar fora da imagem (no fundo escuro) também fecha; Esc já fecha nativamente.
+  dialog?.addEventListener("click", (e) => {
+    if (e.target === dialog) dialog.close();
+  });
+
+  // Troca a miniatura pelo player só no clique, para não carregar vários players de uma vez.
+  document.querySelectorAll<HTMLButtonElement>("[data-video-embed]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const iframe = document.createElement("iframe");
+      iframe.src = btn.dataset.videoEmbed ?? "";
+      iframe.title = btn.dataset.videoTitulo ?? "Vídeo";
+      iframe.allow = "autoplay; fullscreen";
+      iframe.allowFullscreen = true;
+      iframe.className = "absolute inset-0 w-full h-full border-0";
+      btn.replaceWith(iframe);
+    });
+  });
+</script>
