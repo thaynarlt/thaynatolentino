@@ -1,12 +1,15 @@
 ---
-import { formacoes } from "../../data/formacao";
-import {
-  certificacoes,
-  publicacoes,
-  reconhecimentos,
-} from "../../data/credenciais";
+import { credenciaisEm, formacoesEm } from "../../i18n/conteudo";
+import { idiomaDe } from "../../i18n/idiomas";
+import { periodo, termo } from "../../i18n/termos";
+import { useTextos } from "../../i18n/ui";
 import CertificacaoItem from "../ui/CertificacaoItem.astro";
 import Recolhivel from "../ui/Recolhivel.astro";
+
+const idioma = idiomaDe(Astro.currentLocale);
+const t = useTextos(idioma);
+const formacoes = formacoesEm(idioma);
+const { publicacoes, certificacoes, reconhecimentos } = credenciaisEm(idioma);
 
 const certificacoesVisiveis = certificacoes.slice(0, 3);
 const demaisCertificacoes = certificacoes.slice(3);
@@ -19,14 +22,14 @@ const demaisCertificacoes = certificacoes.slice(3);
         data-reveal
         class="text-sm uppercase tracking-widest text-accent font-semibold"
       >
-        Formação
+        {t.formacao.eyebrow}
       </p>
       <h2
         data-reveal
         style="--reveal-delay: 80ms"
         class="font-display text-5xl md:text-6xl text-text-strong leading-tight"
       >
-        Onde me formei.
+        {t.formacao.titulo}
       </h2>
     </header>
 
@@ -34,6 +37,13 @@ const demaisCertificacoes = certificacoes.slice(3);
       <!-- Linha vertical -->
       <div
         class="absolute top-3 bottom-3 left-[11px] w-0.5 bg-border"
+        aria-hidden="true"
+      >
+      </div>
+      <!-- Linha de destaque, desenhada pela rolagem -->
+      <div
+        data-linha-tempo
+        class="absolute top-3 bottom-3 left-[11px] w-0.5 bg-accent"
         aria-hidden="true"
       >
       </div>
@@ -61,12 +71,12 @@ const demaisCertificacoes = certificacoes.slice(3);
             <div class="space-y-2">
               <div class="flex flex-wrap items-center gap-3">
                 <span class="text-sm text-text-muted font-mono">
-                  {f.periodo}
+                  {periodo(f.periodo, idioma)}
                 </span>
                 {f.atual && (
                   <span class="inline-flex items-center gap-1.5 text-xs px-2 py-0.5 rounded-full bg-accent-soft text-accent font-medium">
                     <span class="w-1.5 h-1.5 rounded-full bg-accent" />
-                    Atual
+                    {t.experiencia.atual}
                   </span>
                 )}
                 {f.nota && (
@@ -78,7 +88,7 @@ const demaisCertificacoes = certificacoes.slice(3);
 
               {f.grau && (
                 <p class="text-xs uppercase tracking-widest text-text-muted font-semibold">
-                  {f.grau}
+                  {termo(f.grau, idioma)}
                 </p>
               )}
 
@@ -98,8 +108,8 @@ const demaisCertificacoes = certificacoes.slice(3);
 
                   {f.atividades && (
                     <p class="text-sm text-text-muted">
-                      <span class="text-text">Atividades e grupos:</span>{" "}
-                      {f.atividades}
+                      <span class="text-text">{t.formacao.atividades}</span>{" "}
+                      {termo(f.atividades, idioma)}
                     </p>
                   )}
 
@@ -130,7 +140,7 @@ const demaisCertificacoes = certificacoes.slice(3);
           <h3
             class="text-sm uppercase tracking-widest text-text-muted font-semibold"
           >
-            Publicação
+            {t.formacao.publicacao}
           </h3>
           {
             publicacoes.map((p) => (
@@ -141,7 +151,7 @@ const demaisCertificacoes = certificacoes.slice(3);
                 class="group block rounded-xl border border-border bg-surface p-6 space-y-3 hover:border-accent hover:shadow-accent transition-[border-color,box-shadow] duration-300"
               >
                 <p class="text-xs text-text-muted font-mono">
-                  {p.veiculo} · {p.data}
+                  {p.veiculo} · {periodo(p.data, idioma)}
                 </p>
                 <p class="font-display text-xl text-text-strong leading-snug">
                   {p.titulo}
@@ -152,7 +162,7 @@ const demaisCertificacoes = certificacoes.slice(3);
                   </p>
                 )}
                 <span class="inline-flex items-center gap-1.5 text-sm font-medium text-accent group-hover:gap-2.5 transition-all">
-                  Ler o artigo
+                  {t.formacao.lerArtigo}
                   <span aria-hidden="true">→</span>
                 </span>
               </a>
@@ -164,14 +174,14 @@ const demaisCertificacoes = certificacoes.slice(3);
           <h3
             class="text-sm uppercase tracking-widest text-text-muted font-semibold"
           >
-            Reconhecimento
+            {t.formacao.reconhecimento}
           </h3>
           {
             reconhecimentos.map((r) => (
               <div class="space-y-1.5">
                 <p class="font-medium text-text-strong">{r.titulo}</p>
                 <p class="text-sm text-text-muted">
-                  {r.emissor} · {r.data}
+                  {r.emissor} · {periodo(r.data, idioma)}
                 </p>
                 <p class="text-sm text-text-muted leading-relaxed">
                   {r.descricao}
@@ -186,7 +196,7 @@ const demaisCertificacoes = certificacoes.slice(3);
         <h3
           class="text-sm uppercase tracking-widest text-text-muted font-semibold"
         >
-          Certificações
+          {t.formacao.certificacoes}
         </h3>
         <ul class="divide-y divide-border">
           {certificacoesVisiveis.map((c) => <CertificacaoItem certificacao={c} />)}
@@ -195,8 +205,8 @@ const demaisCertificacoes = certificacoes.slice(3);
           demaisCertificacoes.length > 0 && (
             <Recolhivel
               id="certificacoes-demais"
-              rotulo={`Ver todas (${certificacoes.length})`}
-              rotuloAberto="Mostrar menos"
+              rotulo={`${t.formacao.verTodas} (${certificacoes.length})`}
+              rotuloAberto={t.formacao.mostrarMenos}
             >
               <ul class="divide-y divide-border">
                 {demaisCertificacoes.map((c) => (
@@ -210,3 +220,7 @@ const demaisCertificacoes = certificacoes.slice(3);
     </div>
   </div>
 </section>
+
+<script>
+  import "../../scripts/linha-do-tempo";
+</script>

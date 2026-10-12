@@ -2,6 +2,10 @@
 import { Image } from "astro:assets";
 import Button from "../ui/Button.astro";
 import perfil from "../../assets/perfil.png";
+import { idiomaDe } from "../../i18n/idiomas";
+import { useTextos } from "../../i18n/ui";
+
+const t = useTextos(idiomaDe(Astro.currentLocale));
 
 const availableForWork = true;
 ---
@@ -21,7 +25,7 @@ const availableForWork = true;
       >
         <Image
           src={perfil}
-          alt="Thayná Tolentino"
+          alt={t.hero.fotoAlt}
           widths={[400, 800, 1200]}
           sizes="(min-width: 768px) 440px, 100vw"
           format="webp"
@@ -48,7 +52,7 @@ const availableForWork = true;
               <span class="absolute inset-0 rounded-full bg-green-500 animate-ping opacity-75" />
               <span class="relative inline-flex w-2 h-2 rounded-full bg-green-500" />
             </span>
-            <span class="text-text-muted">Disponível pra novos projetos</span>
+            <span class="text-text-muted">{t.hero.disponivel}</span>
           </div>
         )
       }
@@ -65,8 +69,7 @@ const availableForWork = true;
         style="--reveal-delay: 160ms"
         class="text-lg md:text-xl text-text-muted max-w-xl leading-relaxed"
       >
-        Desenvolvedora front-end e designer de interfaces. Construo produtos do
-        Figma ao deploy, com bagagem em design gráfico e edição de vídeo.
+        {t.hero.subtitulo}
       </p>
 
       <div
@@ -74,8 +77,8 @@ const availableForWork = true;
         style="--reveal-delay: 240ms"
         class="flex flex-wrap gap-3 pt-2"
       >
-        <Button variant="primary" href="#projetos">Ver projetos</Button>
-        <Button variant="secondary" href="#contato">Falar comigo</Button>
+        <Button variant="primary" href="#projetos">{t.hero.verProjetos}</Button>
+        <Button variant="secondary" href="#contato">{t.hero.falarComigo}</Button>
       </div>
 
       <div

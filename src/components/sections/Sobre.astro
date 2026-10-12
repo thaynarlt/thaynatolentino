@@ -1,10 +1,16 @@
 ---
-import { skills } from "../../data/skills";
+import { skillsEm } from "../../i18n/conteudo";
+import { idiomaDe } from "../../i18n/idiomas";
+import { useTextos } from "../../i18n/ui";
+
+const idioma = idiomaDe(Astro.currentLocale);
+const t = useTextos(idioma);
+const skills = skillsEm(idioma);
 
 const stats = [
-  { valor: 3, sufixo: "+", label: "Anos de experiência" },
-  { valor: 25, sufixo: "+", label: "Projetos entregues" },
-  { valor: 30, sufixo: "+", label: "Clientes atendidos" },
+  { valor: 3, sufixo: "+", label: t.sobre.anos },
+  { valor: 25, sufixo: "+", label: t.sobre.projetos },
+  { valor: 30, sufixo: "+", label: t.sobre.clientes },
 ];
 
 const sizeByWeight: Record<1 | 2 | 3, string> = {
@@ -21,14 +27,14 @@ const sizeByWeight: Record<1 | 2 | 3, string> = {
         data-reveal
         class="text-sm uppercase tracking-widest text-accent font-semibold"
       >
-        Sobre
+        {t.sobre.eyebrow}
       </p>
       <h2
         data-reveal
         style="--reveal-delay: 80ms"
         class="font-display text-5xl md:text-6xl text-text-strong leading-tight"
       >
-        Um ecossistema criativo.
+        {t.sobre.titulo}
       </h2>
     </header>
 
@@ -39,23 +45,16 @@ const sizeByWeight: Record<1 | 2 | 3, string> = {
           data-reveal
           class="font-display text-3xl md:text-4xl text-text leading-snug"
         >
-          Eu <span class="text-accent italic">desenho</span>,
-          <span class="text-accent italic">desenvolvo</span> e
-          <span class="text-accent italic">edito</span> pra que cada peça conte uma
-          história visual coerente.
+          {t.sobre.frase1} <span class="text-accent italic">{t.sobre.desenho}</span>,
+          <span class="text-accent italic">{t.sobre.desenvolvo}</span> {t.sobre.e}
+          <span class="text-accent italic">{t.sobre.edito}</span> {t.sobre.frase2}
         </p>
         <p
           data-reveal
           style="--reveal-delay: 120ms"
           class="text-text-muted leading-relaxed max-w-xl"
         >
-          Sou formada em Sistemas para Internet e atuo unindo UX/UI Design e
-          Front-End. Utilizo minha base em design gráfico e edição para criar
-          interfaces intuitivas, visualmente atraentes e centradas na melhor
-          experiência do usuário, sempre aliando criatividade, técnica e
-          organização nas entregas. Além disso, estou cursando pós-graduação em
-          Ethical Hacking e Cybersecurity para me aprofundar no campo do
-          desenvolvimento seguro.
+          {t.sobre.texto}
         </p>
       </div>
 
@@ -83,7 +82,7 @@ const sizeByWeight: Record<1 | 2 | 3, string> = {
       <p
         class="text-sm uppercase tracking-widest text-text-muted font-semibold"
       >
-        Ferramentas & práticas
+        {t.sobre.ferramentas}
       </p>
       <div class="flex flex-wrap gap-x-6 gap-y-3 items-baseline">
         {

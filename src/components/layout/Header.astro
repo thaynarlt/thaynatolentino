@@ -1,97 +1,120 @@
 ---
+import AlternarTema from "../ui/AlternarTema.astro";
+import { caminhoEquivalente, codigoIdioma, idiomaDe, urls } from "../../i18n/idiomas";
+import { useTextos } from "../../i18n/ui";
+
 interface Props {
-    current?: string;
+    /** Id da seção a destacar em páginas internas (ex.: "notas"). */
+    secaoAtual?: string;
 }
 
-const { current } = Astro.props;
+const { secaoAtual } = Astro.props;
+const idioma = idiomaDe(Astro.currentLocale);
+const t = useTextos(idioma);
+const outroIdioma = idioma === "pt" ? "en" : "pt";
+const urlOutroIdioma = caminhoEquivalente(Astro.url.pathname, outroIdioma);
 
-const navItems = [
-    { label: "Desenvolvimento", href: "/#desenvolvimento" },
-    { label: "Projetos", href: "/#projetos" },
-    { label: "Experiência", href: "/#experiencia" },
-    { label: "Formação", href: "/#formacao" },
-    { label: "Sobre", href: "/#sobre" },
-    { label: "Contato", href: "/#contato" },
-];
+const secoes = ["desenvolvimento", "projetos", "experiencia", "formacao", "sobre", "notas", "contato"] as const;
+const navItems = secoes.map((id) => ({ id, label: t.nav[id], href: urls.inicio(idioma, id) }));
+
+// O link ativo fica destacado; na home, o script abaixo atualiza conforme a rolagem.
+const ativo = (id: string) => (secaoAtual === id ? "true" : undefined);
 ---
 
 <header
     class="sticky top-0 z-50 bg-bg/80 backdrop-blur-md border-b border-border"
+    style="view-transition-name: cabecalho"
 >
     <div
         class="mx-auto max-w-6xl px-6 h-16 flex items-center justify-between gap-4"
     >
         <a
-            href="/"
+            href={urls.inicio(idioma)}
             class="font-display text-xl tracking-tight text-text-strong shrink-0"
         >
             Thayná<span class="text-accent">.</span>
         </a>
 
-        <!-- Nav desktop -->
-        <nav class="hidden md:flex items-center gap-6 lg:gap-8 text-base">
-            {
-                navItems.map((item) => (
-                    <a
-                        href={item.href}
-                        class={`relative whitespace-nowrap transition-colors font-medium ${
-                            current === item.href
-                                ? "text-accent"
-                                : "text-text-muted hover:text-text"
-                        } after:absolute after:left-0 after:-bottom-1 after:w-full after:h-px after:bg-accent after:origin-left after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300`}
-                    >
-                        {item.label}
-                    </a>
-                ))
-            }
-        </nav>
+        <div class="flex items-center gap-2 lg:gap-4">
+            <!-- Nav desktop -->
+            <nav class="hidden lg:flex items-center gap-6 xl:gap-8 text-base">
+                {
+                    navItems.map((item) => (
+                        <a
+                            href={item.href}
+                            data-nav-secao={item.id}
+                            aria-current={ativo(item.id)}
+                            class="relative whitespace-nowrap transition-colors font-medium text-text-muted hover:text-text aria-[current=true]:text-accent after:absolute after:left-0 after:-bottom-1 after:w-full after:h-px after:bg-accent after:origin-left after:scale-x-0 hover:after:scale-x-100 aria-[current=true]:after:scale-x-100 after:transition-transform after:duration-300"
+                        >
+                            {item.label}
+                        </a>
+                    ))
+                }
+            </nav>
 
-        <!-- Botão mobile -->
-        <button
-            id="menu-toggle"
-            type="button"
-            aria-label="Abrir menu"
-            aria-expanded="false"
-            aria-controls="mobile-menu"
-            class="md:hidden inline-flex items-center justify-center w-10 h-10 -mr-2 rounded-md text-text-muted hover:text-text transition-colors"
-        >
-            <svg
-                data-icon="open"
-                width="22"
-                height="22"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+            <!-- Seletor de idioma: leva à mesma página no outro idioma -->
+            <a
+                href={urlOutroIdioma}
+                hreflang={codigoIdioma[outroIdioma]}
+                lang={codigoIdioma[outroIdioma]}
+                aria-label={t.nav.trocarIdioma}
+                title={t.nav.trocarIdioma}
+                class="inline-flex items-center justify-center h-10 px-2 rounded-md text-sm font-semibold tracking-wide text-text-muted hover:text-accent transition-colors"
             >
-                <line x1="3" y1="6" x2="21" y2="6"></line>
-                <line x1="3" y1="12" x2="21" y2="12"></line>
-                <line x1="3" y1="18" x2="21" y2="18"></line>
-            </svg>
-            <svg
-                data-icon="close"
-                class="hidden"
-                width="22"
-                height="22"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                {outroIdioma.toUpperCase()}
+            </a>
+
+            <AlternarTema />
+
+            <!-- Botão mobile -->
+            <button
+                id="menu-toggle"
+                type="button"
+                aria-label={t.nav.abrirMenu}
+                data-rotulo-abrir={t.nav.abrirMenu}
+                data-rotulo-fechar={t.nav.fecharMenu}
+                aria-expanded="false"
+                aria-controls="mobile-menu"
+                class="lg:hidden inline-flex items-center justify-center w-10 h-10 -mr-2 rounded-md text-text-muted hover:text-text transition-colors"
             >
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
-        </button>
+                <svg
+                    data-icon="open"
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                >
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+                <svg
+                    data-icon="close"
+                    class="hidden"
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                >
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
     </div>
 
     <!-- Painel mobile -->
     <nav
         id="mobile-menu"
-        class="hidden md:hidden border-t border-border bg-bg/95 backdrop-blur-md"
+        class="hidden lg:hidden border-t border-border bg-bg/95 backdrop-blur-md"
     >
         <div class="px-6 py-3 flex flex-col">
             {
@@ -99,11 +122,9 @@ const navItems = [
                     <a
                         href={item.href}
                         data-menu-link
-                        class={`py-3 border-b border-border/60 last:border-0 font-medium transition-colors ${
-                            current === item.href
-                                ? "text-accent"
-                                : "text-text hover:text-accent"
-                        }`}
+                        data-nav-secao={item.id}
+                        aria-current={ativo(item.id)}
+                        class="py-3 border-b border-border/60 last:border-0 font-medium transition-colors text-text hover:text-accent aria-[current=true]:text-accent"
                     >
                         {item.label}
                     </a>
@@ -125,7 +146,7 @@ const navItems = [
         iconOpen?.classList.toggle("hidden", open);
         iconClose?.classList.toggle("hidden", !open);
         btn.setAttribute("aria-expanded", String(open));
-        btn.setAttribute("aria-label", open ? "Fechar menu" : "Abrir menu");
+        btn.setAttribute("aria-label", (open ? btn.dataset.rotuloFechar : btn.dataset.rotuloAbrir) ?? "");
     }
 
     btn?.addEventListener("click", () => {
@@ -135,4 +156,35 @@ const navItems = [
     menu?.querySelectorAll("[data-menu-link]").forEach((a) =>
         a.addEventListener("click", () => setOpen(false)),
     );
+
+    // Menu que acompanha a rolagem: destaca a seção que está no meio da tela.
+    const links = document.querySelectorAll<HTMLAnchorElement>("[data-nav-secao]");
+    const secoes = [...new Set([...links].map((a) => a.dataset.navSecao))]
+        .map((id) => (id ? document.getElementById(id) : null))
+        .filter((s): s is HTMLElement => Boolean(s));
+
+    function marcar(id: string | null) {
+        links.forEach((a) => {
+            if (a.dataset.navSecao === id) a.setAttribute("aria-current", "true");
+            else a.removeAttribute("aria-current");
+        });
+    }
+
+    if (secoes.length > 0) {
+        const visiveis = new Set<string>();
+        const observador = new IntersectionObserver(
+            (entradas) => {
+                entradas.forEach((e) => {
+                    if (e.isIntersecting) visiveis.add(e.target.id);
+                    else visiveis.delete(e.target.id);
+                });
+                // Se mais de uma cruzar a faixa, vale a que vem primeiro na página.
+                const atual = secoes.find((s) => visiveis.has(s.id));
+                marcar(atual?.id ?? null);
+            },
+            // Faixa fina um pouco acima do meio da tela.
+            { rootMargin: "-40% 0px -55% 0px" },
+        );
+        secoes.forEach((s) => observador.observe(s));
+    }
 </script>

@@ -5,6 +5,7 @@ export const experiencias: Experiencia[] = [
   {
     id: 1,
     empresa: "INORPEL CYBERSECURITY",
+    nomeCurto: "Inorpel Cybersecurity",
     local: "Cabedelo, PB",
     cargos: [
       {
@@ -146,6 +147,7 @@ export const experiencias: Experiencia[] = [
   {
     id: 4,
     empresa: "LAVID - Laboratório de Aplicações de Vídeo Digital",
+    nomeCurto: "LAVID · UFPB",
     tipo: "Estágio",
     local: "João Pessoa, PB",
     link: "/projetos/tv-3-0-saude-publica-lavid",

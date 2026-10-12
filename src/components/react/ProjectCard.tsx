@@ -5,6 +5,10 @@ import Badge from './Badge';
 
 interface Props {
   projeto: Projeto;
+  /** Categoria no idioma da página. */
+  rotuloNicho?: string;
+  /** Início do link do estudo de caso (ex.: /projetos/ ou /en/projects/). */
+  baseEstudoDeCaso?: string;
 }
 
 const spanBySize: Record<Tamanho, string> = {
@@ -35,7 +39,7 @@ const layoutXl = {
   conteudo: 'md:col-span-5 md:flex md:flex-col md:justify-center md:p-10',
 };
 
-export default function ProjectCard({ projeto }: Props) {
+export default function ProjectCard({ projeto, rotuloNicho, baseEstudoDeCaso = '/projetos/' }: Props) {
   const [imgError, setImgError] = useState(false);
   const size: Tamanho = projeto.tamanho ?? 'sm';
   const isXl = size === 'xl';
@@ -44,10 +48,13 @@ export default function ProjectCard({ projeto }: Props) {
   // Projetos de código (sem link externo, muitos com repo privado) vão para a página de
   // estudo de caso interna, onde a demo ao vivo e o contexto são apresentados.
   const isExternal = Boolean(projeto.link);
-  const href = projeto.link ?? `/projetos/${projeto.slug}`;
+  const href = projeto.link ?? `${baseEstudoDeCaso}${projeto.slug}`;
   const externalProps = isExternal
     ? { target: '_blank', rel: 'noopener noreferrer' }
     : {};
+
+  // Mesmo nome da imagem principal do estudo de caso: a capa "cresce" na navegação.
+  const transicaoCapa = isExternal ? undefined : { viewTransitionName: `capa-${projeto.slug}` };
 
   // imagem pode ser string (URL externa, ex.: YouTube) ou ImageMetadata (asset otimizado do Astro)
   const imgSrc = typeof projeto.imagem === 'string'
@@ -65,7 +72,10 @@ export default function ProjectCard({ projeto }: Props) {
       className={`group relative block col-span-12 ${spanBySize[size]} bg-surface border border-border rounded-xl overflow-hidden hover:border-accent hover:shadow-accent transition-[border-color,box-shadow] duration-300 ${isXl ? layoutXl.card : ''}`}
     >
       {/* Imagem */}
-      <div className={`relative overflow-hidden bg-accent-soft ${aspectBySize[size]} ${isXl ? layoutXl.imagem : ''}`}>
+      <div
+        className={`relative overflow-hidden bg-accent-soft ${aspectBySize[size]} ${isXl ? layoutXl.imagem : ''}`}
+        style={transicaoCapa}
+      >
         {!imgError && (
           <img
             src={imgSrc}
@@ -79,7 +89,7 @@ export default function ProjectCard({ projeto }: Props) {
 
         {/* Badge no canto */}
         <div className="absolute top-4 left-4">
-          <Badge nicho={projeto.nicho} variant="solid" size={size === 'lg' || size === 'xl' ? 'md' : 'sm'} />
+          <Badge nicho={projeto.nicho} rotulo={rotuloNicho} variant="solid" size={size === 'lg' || size === 'xl' ? 'md' : 'sm'} />
         </div>
 
         {/* Seta no hover */}

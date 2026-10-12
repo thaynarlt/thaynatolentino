@@ -6,11 +6,16 @@ import ProjectCard from './ProjectCard';
 
 interface Props {
   projetos: Projeto[];
+  /** Textos da interface no idioma da página. */
+  textos: { destaques: string; todos: string; vazio: string };
+  /** Nome de cada categoria no idioma da página. */
+  rotulosNicho: Record<Nicho, string>;
+  baseEstudoDeCaso: string;
 }
 
 type Filter = Nicho | 'Todos' | 'Destaques';
 
-export default function FilteredProjects({ projetos }: Props) {
+export default function FilteredProjects({ projetos, textos, rotulosNicho, baseEstudoDeCaso }: Props) {
   const [filter, setFilter] = useState<Filter>('Destaques');
 
   const filtered = useMemo(() => {
@@ -54,7 +59,7 @@ export default function FilteredProjects({ projetos }: Props) {
                   }`}
               >
                 <span className={isActive ? 'underline decoration-accent decoration-2 underline-offset-4' : ''}>
-                  {f}
+                  {f === 'Destaques' ? textos.destaques : f === 'Todos' ? textos.todos : rotulosNicho[f]}
                 </span>
                 <span className="text-xs opacity-60">{count}</span>
               </button>
@@ -71,7 +76,12 @@ export default function FilteredProjects({ projetos }: Props) {
         >
           <AnimatePresence mode="popLayout">
             {filtered.map(projeto => (
-              <ProjectCard key={projeto.id} projeto={projeto} />
+              <ProjectCard
+                key={projeto.id}
+                projeto={projeto}
+                rotuloNicho={rotulosNicho[projeto.nicho]}
+                baseEstudoDeCaso={baseEstudoDeCaso}
+              />
             ))}
           </AnimatePresence>
         </motion.div>
@@ -80,7 +90,7 @@ export default function FilteredProjects({ projetos }: Props) {
       {/* Estado vazio */}
       {filtered.length === 0 && (
         <p className="text-text-muted text-center py-12">
-          Nenhum projeto nesse filtro ainda.
+          {textos.vazio}
         </p>
       )}
     </div>

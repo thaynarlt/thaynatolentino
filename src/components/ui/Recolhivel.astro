@@ -3,6 +3,9 @@
  * Conteúdo que abre e fecha com animação ao clicar em "Ver detalhes".
  * Usado na Experiência e na Formação para encurtar a página sem cortar texto.
  */
+import { idiomaDe } from "../../i18n/idiomas";
+import { useTextos } from "../../i18n/ui";
+
 interface Props {
   /** Id único do painel (ligado ao botão via aria-controls). */
   id: string;
@@ -13,11 +16,12 @@ interface Props {
   rotuloAberto?: string;
 }
 
+const t = useTextos(idiomaDe(Astro.currentLocale));
 const {
   id,
   aberto = false,
-  rotulo = "Ver detalhes",
-  rotuloAberto = "Ocultar detalhes",
+  rotulo = t.detalhes.ver,
+  rotuloAberto = t.detalhes.ocultar,
 } = Astro.props;
 ---
 
@@ -30,7 +34,7 @@ const {
 >
   <button
     type="button"
-    aria-expanded={String(aberto)}
+    aria-expanded={aberto ? "true" : "false"}
     aria-controls={id}
     class="group inline-flex items-center gap-1 text-sm font-medium text-accent hover:text-accent-hover transition-colors cursor-pointer"
   >

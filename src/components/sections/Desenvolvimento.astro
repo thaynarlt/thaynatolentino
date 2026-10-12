@@ -1,11 +1,16 @@
 ---
-import { projetos } from "../../data/projetos";
+import { projetosEm } from "../../i18n/conteudo";
+import { idiomaDe, urls } from "../../i18n/idiomas";
+import { useTextos } from "../../i18n/ui";
 import LiveShowcase from "../react/LiveShowcase";
 import { comCapasOtimizadas } from "../../utils/imagens";
 
+const idioma = idiomaDe(Astro.currentLocale);
+const t = useTextos(idioma);
+
 // Só os projetos de programação — o foco desta seção.
 const devProjetos = await comCapasOtimizadas(
-  projetos.filter((p) => p.nicho === "Desenvolvimento"),
+  projetosEm(idioma).filter((p) => p.nicho === "Desenvolvimento"),
   1600,
 );
 ---
@@ -19,15 +24,16 @@ const devProjetos = await comCapasOtimizadas(
           data-reveal
           class="text-sm uppercase tracking-widest text-accent font-semibold"
         >
-          Desenvolvimento
+          {t.desenvolvimento.eyebrow}
         </p>
         <h2
           data-reveal
           style="--reveal-delay: 80ms"
           class="font-display text-6xl md:text-8xl text-text-strong leading-[0.95]"
         >
-          Aplicações que<br />
-          eu <span class="italic text-accent">programei</span>.
+          {t.desenvolvimento.titulo1}<br />
+          {t.desenvolvimento.titulo2}{" "}
+          <span class="italic text-accent">{t.desenvolvimento.tituloDestaque}</span>.
         </h2>
       </div>
 
@@ -37,16 +43,21 @@ const devProjetos = await comCapasOtimizadas(
           style="--reveal-delay: 160ms"
           class="text-lg text-text-muted leading-relaxed"
         >
-          Produtos full-stack no ar, feitos com Next.js e React. Não é print: é
-          o app <span class="text-text-strong font-medium">rodando de verdade</span>
-          aqui dentro. Escolha um, alterne entre desktop e celular e explore.
+          {t.desenvolvimento.texto1}{" "}
+          <span class="text-text-strong font-medium">{t.desenvolvimento.textoDestaque}</span>{" "}
+          {t.desenvolvimento.texto2}
         </p>
       </div>
     </header>
 
     <!-- Vitrine interativa (embed ao vivo / vídeo) -->
     <div data-reveal style="--reveal-delay: 240ms">
-      <LiveShowcase projetos={devProjetos} client:visible />
+      <LiveShowcase
+        projetos={devProjetos}
+        textos={t.vitrine}
+        baseEstudoDeCaso={urls.projeto(idioma, "")}
+        client:visible
+      />
     </div>
   </div>
 </section>

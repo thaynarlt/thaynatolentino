@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* `dark:` segue o tema escolhido no site (data-theme), não só o do sistema. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
 /* ==========================================================================
    CAMADA 1 — Primitivos (valores crus, não usados diretamente em componentes)
    ========================================================================== */
@@ -59,6 +62,21 @@
   --color-support: var(--magenta-500);
   --color-support-hover: var(--magenta-600);
 
+  /* Paleta crua exposta como utilitários (bg-ink-700, text-magenta-600…) */
+  --color-ink-50: var(--ink-50);
+  --color-ink-100: var(--ink-100);
+  --color-ink-200: var(--ink-200);
+  --color-ink-300: var(--ink-300);
+  --color-ink-400: var(--ink-400);
+  --color-ink-500: var(--ink-500);
+  --color-ink-600: var(--ink-600);
+  --color-ink-700: var(--ink-700);
+  --color-ink-800: var(--ink-800);
+  --color-ink-900: var(--ink-900);
+  --color-magenta-500: var(--magenta-500);
+  --color-magenta-600: var(--magenta-600);
+  --color-magenta-700: var(--magenta-700);
+
   /* Tipografia */
   --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
   --font-display: 'Instrument Serif', 'Times New Roman', serif;
@@ -76,6 +94,34 @@
 }
 
 /* ==========================================================================
+   Tema escuro — redefine só os semânticos; os componentes não mudam.
+   O data-theme é aplicado por um script no <head>, antes da pintura.
+   ========================================================================== */
+:root {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --color-bg: var(--ink-900);
+  --color-surface: var(--ink-800);
+  --color-surface-alt: var(--ink-700);
+  --color-border: var(--ink-700);
+  --color-border-strong: var(--ink-600);
+
+  --color-text: var(--ink-200);
+  --color-text-muted: var(--ink-400);
+  --color-text-strong: var(--ink-50);
+  --color-text-inverse: var(--ink-900);
+
+  --color-accent: var(--cyan-400);
+  --color-accent-hover: var(--cyan-300);
+  --color-accent-soft: var(--cyan-900);
+  --color-accent-fg: var(--ink-900);
+}
+
+/* ==========================================================================
    Globals — comportamento de página
    ========================================================================== */
 html {
@@ -85,6 +131,9 @@ html {
 body {
   background-color: var(--color-bg);
   color: var(--color-text);
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -110,6 +159,110 @@ body {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* ==========================================================================
+   Prosa — texto corrido vindo de Markdown (notas)
+   ========================================================================== */
+.prosa {
+  color: var(--color-text);
+  font-size: 1.125rem;
+  line-height: 1.8;
+}
+
+.prosa > * + * {
+  margin-top: 1.25em;
+}
+
+.prosa h2,
+.prosa h3 {
+  font-family: var(--font-display);
+  color: var(--color-text-strong);
+  line-height: 1.2;
+  margin-top: 2em;
+}
+
+.prosa h2 {
+  font-size: 2rem;
+}
+
+.prosa h3 {
+  font-size: 1.5rem;
+}
+
+.prosa strong {
+  color: var(--color-text-strong);
+  font-weight: 600;
+}
+
+.prosa a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.prosa a:hover {
+  color: var(--color-accent-hover);
+}
+
+.prosa ul,
+.prosa ol {
+  padding-left: 1.25em;
+}
+
+.prosa ul {
+  list-style: disc;
+}
+
+.prosa ol {
+  list-style: decimal;
+}
+
+.prosa li + li {
+  margin-top: 0.4em;
+}
+
+.prosa li::marker {
+  color: var(--color-accent);
+}
+
+.prosa blockquote {
+  border-left: 2px solid var(--color-accent);
+  padding-left: 1em;
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+.prosa em {
+  color: var(--color-text-muted);
+}
+
+/* ==========================================================================
+   Transição entre páginas (View Transitions nativas, sem JS)
+   A capa do card e a imagem do estudo de caso compartilham o mesmo
+   view-transition-name (capa-<slug>), então o navegador anima uma na outra.
+   ========================================================================== */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-group(*) {
+  animation-duration: 0.5s;
+  animation-timing-function: var(--ease-out-expo);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
+  }
+}
+
+/* ==========================================================================
+   Linha do tempo desenhada pela rolagem (src/scripts/linha-do-tempo.ts)
+   ========================================================================== */
+[data-linha-tempo] {
+  transform-origin: top;
+  transform: scaleY(var(--progresso, 1));
 }
 
 /* ==========================================================================

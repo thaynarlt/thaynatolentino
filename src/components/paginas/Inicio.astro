@@ -1,0 +1,69 @@
+---
+// Página inicial, usada por / e /en (o idioma vem da URL via Astro.currentLocale).
+import Layout from "../../layouts/Layout.astro";
+import Header from "../layout/Header.astro";
+import Footer from "../layout/Footer.astro";
+import Hero from "../sections/Hero.astro";
+import FaixaEmpresas from "../sections/FaixaEmpresas.astro";
+import Desenvolvimento from "../sections/Desenvolvimento.astro";
+import Projetos from "../sections/Projetos.astro";
+import Experiencia from "../sections/Experiencia.astro";
+import Formacao from "../sections/Formacao.astro";
+import Sobre from "../sections/Sobre.astro";
+import Notas from "../sections/Notas.astro";
+import Contato from "../sections/Contato.astro";
+import { experienciasEm, formacoesEm } from "../../i18n/conteudo";
+import { idiomaDe, urls } from "../../i18n/idiomas";
+
+const idioma = idiomaDe(Astro.currentLocale);
+const site = Astro.site ?? new URL("https://thaynarlt.com.br");
+const experiencias = experienciasEm(idioma);
+
+// Dados estruturados (schema.org/Person): ajudam o Google a mostrar nome,
+// cargo e redes. Montados a partir dos dados do site, então se atualizam sozinhos.
+const pessoa = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Thayná Tolentino",
+  alternateName: "Thayná Rodrigues Lopes Tolentino",
+  url: new URL(urls.inicio(idioma), site).toString(),
+  image: new URL("/og-image.png", site).toString(),
+  jobTitle: experiencias[0].cargos[0].cargo,
+  worksFor: experiencias
+    .filter((e) => e.cargos.some((c) => c.atual))
+    .map((e) => ({ "@type": "Organization", name: e.nomeCurto ?? e.empresa })),
+  alumniOf: [...new Set(formacoesEm(idioma).map((f) => f.instituicao))].map((name) => ({
+    "@type": "CollegeOrUniversity",
+    name,
+  })),
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "João Pessoa",
+    addressRegion: "PB",
+    addressCountry: "BR",
+  },
+  knowsAbout: ["Front-end", "UI/UX Design", "React", "Next.js", "TypeScript", "Figma", "Design System"],
+  sameAs: [
+    "https://www.linkedin.com/in/thaynarlt/",
+    "https://github.com/thaynarlt",
+    "https://www.behance.net/thaynatolentino",
+  ],
+};
+---
+
+<Layout>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(pessoa)} />
+  <Header />
+  <main>
+    <Hero />
+    <FaixaEmpresas />
+    <Desenvolvimento />
+    <Projetos />
+    <Experiencia />
+    <Formacao />
+    <Sobre />
+    <Notas />
+    <Contato />
+  </main>
+  <Footer />
+</Layout>
