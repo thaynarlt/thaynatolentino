@@ -112,12 +112,12 @@ export const experiencias: Experiencia[] = [
       {
         cargo: "Designer e Editora de Vídeo",
         modalidade: "Remoto",
-        periodo: "Dezembro 2023 – Atual",
+        periodo: "Dezembro 2023 – Outubro 2026",
         descricao: [
-          "Produzo peças de design e edição de vídeo para as marcas atendidas pela agência, com média de 8 entregas diárias, cerca de 35 por semana, para clientes de saúde, alimentação, jurídico e outros segmentos.",
-          "Atuo majoritariamente em vídeo: cortes para redes sociais, reels para instagram, incluindo materiais de alta performance para os clientes da carteira.",
-          "Trabalho em rotina de agência com demandas geridas via Trello, entregando dentro de prazos diários e mantendo a consistência visual de cada marca.",
-          "Entrei como editora de vídeo e tive o escopo ampliado para design quando a agência identificou essa frente no meu trabalho, acumulando as duas áreas desde então.",
+          "Produzi peças de design e edição de vídeo para as marcas atendidas pela agência, com média de 8 entregas diárias, cerca de 35 por semana, para clientes de saúde, alimentação, jurídico e outros segmentos.",
+          "Atuei majoritariamente em vídeo: cortes para redes sociais, reels para instagram, incluindo materiais de alta performance para os clientes da carteira.",
+          "Trabalhei em rotina de agência com demandas geridas via Trello, entregando dentro de prazos diários e mantendo a consistência visual de cada marca.",
+          "Entrei como editora de vídeo e tive o escopo ampliado para design quando a agência identificou essa frente no meu trabalho, e passei a acumular as duas áreas.",
         ],
         tecnologias: [
           "Adobe After Effects",
@@ -128,7 +128,7 @@ export const experiencias: Experiencia[] = [
           "CapCut",
           "Identidade visual",
         ],
-        atual: true,
+        atual: false,
       },
       {
         cargo: "Editor de vídeo",

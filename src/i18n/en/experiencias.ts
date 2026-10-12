@@ -52,10 +52,10 @@ export const experienciasEn: Record<number, { cargos: { cargo: string; descricao
       {
         cargo: "Designer and Video Editor",
         descricao: [
-          "I produce design pieces and video edits for the brands the agency serves, averaging 8 deliveries a day, around 35 a week, for clients in healthcare, food, legal and other industries.",
-          "I work mostly on video: social media cuts and Instagram reels, including high-performance content for the agency's clients.",
-          "I work in an agency routine with tasks managed in Trello, delivering on daily deadlines while keeping each brand visually consistent.",
-          "I joined as a video editor and my scope expanded to design when the agency noticed that skill in my work; I've been doing both ever since.",
+          "I produced design pieces and video edits for the brands the agency served, averaging 8 deliveries a day, around 35 a week, for clients in healthcare, food, legal and other industries.",
+          "I worked mostly on video: social media cuts and Instagram reels, including high-performance content for the agency's clients.",
+          "I worked in an agency routine with tasks managed in Trello, delivering on daily deadlines while keeping each brand visually consistent.",
+          "I joined as a video editor and my scope expanded to design when the agency noticed that skill in my work, and I went on to do both.",
         ],
       },
       {
