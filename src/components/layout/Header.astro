@@ -13,6 +13,7 @@ const navItems = [
     { label: "Experiência", href: "/#experiencia" },
     { label: "Formação", href: "/#formacao" },
     { label: "Sobre", href: "/#sobre" },
+    { label: "Notas", href: "/#notas" },
     { label: "Contato", href: "/#contato" },
 ];
 
@@ -36,7 +37,7 @@ const ativo = (href: string) => (current === href ? "true" : undefined);
 
         <div class="flex items-center gap-2 lg:gap-4">
             <!-- Nav desktop -->
-            <nav class="hidden md:flex items-center gap-6 lg:gap-8 text-base">
+            <nav class="hidden lg:flex items-center gap-6 xl:gap-8 text-base">
                 {
                     navItems.map((item) => (
                         <a
@@ -60,7 +61,7 @@ const ativo = (href: string) => (current === href ? "true" : undefined);
                 aria-label="Abrir menu"
                 aria-expanded="false"
                 aria-controls="mobile-menu"
-                class="md:hidden inline-flex items-center justify-center w-10 h-10 -mr-2 rounded-md text-text-muted hover:text-text transition-colors"
+                class="lg:hidden inline-flex items-center justify-center w-10 h-10 -mr-2 rounded-md text-text-muted hover:text-text transition-colors"
             >
                 <svg
                     data-icon="open"
@@ -99,7 +100,7 @@ const ativo = (href: string) => (current === href ? "true" : undefined);
     <!-- Painel mobile -->
     <nav
         id="mobile-menu"
-        class="hidden md:hidden border-t border-border bg-bg/95 backdrop-blur-md"
+        class="hidden lg:hidden border-t border-border bg-bg/95 backdrop-blur-md"
     >
         <div class="px-6 py-3 flex flex-col">
             {

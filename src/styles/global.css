@@ -162,6 +162,82 @@ body {
 }
 
 /* ==========================================================================
+   Prosa — texto corrido vindo de Markdown (notas)
+   ========================================================================== */
+.prosa {
+  color: var(--color-text);
+  font-size: 1.125rem;
+  line-height: 1.8;
+}
+
+.prosa > * + * {
+  margin-top: 1.25em;
+}
+
+.prosa h2,
+.prosa h3 {
+  font-family: var(--font-display);
+  color: var(--color-text-strong);
+  line-height: 1.2;
+  margin-top: 2em;
+}
+
+.prosa h2 {
+  font-size: 2rem;
+}
+
+.prosa h3 {
+  font-size: 1.5rem;
+}
+
+.prosa strong {
+  color: var(--color-text-strong);
+  font-weight: 600;
+}
+
+.prosa a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.prosa a:hover {
+  color: var(--color-accent-hover);
+}
+
+.prosa ul,
+.prosa ol {
+  padding-left: 1.25em;
+}
+
+.prosa ul {
+  list-style: disc;
+}
+
+.prosa ol {
+  list-style: decimal;
+}
+
+.prosa li + li {
+  margin-top: 0.4em;
+}
+
+.prosa li::marker {
+  color: var(--color-accent);
+}
+
+.prosa blockquote {
+  border-left: 2px solid var(--color-accent);
+  padding-left: 1em;
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+.prosa em {
+  color: var(--color-text-muted);
+}
+
+/* ==========================================================================
    Transição entre páginas (View Transitions nativas, sem JS)
    A capa do card e a imagem do estudo de caso compartilham o mesmo
    view-transition-name (capa-<slug>), então o navegador anima uma na outra.

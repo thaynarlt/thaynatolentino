@@ -1,0 +1,49 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/layout/Header.astro";
+import Footer from "../../components/layout/Footer.astro";
+import NotaCard from "../../components/ui/NotaCard.astro";
+import { notasPorIdioma } from "../../utils/notas";
+
+const notas = await notasPorIdioma("pt");
+---
+
+<Layout
+  title="Notas — Thayná Tolentino"
+  description="Textos curtos sobre design, front-end, IA e os bastidores dos meus projetos."
+>
+  <Header current="/#notas" />
+
+  <main class="mx-auto max-w-6xl px-6 py-12 md:py-16 space-y-12">
+    <a
+      href="/#notas"
+      class="inline-flex items-center gap-2 text-sm text-text-muted hover:text-accent transition-colors"
+    >
+      <span aria-hidden="true">←</span>
+      Voltar ao início
+    </a>
+
+    <header class="space-y-4">
+      <p class="text-sm uppercase tracking-widest text-accent font-semibold">Notas</p>
+      <h1 class="font-display text-5xl md:text-7xl text-text-strong leading-[0.95]">
+        Ideias e bastidores.
+      </h1>
+      <p class="text-lg text-text-muted max-w-2xl leading-relaxed">
+        Textos curtos sobre design, front-end, IA e o que acontece por trás dos
+        meus projetos.
+      </p>
+    </header>
+
+    <ul class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {
+        notas.map((nota) => (
+          <li>
+            <NotaCard nota={nota} />
+          </li>
+        ))
+      }
+    </ul>
+  </main>
+
+  <Footer />
+</Layout>
