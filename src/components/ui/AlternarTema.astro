@@ -63,28 +63,18 @@ const t = useTextos(idiomaDe(Astro.currentLocale));
     });
   }
 
-  function aplicar(tema: "light" | "dark", salvar: boolean) {
+  // O claro é o padrão (ver Layout.astro); a escolha fica salva neste navegador.
+  function aplicar(tema: "light" | "dark") {
     raiz.dataset.theme = tema;
-    if (salvar) {
-      try {
-        localStorage.setItem("tema", tema);
-      } catch {}
-    }
+    try {
+      localStorage.setItem("tema", tema);
+    } catch {}
     atualizarRotulos();
   }
 
   botoes.forEach((b) =>
-    b.addEventListener("click", () => aplicar(raiz.dataset.theme === "dark" ? "light" : "dark", true)),
+    b.addEventListener("click", () => aplicar(raiz.dataset.theme === "dark" ? "light" : "dark")),
   );
-
-  // Sem escolha salva, acompanha a mudança de tema do sistema.
-  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) => {
-    let salvo = null;
-    try {
-      salvo = localStorage.getItem("tema");
-    } catch {}
-    if (!salvo) aplicar(e.matches ? "dark" : "light", false);
-  });
 
   atualizarRotulos();
 </script>
